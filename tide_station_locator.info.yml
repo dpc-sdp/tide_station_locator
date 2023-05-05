@@ -3,6 +3,8 @@ description: 'Station locator for https://www.police.vic.gov.au/.'
 type: module
 package: VicPol
 core_version_requirement: ^9.2 || ^10
+dependencies:
+  - dpc-sdp:tide_landing_page
 config_devel:
   install:
     - paragraphs.paragraphs_type.station_locator
