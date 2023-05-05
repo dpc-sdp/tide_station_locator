@@ -3,6 +3,9 @@
     "description": "Station locator for https://www.police.vic.gov.au/.",
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
+    "require": {
+        "dpc-sdp/tide_landing_page": "^3.0.1"
+    },
     "extra": {
         "enable-patching": true,
         "composer-exit-on-patch-failure": true
