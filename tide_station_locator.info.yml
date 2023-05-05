@@ -1,0 +1,10 @@
+name: 'Tide Station Locator'
+description: 'Station locator for https://www.police.vic.gov.au/.'
+type: module
+package: VicPol
+core_version_requirement: ^9.2 || ^10
+config_devel:
+  install:
+    - paragraphs.paragraphs_type.station_locator
+    - field.field.node.landing_page.field_landing_page_component
+    - field.storage.node.field_landing_page_component

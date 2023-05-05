@@ -1,0 +1,16 @@
+{
+    "name": "dpc-sdp/tide_station_locator",
+    "description": "Station locator for https://www.police.vic.gov.au/.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "extra": {
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": true
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    }
+}

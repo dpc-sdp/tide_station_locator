@@ -1,0 +1,10 @@
+uuid: ed121d6b-31a8-416d-b924-7b35589fafc6
+langcode: en
+status: true
+dependencies: {  }
+id: station_locator
+label: 'Station locator'
+icon_uuid: null
+icon_default: null
+description: 'Provides Station locator map component.'
+behavior_plugins: {  }
