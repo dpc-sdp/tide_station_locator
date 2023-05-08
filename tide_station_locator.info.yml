@@ -5,6 +5,7 @@ package: VicPol
 core_version_requirement: ^9.2 || ^10
 dependencies:
   - dpc-sdp:tide_landing_page
+  - drupal:geofield
 config_devel:
   install:
     - paragraphs.paragraphs_type.station_locator
