@@ -8,5 +8,3 @@ dependencies:
 config_devel:
   install:
     - paragraphs.paragraphs_type.station_locator
-    - field.field.node.landing_page.field_landing_page_component
-    - field.storage.node.field_landing_page_component
