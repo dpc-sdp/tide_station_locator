@@ -1,19 +1,19 @@
 {
-    "name": "dpc-sdp/tide_station_locator",
-    "description": "Station locator for https://www.police.vic.gov.au/.",
-    "type": "drupal-module",
-    "license": "GPL-2.0-or-later",
-    "require": {
-        "dpc-sdp/tide_landing_page": "^3.0.1"
-    },
-    "extra": {
-        "enable-patching": true,
-        "composer-exit-on-patch-failure": true
-    },
-    "repositories": {
-        "drupal": {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        }
+  "description": "Station locator for https://www.police.vic.gov.au/.",
+  "extra": {
+    "composer-exit-on-patch-failure": true,
+    "enable-patching": true
+  },
+  "license": "GPL-2.0-or-later",
+  "name": "dpc-sdp/tide_station_locator",
+  "repositories": {
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
     }
+  },
+  "require": {
+    "dpc-sdp/tide_landing_page": "dev-reference"
+  },
+  "type": "drupal-module"
 }
