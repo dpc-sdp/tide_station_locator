@@ -8,5 +8,5 @@ Feature: Station locator paragraph type is available.
     Given I am logged in as a user with the "Administrator" role
     When I visit "/admin/structure/paragraphs_type"
     And save screenshot
-    And I see text "Station locator"
-    And I see text "station_locator"
+    Then I should see text matching "Station locator"
+    And I should see text matching "station_locator"
