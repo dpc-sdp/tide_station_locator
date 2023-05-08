@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_specialty_services_or_faci
+    - node.type.station
+    - taxonomy.vocabulary.specialty_services_or_facilities
+id: node.station.field_specialty_services_or_faci
+field_name: field_specialty_services_or_faci
+entity_type: node
+bundle: station
+label: 'Specialty services or facilities'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      specialty_services_or_facilities: specialty_services_or_facilities
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: specialty_services
+field_type: entity_reference

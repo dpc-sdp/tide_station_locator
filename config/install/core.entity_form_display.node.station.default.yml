@@ -1,0 +1,300 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.station.field_accessibility
+    - field.field.node.station.field_case_conference_email
+    - field.field.node.station.field_case_conference_phone
+    - field.field.node.station.field_email
+    - field.field.node.station.field_fax
+    - field.field.node.station.field_geolocation
+    - field.field.node.station.field_google_maps_url
+    - field.field.node.station.field_opening_hours
+    - field.field.node.station.field_opening_hours_notice
+    - field.field.node.station.field_phone
+    - field.field.node.station.field_postcode
+    - field.field.node.station.field_prosecution_unit_email
+    - field.field.node.station.field_prosecution_unit_fax
+    - field.field.node.station.field_prosecution_unit_notice
+    - field.field.node.station.field_prosecution_unit_phone
+    - field.field.node.station.field_serviced_postcodes
+    - field.field.node.station.field_serviced_suburbs
+    - field.field.node.station.field_specialty_services_or_faci
+    - field.field.node.station.field_state
+    - field.field.node.station.field_station_code
+    - field.field.node.station.field_street_address
+    - field.field.node.station.field_suburb
+    - node.type.station
+  module:
+    - content_moderation
+    - geofield
+    - link
+    - path
+id: node.station.default
+targetEntityType: node
+bundle: station
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_accessibility:
+    type: entity_reference_autocomplete
+    weight: 149
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_case_conference_email:
+    type: link_default
+    weight: 147
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_case_conference_phone:
+    type: link_default
+    weight: 146
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_email:
+    type: link_default
+    weight: 139
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_fax:
+    type: link_default
+    weight: 138
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_geolocation:
+    type: geofield_latlon
+    weight: 150
+    region: content
+    settings:
+      html5_geolocation: false
+    third_party_settings: {  }
+  field_google_maps_url:
+    type: link_default
+    weight: 136
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_node_primary_site:
+    type: options_buttons
+    weight: 125
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+    field_name: field_node_primary_site
+  field_node_site:
+    type: options_buttons
+    weight: 126
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+    field_name: field_node_site
+  field_opening_hours:
+    type: string_textfield
+    weight: 140
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_opening_hours_notice:
+    type: string_textarea
+    weight: 141
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_phone:
+    type: link_default
+    weight: 137
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_postcode:
+    type: string_textfield
+    weight: 132
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_prosecution_unit_email:
+    type: link_default
+    weight: 144
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_prosecution_unit_fax:
+    type: link_default
+    weight: 143
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_prosecution_unit_notice:
+    type: string_textarea
+    weight: 145
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_prosecution_unit_phone:
+    type: string_textfield
+    weight: 142
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_serviced_postcodes:
+    type: string_textfield
+    weight: 133
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_serviced_suburbs:
+    type: string_textfield
+    weight: 135
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_specialty_services_or_faci:
+    type: entity_reference_autocomplete
+    weight: 148
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_state:
+    type: entity_reference_autocomplete
+    weight: 131
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_station_code:
+    type: string_textfield
+    weight: 127
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_street_address:
+    type: string_textarea
+    weight: 128
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_suburb:
+    type: string_textfield
+    weight: 134
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

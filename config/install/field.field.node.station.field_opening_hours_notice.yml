@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_opening_hours_notice
+    - node.type.station
+id: node.station.field_opening_hours_notice
+field_name: field_opening_hours_notice
+entity_type: node
+bundle: station
+label: 'Opening hours notice'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
