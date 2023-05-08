@@ -1,7 +1,7 @@
 # Tide Station Locator
 Station locator functionality for https://www.police.vic.gov.au/
 
-[![CircleCI](https://circleci.com/gh/dpc-sdp/tide_station_locator.svg?style=svg)](https://circleci.com/gh/dpc-sdp/tide_api)
+[![CircleCI](https://circleci.com/gh/dpc-sdp/tide_station_locator.svg?style=svg)](https://circleci.com/gh/dpc-sdp/tide_station_locator)
 
 ## Tide
 Tide is a Drupal 8 distribution focused on delivering an API first, headless 
