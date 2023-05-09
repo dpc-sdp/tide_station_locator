@@ -27,6 +27,7 @@ dependencies:
     - field.field.node.station.field_street_address
     - field.field.node.station.field_suburb
     - node.type.station
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - geofield
@@ -39,13 +40,13 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
   field_accessibility:
     type: entity_reference_autocomplete
-    weight: 149
+    weight: 30
     region: content
     settings:
       match_operator: CONTAINS
@@ -55,7 +56,7 @@ content:
     third_party_settings: {  }
   field_case_conference_email:
     type: link_default
-    weight: 147
+    weight: 28
     region: content
     settings:
       placeholder_url: ''
@@ -63,7 +64,7 @@ content:
     third_party_settings: {  }
   field_case_conference_phone:
     type: link_default
-    weight: 146
+    weight: 27
     region: content
     settings:
       placeholder_url: ''
@@ -71,30 +72,30 @@ content:
     third_party_settings: {  }
   field_email:
     type: link_default
-    weight: 139
+    weight: 20
     region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
   field_fax:
-    type: link_default
-    weight: 138
+    type: string_textfield
+    weight: 19
     region: content
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_geolocation:
     type: geofield_latlon
-    weight: 150
+    weight: 31
     region: content
     settings:
       html5_geolocation: false
     third_party_settings: {  }
   field_google_maps_url:
     type: link_default
-    weight: 136
+    weight: 17
     region: content
     settings:
       placeholder_url: ''
@@ -102,19 +103,19 @@ content:
     third_party_settings: {  }
   field_node_primary_site:
     type: options_buttons
-    weight: 151
+    weight: 32
     region: content
     settings: {  }
     third_party_settings: {  }
   field_node_site:
     type: options_buttons
-    weight: 152
+    weight: 33
     region: content
     settings: {  }
     third_party_settings: {  }
   field_opening_hours:
     type: string_textfield
-    weight: 140
+    weight: 21
     region: content
     settings:
       size: 60
@@ -122,7 +123,7 @@ content:
     third_party_settings: {  }
   field_opening_hours_notice:
     type: string_textarea
-    weight: 141
+    weight: 22
     region: content
     settings:
       rows: 5
@@ -130,7 +131,7 @@ content:
     third_party_settings: {  }
   field_phone:
     type: link_default
-    weight: 137
+    weight: 18
     region: content
     settings:
       placeholder_url: ''
@@ -138,7 +139,7 @@ content:
     third_party_settings: {  }
   field_postcode:
     type: string_textfield
-    weight: 132
+    weight: 13
     region: content
     settings:
       size: 60
@@ -146,39 +147,39 @@ content:
     third_party_settings: {  }
   field_prosecution_unit_email:
     type: link_default
-    weight: 144
+    weight: 25
     region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
   field_prosecution_unit_fax:
-    type: link_default
-    weight: 143
+    type: string_textfield
+    weight: 24
     region: content
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_prosecution_unit_notice:
     type: string_textarea
-    weight: 145
+    weight: 26
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_prosecution_unit_phone:
-    type: string_textfield
-    weight: 142
+    type: link_default
+    weight: 23
     region: content
     settings:
-      size: 60
-      placeholder: ''
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_serviced_postcodes:
     type: string_textfield
-    weight: 133
+    weight: 14
     region: content
     settings:
       size: 60
@@ -186,7 +187,7 @@ content:
     third_party_settings: {  }
   field_serviced_suburbs:
     type: string_textfield
-    weight: 135
+    weight: 16
     region: content
     settings:
       size: 60
@@ -194,7 +195,7 @@ content:
     third_party_settings: {  }
   field_specialty_services_or_faci:
     type: entity_reference_autocomplete
-    weight: 148
+    weight: 29
     region: content
     settings:
       match_operator: CONTAINS
@@ -204,7 +205,7 @@ content:
     third_party_settings: {  }
   field_state:
     type: entity_reference_autocomplete
-    weight: 131
+    weight: 12
     region: content
     settings:
       match_operator: CONTAINS
@@ -214,23 +215,23 @@ content:
     third_party_settings: {  }
   field_station_code:
     type: string_textfield
-    weight: 127
+    weight: 10
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_street_address:
-    type: string_textarea
-    weight: 128
+    type: string_textfield
+    weight: 11
     region: content
     settings:
-      rows: 5
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_suburb:
     type: string_textfield
-    weight: 134
+    weight: 15
     region: content
     settings:
       size: 60
@@ -238,45 +239,45 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 100
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 15
+    weight: 4
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   simple_sitemap:
-    weight: 10
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 120
+    weight: 9
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 16
+    weight: 5
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
@@ -284,7 +285,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 1
     region: content
     settings:
       match_operator: CONTAINS
@@ -293,7 +294,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   url_redirects:
-    weight: 50
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }

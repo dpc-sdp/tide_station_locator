@@ -6,12 +6,12 @@ dependencies:
 id: content_station_path_pattern
 label: 'Content station path pattern'
 type: 'canonical_entities:node'
-pattern: '[node:title]'
+pattern: '/site-[node:field_node_site:0:target_id]/[node:title]'
 selection_criteria:
-  cf4e5258-d1af-48c5-85a3-42d2ad27ec85:
+  ed138475-f041-4c45-8cd0-80a96372227c:
     id: 'entity_bundle:node'
     negate: false
-    uuid: cf4e5258-d1af-48c5-85a3-42d2ad27ec85
+    uuid: ed138475-f041-4c45-8cd0-80a96372227c
     context_mapping:
       node: node
     bundles:

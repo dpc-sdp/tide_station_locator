@@ -3,7 +3,6 @@ status: true
 dependencies:
   module:
     - field_permissions
-    - link
     - node
 third_party_settings:
   field_permissions:
@@ -11,9 +10,12 @@ third_party_settings:
 id: node.field_prosecution_unit_fax
 field_name: field_prosecution_unit_fax
 entity_type: node
-type: link
-settings: {  }
-module: link
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
 locked: false
 cardinality: 1
 translatable: true

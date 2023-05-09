@@ -36,6 +36,11 @@ targetEntityType: node
 bundle: station
 mode: default
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_accessibility:
     type: entity_reference_label
     label: above
@@ -81,16 +86,12 @@ content:
     weight: 114
     region: content
   field_fax:
-    type: link
+    type: string
     label: above
     settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 113
+    weight: 129
     region: content
   field_geolocation:
     type: geofield_default
@@ -177,16 +178,12 @@ content:
     weight: 119
     region: content
   field_prosecution_unit_fax:
-    type: link
+    type: string
     label: above
     settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 118
+    weight: 131
     region: content
   field_prosecution_unit_notice:
     type: basic_string
@@ -196,12 +193,16 @@ content:
     weight: 120
     region: content
   field_prosecution_unit_phone:
-    type: string
+    type: link
     label: above
     settings:
-      link_to_entity: false
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
     third_party_settings: {  }
-    weight: 117
+    weight: 130
     region: content
   field_serviced_postcodes:
     type: string
@@ -244,11 +245,12 @@ content:
     weight: 102
     region: content
   field_street_address:
-    type: basic_string
+    type: string
     label: above
-    settings: {  }
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 103
+    weight: 128
     region: content
   field_suburb:
     type: string
