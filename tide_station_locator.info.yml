@@ -5,6 +5,56 @@ package: VicPol
 core_version_requirement: ^9.2 || ^10
 dependencies:
   - dpc-sdp:tide_landing_page
+  - dpc-sdp:tide_site
+  - drupal:geofield
 config_devel:
   install:
     - paragraphs.paragraphs_type.station_locator
+    - core.entity_form_display.node.station.default
+    - core.entity_view_display.node.station.default
+    - core.entity_view_display.node.station.teaser
+    - field.field.node.station.field_accessibility
+    - field.field.node.station.field_case_conference_email
+    - field.field.node.station.field_case_conference_phone
+    - field.field.node.station.field_email
+    - field.field.node.station.field_fax
+    - field.field.node.station.field_google_maps_url
+    - field.field.node.station.field_opening_hours
+    - field.field.node.station.field_opening_hours_notice
+    - field.field.node.station.field_phone
+    - field.field.node.station.field_postcode
+    - field.field.node.station.field_prosecution_unit_email
+    - field.field.node.station.field_prosecution_unit_fax
+    - field.field.node.station.field_prosecution_unit_notice
+    - field.field.node.station.field_prosecution_unit_phone
+    - field.field.node.station.field_serviced_postcodes
+    - field.field.node.station.field_serviced_suburbs
+    - field.field.node.station.field_specialty_services_or_faci
+    - field.field.node.station.field_state
+    - field.field.node.station.field_station_code
+    - field.field.node.station.field_street_address
+    - field.field.node.station.field_suburb
+    - node.type.station
+    - taxonomy.vocabulary.specialty_services_or_facilities
+    - taxonomy.vocabulary.accessibility
+    - field.storage.node.field_accessibility
+    - field.storage.node.field_specialty_services_or_faci
+    - field.storage.node.field_state
+    - field.storage.node.field_case_conference_email
+    - field.storage.node.field_case_conference_phone
+    - field.storage.node.field_email
+    - field.storage.node.field_fax
+    - field.storage.node.field_google_maps_url
+    - field.storage.node.field_opening_hours
+    - field.storage.node.field_opening_hours_notice
+    - field.storage.node.field_phone
+    - field.storage.node.field_postcode
+    - field.storage.node.field_prosecution_unit_email
+    - field.storage.node.field_prosecution_unit_fax
+    - field.storage.node.field_prosecution_unit_notice
+    - field.storage.node.field_prosecution_unit_phone
+    - field.storage.node.field_serviced_postcodes
+    - field.storage.node.field_serviced_suburbs
+    - field.storage.node.field_station_code
+    - field.storage.node.field_street_address
+    - field.storage.node.field_suburb

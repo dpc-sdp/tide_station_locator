@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_serviced_suburbs
+    - node.type.station
+id: node.station.field_serviced_suburbs
+field_name: field_serviced_suburbs
+entity_type: node
+bundle: station
+label: 'Serviced suburbs'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

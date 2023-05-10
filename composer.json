@@ -13,7 +13,10 @@
     }
   },
   "require": {
-    "dpc-sdp/tide_landing_page": "dev-reference"
+    "dpc-sdp/tide_landing_page": "dev-reference",
+    "dpc-sdp/tide_site": "dev-reference",
+    "drupal/geofield": "^1.53",
+    "drupal/search_api_location": "^1.0@alpha"
   },
   "type": "drupal-module"
 }
