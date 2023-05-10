@@ -1,0 +1,1043 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_accessibility
+    - field.storage.node.field_audience
+    - field.storage.node.body
+    - field.storage.node.field_case_conference_email
+    - field.storage.node.field_case_conference_phone
+    - field.storage.node.field_landing_page_contact
+    - field.storage.paragraph.field_paragraph_body
+    - field.storage.paragraph.field_paragraph_name
+    - field.storage.node.field_landing_page_component
+    - field.storage.paragraph.field_paragraph_accordion
+    - field.storage.paragraph.field_paragraph_accordion_body
+    - field.storage.paragraph.field_paragraph_accordion_name
+    - field.storage.paragraph.field_paragraph_summary
+    - field.storage.paragraph.field_paragraph_title
+    - field.storage.paragraph.field_paragraph_topic
+    - field.storage.node.field_news_date
+    - field.storage.node.field_publication_date
+    - field.storage.node.field_email
+    - field.storage.node.field_event_category
+    - field.storage.node.field_event_description
+    - field.storage.node.field_event_details
+    - field.storage.paragraph.field_paragraph_date_range
+    - field.storage.paragraph.field_event_requirements
+    - field.storage.paragraph.field_paragraph_location
+    - field.storage.paragraph.field_paragraph_link
+    - field.storage.paragraph.field_paragraph_event_price_from
+    - field.storage.paragraph.field_paragraph_event_price_to
+    - field.storage.node.field_news_intro_text
+    - field.storage.node.field_fax
+    - field.storage.node.field_location_fax
+    - field.storage.media.field_media_image
+    - field.storage.node.field_featured_image
+    - field.storage.node.field_geolocation
+    - field.storage.node.field_google_maps_url
+    - field.storage.node.field_landing_page_intro_text
+    - field.storage.node.field_page_intro_text
+    - field.storage.node.field_opening_hours
+    - field.storage.node.field_opening_hours_notice
+    - field.storage.node.field_phone
+    - field.storage.node.field_postcode
+    - field.storage.node.field_node_primary_site
+    - field.storage.node.field_prosecution_unit_email
+    - field.storage.node.field_prosecution_unit_fax
+    - field.storage.node.field_prosecution_unit_notice
+    - field.storage.node.field_prosecution_unit_phone
+    - field.storage.node.field_publication_authors
+    - field.storage.node.field_publication
+    - field.storage.node.field_serviced_postcodes
+    - field.storage.node.field_serviced_suburbs
+    - field.storage.node.field_node_site
+    - field.storage.node.field_specialty_services_or_faci
+    - field.storage.node.field_state
+    - field.storage.node.field_station_code
+    - field.storage.node.field_status
+    - field.storage.node.field_street_address
+    - field.storage.node.field_suburb
+    - field.storage.node.field_landing_page_summary
+    - field.storage.node.field_tags
+    - field.storage.node.field_topic
+    - search_api.server.elasticsearch_bay
+  module:
+    - taxonomy
+    - node
+    - paragraphs
+    - file
+    - media
+    - tide_media
+    - search_api_location
+    - search_api
+    - tide_authenticated_content
+_core:
+  default_config_hash: _wAy3LjoNhyhgWgRgmh21ET7w8dsS246ygHYi4_9H7M
+id: node
+name: 'Default node index'
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.body
+  changed:
+    label: Changed
+    datasource_id: 'entity:node'
+    property_path: changed
+    type: date
+    dependencies:
+      module:
+        - node
+  created:
+    label: 'Authored on'
+    datasource_id: 'entity:node'
+    property_path: created
+    type: date
+    dependencies:
+      module:
+        - node
+  field_accessibility:
+    label: Accessibility
+    datasource_id: 'entity:node'
+    property_path: field_accessibility
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_accessibility
+  field_accessibility_name:
+    label: 'Accessibility » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_accessibility:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_accessibility
+      module:
+        - taxonomy
+  field_audience:
+    label: Audience
+    datasource_id: 'entity:node'
+    property_path: field_audience
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_audience
+  field_audience_name:
+    label: 'Audience » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_audience:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_audience
+      module:
+        - taxonomy
+  field_audience_uuid:
+    label: 'Audience » Taxonomy term » UUID'
+    datasource_id: 'entity:node'
+    property_path: 'field_audience:entity:uuid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_audience
+      module:
+        - taxonomy
+  field_case_conference_email:
+    label: 'Case conference email'
+    datasource_id: 'entity:node'
+    property_path: field_case_conference_email
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_case_conference_email
+  field_case_conference_phone:
+    label: 'Case conference phone'
+    datasource_id: 'entity:node'
+    property_path: field_case_conference_phone
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_case_conference_phone
+  field_email:
+    label: Email
+    datasource_id: 'entity:node'
+    property_path: field_email
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_email
+  field_event_category_name:
+    label: 'Event Category » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_category:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_category
+      module:
+        - taxonomy
+  field_event_category_tid:
+    label: 'Event Category'
+    datasource_id: 'entity:node'
+    property_path: field_event_category
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_event_category
+  field_event_category_uuid:
+    label: 'Event Category » Taxonomy term » UUID'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_category:entity:uuid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_category
+      module:
+        - taxonomy
+  field_event_date_end_value:
+    label: 'Event Details » Date Range » End date value'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_date_range:end_value'
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_date_range
+      module:
+        - paragraphs
+  field_event_date_start_value:
+    label: 'Event Details » Date Range » Start date value'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_date_range'
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_date_range
+      module:
+        - paragraphs
+  field_event_description:
+    label: 'Event Description'
+    datasource_id: 'entity:node'
+    property_path: field_event_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_description
+  field_event_details_event_address_1:
+    label: 'Event Details » Location »  The first line of the address block'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_location:address_line1'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_location
+      module:
+        - paragraphs
+  field_event_details_event_address_line2:
+    label: 'Event Details » Location »  The second line of the address block'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_location:address_line2'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_location
+      module:
+        - paragraphs
+  field_event_details_event_administrative_area:
+    label: 'Event Details » Location » The top-level administrative subdivision of the country'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_location:administrative_area'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_location
+      module:
+        - paragraphs
+  field_event_details_event_locality:
+    label: 'Event Details » Location » The locality'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_location:locality'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_location
+      module:
+        - paragraphs
+  field_event_details_event_postal_code:
+    label: 'Event Details » Location » The postal code'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_location:postal_code'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_location
+      module:
+        - paragraphs
+  field_event_details_event_price_from:
+    label: 'Event Details » Price'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_event_price_from'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_event_price_from
+      module:
+        - paragraphs
+  field_event_details_event_price_to:
+    label: 'Event Details » Price to'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_event_price_to'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_event_price_to
+      module:
+        - paragraphs
+  field_event_details_event_requirements_name:
+    label: 'Event Details » Event Requirements » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_event_requirements:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_event_requirements
+      module:
+        - paragraphs
+        - taxonomy
+  field_event_details_event_requirements_tid:
+    label: 'Event Details » Event Requirements'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_event_requirements'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_event_requirements
+      module:
+        - paragraphs
+  field_event_details_event_requirements_uuid:
+    label: 'Event Details » Event Requirements » UUID'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_event_requirements:entity:uuid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_event_requirements
+      module:
+        - paragraphs
+        - taxonomy
+  field_event_intro_text:
+    label: 'Event Introduction Text'
+    datasource_id: 'entity:node'
+    property_path: field_news_intro_text
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_news_intro_text
+  field_fax:
+    label: Fax
+    datasource_id: 'entity:node'
+    property_path: field_fax
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_fax
+  field_geolocation_latlon:
+    label: 'Geolocation » LatLong Pair'
+    datasource_id: 'entity:node'
+    property_path: 'field_geolocation:latlon'
+    type: location
+    dependencies:
+      config:
+        - field.storage.node.field_geolocation
+  field_google_maps_url_title:
+    label: 'Google Maps URL » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_google_maps_url:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_google_maps_url
+  field_landing_page_contact_body:
+    label: 'Contact Us » Paragraph » Body'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_contact:entity:field_paragraph_body'
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_contact
+        - field.storage.paragraph.field_paragraph_body
+      module:
+        - paragraphs
+  field_landing_page_contact_name:
+    label: 'Contact Us » Paragraph » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_contact:entity:field_paragraph_name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_contact
+        - field.storage.paragraph.field_paragraph_name
+      module:
+        - paragraphs
+  field_landing_page_intro_text:
+    label: 'Introduction Text'
+    datasource_id: 'entity:node'
+    property_path: field_landing_page_intro_text
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_intro_text
+  field_landing_page_summary:
+    label: Summary
+    datasource_id: 'entity:node'
+    property_path: field_landing_page_summary
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_summary
+  field_media_image_absolute_path:
+    label: 'Featured Image » Media » Image » File » Download URL'
+    datasource_id: 'entity:node'
+    property_path: 'field_featured_image:entity:field_media_image:entity:url'
+    type: string
+    dependencies:
+      config:
+        - field.storage.media.field_media_image
+        - field.storage.node.field_featured_image
+      module:
+        - file
+        - media
+        - tide_media
+  field_news_date:
+    label: Date
+    datasource_id: 'entity:node'
+    property_path: field_news_date
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_news_date
+  field_news_intro_text:
+    label: 'Introduction Text'
+    datasource_id: 'entity:node'
+    property_path: field_news_intro_text
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_news_intro_text
+  field_node_primary_csite:
+    label: 'Primary Site » Taxonomy term » Term ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_node_primary_site:entity:tid'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_node_primary_site
+      module:
+        - taxonomy
+  field_node_site:
+    label: Site
+    datasource_id: 'entity:node'
+    property_path: field_node_site
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_node_site
+  field_opening_hours:
+    label: 'Opening hours'
+    datasource_id: 'entity:node'
+    property_path: field_opening_hours
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_opening_hours
+  field_opening_hours_notice:
+    label: 'Opening hours notice'
+    datasource_id: 'entity:node'
+    property_path: field_opening_hours_notice
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_opening_hours_notice
+  field_page_intro_text:
+    label: 'Introduction Text'
+    datasource_id: 'entity:node'
+    property_path: field_page_intro_text
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.field_page_intro_text
+  field_paragraph_accordion_body:
+    label: 'Content components » Paragraph » Accordion Content » Paragraph » Body'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_accordion:entity:field_paragraph_accordion_body'
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_accordion
+        - field.storage.paragraph.field_paragraph_accordion_body
+      module:
+        - paragraphs
+  field_paragraph_accordion_name:
+    label: 'Content components » Paragraph » Accordion Content » Paragraph » Item Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_accordion:entity:field_paragraph_accordion_name'
+    type: text
+    boost: !!float 5
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_accordion
+        - field.storage.paragraph.field_paragraph_accordion_name
+      module:
+        - paragraphs
+  field_paragraph_body:
+    label: 'Content components » Paragraph » Body'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_body'
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_body
+      module:
+        - paragraphs
+  field_paragraph_link:
+    label: 'Event Details » Paragraph » Link'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_link'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_link
+      module:
+        - paragraphs
+  field_paragraph_link_text:
+    label: 'Event Details » Paragraph » Link » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_details:entity:field_paragraph_link:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_event_details
+        - field.storage.paragraph.field_paragraph_link
+      module:
+        - paragraphs
+  field_paragraph_summary:
+    label: 'Content components » Paragraph » Summary'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_summary'
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_summary
+      module:
+        - paragraphs
+  field_paragraph_title:
+    label: 'Content components » Paragraph » Title'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_title'
+    type: text
+    boost: !!float 13
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_title
+      module:
+        - paragraphs
+  field_paragraph_topic:
+    label: 'Content components » Paragraph » Topic'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_topic'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_topic
+      module:
+        - paragraphs
+  field_paragraph_topic_name:
+    label: 'Content components » Paragraph » Topic » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_topic:entity:name'
+    type: string
+    boost: !!float 5
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_topic
+      module:
+        - paragraphs
+        - taxonomy
+  field_paragraph_topic_uuid:
+    label: 'Content components » Paragraph » Topic » Taxonomy term » UUID'
+    datasource_id: 'entity:node'
+    property_path: 'field_landing_page_component:entity:field_paragraph_topic:entity:uuid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_landing_page_component
+        - field.storage.paragraph.field_paragraph_topic
+      module:
+        - paragraphs
+        - taxonomy
+  field_phone:
+    label: Phone
+    datasource_id: 'entity:node'
+    property_path: field_phone
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_phone
+  field_postcode:
+    label: Postcode
+    datasource_id: 'entity:node'
+    property_path: field_postcode
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_postcode
+  field_prosecution_unit_email:
+    label: 'Prosecution Unit email'
+    datasource_id: 'entity:node'
+    property_path: field_prosecution_unit_email
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_prosecution_unit_email
+  field_prosecution_unit_fax:
+    label: 'Prosecution Unit fax'
+    datasource_id: 'entity:node'
+    property_path: field_prosecution_unit_fax
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_prosecution_unit_fax
+  field_prosecution_unit_notice:
+    label: 'Prosecution Unit notice'
+    datasource_id: 'entity:node'
+    property_path: field_prosecution_unit_notice
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_prosecution_unit_notice
+  field_prosecution_unit_phone:
+    label: 'Prosecution Unit phone'
+    datasource_id: 'entity:node'
+    property_path: field_prosecution_unit_phone
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_prosecution_unit_phone
+  field_publication_authors:
+    label: 'Publication authors'
+    datasource_id: 'entity:node'
+    property_path: field_publication_authors
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_publication_authors
+  field_publication_date:
+    label: 'Date of Publication'
+    datasource_id: 'entity:node'
+    property_path: field_publication_date
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_publication_date
+  field_publication_nid:
+    label: 'Publication » Content » ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_publication:entity:nid'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_publication
+      module:
+        - node
+  field_publication_title:
+    label: 'Publication » Content » Title'
+    datasource_id: 'entity:node'
+    property_path: 'field_publication:entity:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_publication
+      module:
+        - node
+  field_publication_uuid:
+    label: 'Publication » Content » UUID'
+    datasource_id: 'entity:node'
+    property_path: 'field_publication:entity:uuid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_publication
+      module:
+        - node
+  field_serviced_postcodes:
+    label: 'Serviced postcodes'
+    datasource_id: 'entity:node'
+    property_path: field_serviced_postcodes
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_serviced_postcodes
+  field_serviced_suburbs:
+    label: 'Serviced suburbs'
+    datasource_id: 'entity:node'
+    property_path: field_serviced_suburbs
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_serviced_suburbs
+  field_specialty_services_or_faci:
+    label: 'Specialty services or facilities'
+    datasource_id: 'entity:node'
+    property_path: field_specialty_services_or_faci
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_specialty_services_or_faci
+  field_specialty_services_or_faci_name:
+    label: 'Specialty services or facilities » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_specialty_services_or_faci:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_specialty_services_or_faci
+      module:
+        - taxonomy
+  field_state:
+    label: State
+    datasource_id: 'entity:node'
+    property_path: field_state
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_state
+  field_state_name:
+    label: 'State » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_state:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_state
+      module:
+        - taxonomy
+  field_station_code:
+    label: 'Station code'
+    datasource_id: 'entity:node'
+    property_path: field_station_code
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_station_code
+  field_status:
+    label: Status
+    datasource_id: 'entity:node'
+    property_path: field_status
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_status
+  field_street_address:
+    label: 'Street address'
+    datasource_id: 'entity:node'
+    property_path: field_street_address
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_street_address
+  field_suburb:
+    label: Suburb
+    datasource_id: 'entity:node'
+    property_path: field_suburb
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_suburb
+  field_tags:
+    label: Tags
+    datasource_id: 'entity:node'
+    property_path: field_tags
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_tags
+  field_tags_name:
+    label: 'Tags » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_tags:entity:name'
+    type: string
+    boost: !!float 5
+    dependencies:
+      config:
+        - field.storage.node.field_tags
+      module:
+        - taxonomy
+  field_tags_uuid:
+    label: 'Tags » Taxonomy term » UUID'
+    datasource_id: 'entity:node'
+    property_path: 'field_tags:entity:uuid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_tags
+      module:
+        - taxonomy
+  field_topic:
+    label: Topic
+    datasource_id: 'entity:node'
+    property_path: field_topic
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_topic
+  field_topic_name:
+    label: 'Topic » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_topic:entity:name'
+    type: string
+    boost: !!float 5
+    dependencies:
+      config:
+        - field.storage.node.field_topic
+      module:
+        - taxonomy
+  field_topic_uuid:
+    label: 'Topic » Taxonomy term » UUID'
+    datasource_id: 'entity:node'
+    property_path: 'field_topic:entity:uuid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_topic
+      module:
+        - taxonomy
+  langcode:
+    label: Language
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: string
+    dependencies:
+      module:
+        - node
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  status:
+    label: Published
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  summary_processed:
+    label: 'Body » Processed summary'
+    datasource_id: 'entity:node'
+    property_path: 'body:summary_processed'
+    type: text
+    boost: !!float 0
+    dependencies:
+      config:
+        - field.storage.node.body
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 21
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  uid:
+    label: User
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  url:
+    label: URI
+    property_path: search_api_url
+    type: string
+  uuid:
+    label: UUID
+    datasource_id: 'entity:node'
+    property_path: uuid
+    type: string
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: true
+      selected:
+        - alert
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  authenticated_status: {  }
+  content_access:
+    weights:
+      preprocess_query: -30
+  entity_status: {  }
+  entity_type: {  }
+  hierarchy:
+    weights:
+      preprocess_index: -45
+    fields:
+      field_paragraph_topic: taxonomy_term-parent
+      field_tags: taxonomy_term-parent
+      field_topic: taxonomy_term-parent
+  html_filter:
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
+    all_fields: true
+    fields:
+      - body
+      - field_accessibility_name
+      - field_audience_name
+      - field_audience_uuid
+      - field_case_conference_email
+      - field_case_conference_phone
+      - field_email
+      - field_event_category_name
+      - field_event_category_uuid
+      - field_event_description
+      - field_event_details_event_address_1
+      - field_event_details_event_address_line2
+      - field_event_details_event_administrative_area
+      - field_event_details_event_locality
+      - field_event_details_event_postal_code
+      - field_event_details_event_price_from
+      - field_event_details_event_price_to
+      - field_event_details_event_requirements_name
+      - field_event_details_event_requirements_uuid
+      - field_event_intro_text
+      - field_fax
+      - field_google_maps_url_title
+      - field_landing_page_contact_body
+      - field_landing_page_contact_name
+      - field_landing_page_intro_text
+      - field_landing_page_summary
+      - field_media_image_absolute_path
+      - field_news_intro_text
+      - field_opening_hours
+      - field_opening_hours_notice
+      - field_page_intro_text
+      - field_paragraph_accordion_body
+      - field_paragraph_accordion_name
+      - field_paragraph_body
+      - field_paragraph_link
+      - field_paragraph_link_text
+      - field_paragraph_summary
+      - field_paragraph_title
+      - field_paragraph_topic_name
+      - field_paragraph_topic_uuid
+      - field_phone
+      - field_postcode
+      - field_prosecution_unit_email
+      - field_prosecution_unit_fax
+      - field_prosecution_unit_notice
+      - field_prosecution_unit_phone
+      - field_publication_authors
+      - field_publication_title
+      - field_publication_uuid
+      - field_serviced_postcodes
+      - field_serviced_suburbs
+      - field_specialty_services_or_faci_name
+      - field_state_name
+      - field_station_code
+      - field_status
+      - field_street_address
+      - field_suburb
+      - field_tags_name
+      - field_tags_uuid
+      - field_topic_name
+      - field_topic_uuid
+      - langcode
+      - summary_processed
+      - title
+      - type
+      - url
+      - uuid
+    title: true
+    alt: true
+    tags:
+      b: 2
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+  language_with_fallback: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: false
+  track_changes_in_references: true
+server: elasticsearch_bay
