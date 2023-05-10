@@ -4,7 +4,10 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
-        "dpc-sdp/tide_landing_page": "^3.0.1"
+        "dpc-sdp/tide_landing_page": "^3.0.1",
+        "dpc-sdp/tide_site": "^3.0.1",
+        "drupal/geofield": "^1.53",
+        "drupal/search_api_location": "^1.0@alpha"
     },
     "extra": {
         "enable-patching": true,

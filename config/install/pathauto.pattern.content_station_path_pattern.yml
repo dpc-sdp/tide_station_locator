@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: content_station_path_pattern
+label: 'Content station path pattern'
+type: 'canonical_entities:node'
+pattern: '/site-[node:field_node_site:0:target_id]/[node:title]'
+selection_criteria:
+  ed138475-f041-4c45-8cd0-80a96372227c:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: ed138475-f041-4c45-8cd0-80a96372227c
+    context_mapping:
+      node: node
+    bundles:
+      station: station
+selection_logic: and
+weight: -5
+relationships: {  }
