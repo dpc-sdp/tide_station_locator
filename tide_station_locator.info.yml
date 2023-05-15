@@ -8,8 +8,8 @@ dependencies:
   - dpc-sdp:tide_site
   - drupal:geofield
   - drupal:migrate
-  - drupal:migrate_source_csv
-  - drupal:migrate_plus
+  - migrate_source_csv:migrate_source_csv
+  - migrate_plus:migrate_plus
 config_devel:
   install:
     - paragraphs.paragraphs_type.station_locator
