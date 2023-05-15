@@ -31,7 +31,6 @@ dependencies:
     - field.storage.paragraph.field_paragraph_event_price_to
     - field.storage.node.field_news_intro_text
     - field.storage.node.field_fax
-    - field.storage.node.field_location_fax
     - field.storage.media.field_media_image
     - field.storage.node.field_featured_image
     - field.storage.node.field_geolocation
@@ -49,8 +48,6 @@ dependencies:
     - field.storage.node.field_prosecution_unit_phone
     - field.storage.node.field_publication_authors
     - field.storage.node.field_publication
-    - field.storage.node.field_serviced_postcodes
-    - field.storage.node.field_serviced_suburbs
     - field.storage.node.field_node_site
     - field.storage.node.field_specialty_services_or_faci
     - field.storage.node.field_state
@@ -702,22 +699,6 @@ field_settings:
         - field.storage.node.field_publication
       module:
         - node
-  field_serviced_postcodes:
-    label: 'Serviced postcodes'
-    datasource_id: 'entity:node'
-    property_path: field_serviced_postcodes
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_serviced_postcodes
-  field_serviced_suburbs:
-    label: 'Serviced suburbs'
-    datasource_id: 'entity:node'
-    property_path: field_serviced_suburbs
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_serviced_suburbs
   field_specialty_services_or_faci:
     label: 'Specialty services or facilities'
     datasource_id: 'entity:node'
@@ -1005,8 +986,6 @@ processor_settings:
       - field_publication_authors
       - field_publication_title
       - field_publication_uuid
-      - field_serviced_postcodes
-      - field_serviced_suburbs
       - field_specialty_services_or_faci_name
       - field_state_name
       - field_station_code
