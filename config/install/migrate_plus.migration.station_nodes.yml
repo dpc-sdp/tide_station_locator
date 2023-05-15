@@ -14,7 +14,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: json
   urls:
-    - 'modules/custom/ohchr_migration/sources/csv/station.json'
+    - 'modules/contrib/tide_station_locator/assets/station.json'
   item_selector: 'records'
 fields:
   -
