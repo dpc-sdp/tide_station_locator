@@ -1,5 +1,9 @@
 langcode: en
 status: true
+dependencies:
+  enforced:
+    module:
+      - tide_station_locator
 id: station_nodes
 class: null
 field_plugin_method: null
@@ -13,12 +17,12 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: json
   urls:
-    - 'modules/contrib/tide_station_locator/assets/station.json'
+    - modules/contrib/tide_station_locator/assets/station.json
   item_selector: records
   fields:
     -
       name: title
-      label: 'Title'
+      label: Title
       selector: /productId
     -
       name: field_street_address
@@ -26,15 +30,15 @@ source:
       selector: /Street
     -
       name: field_suburb
-      label: 'Suburb'
+      label: Suburb
       selector: /Suburb
     -
       name: field_state
-      label: 'State'
+      label: State
       selector: /State_Name
     -
       name: field_postcode
-      label: 'Postcode'
+      label: Postcode
       selector: /Postcode
     -
       name: field_google_maps_url
@@ -62,7 +66,7 @@ source:
       selector: /General_Phone_Hyperlink
     -
       name: field_fax
-      label: 'Fax'
+      label: Fax
       selector: /General_Fax
     -
       name: field_email_text
@@ -178,7 +182,7 @@ source:
       selector: /Youth_Resource_Officer
     -
       name: field_accessibility
-      label: 'Accessibility'
+      label: Accessibility
       selector: /Accessibility
   ids:
     field_station_code:
@@ -190,15 +194,12 @@ process:
   title: title
   field_street_address: field_street_address
   field_suburb: field_suburb
-  field_state/target_id:
-    plugin: default_value
-    default_value: 4506
+  field_state:
+    plugin: migration_lookup
+    migration: station_state_terms
+    source: field_state
   field_postcode: field_postcode
-  'field_google_maps_url/uri':
-    - plugin: default_value
-      source: field_google_maps_url
-    - plugin: skip_on_empty
-      method: process
+  field_google_maps_url/uri: field_google_maps_url
   field_station_code: field_station_code
   field_geolocation:
     -
@@ -209,98 +210,54 @@ process:
     -
       plugin: skip_on_empty
       method: process
-  'field_phone/uri':
-    - plugin: default_value
-      source: field_phone_link
-    - plugin: skip_on_empty
-      method: process
-  'field_phone/title':
-    plugin: default_value
-    source: field_phone_text
+  field_phone/uri: field_phone_link
+  field_phone/title: field_phone_text
   field_fax: field_fax
-  'field_email/uri':
-    - plugin: default_value
-      source: field_email_link
-    - plugin: skip_on_empty
-      method: process
-  'field_email/title':
-    plugin: default_value
-    source: field_email_text
-  'field_prosecution_unit_phone/uri':
-    - plugin: default_value
-      source: field_prosecution_unit_phone_link
-    - plugin: skip_on_empty
-      method: process
-  'field_prosecution_unit_phone/title':
-    plugin: default_value
-    source: field_prosecution_unit_phone_text
+  field_email/uri: field_email_link
+  field_email/title: field_email_text
+  field_prosecution_unit_phone/uri: field_prosecution_unit_phone_link
+  field_prosecution_unit_phone/title: field_prosecution_unit_phone_text
   field_prosecution_unit_fax: field_prosecution_unit_fax
-  'field_prosecution_unit_email/uri':
-    - plugin: default_value
-      source: field_prosecution_unit_email_link
-    - plugin: skip_on_empty
-      method: process
-  'field_prosecution_unit_email/title':
-    plugin: default_value
-    source: field_prosecution_unit_email_text
-  'field_case_conference_phone/uri':
-    - plugin: default_value
-      source: field_case_conference_phone_link
-    - plugin: skip_on_empty
-      method: process
-  'field_case_conference_phone/title':
-    plugin: default_value
-    source: field_case_conference_phone_text
-  'field_case_conference_email/uri':
-    - plugin: default_value
-      source: field_case_conference_email_link
-    - plugin: skip_on_empty
-      method: process
-  'field_case_conference_email/title':
-    plugin: default_value
-    source: field_case_conference_email_text
+  field_prosecution_unit_email/uri: field_prosecution_unit_email_link
+  field_prosecution_unit_email/title: field_prosecution_unit_email_text
+  field_case_conference_phone/uri: field_case_conference_phone_link
+  field_case_conference_phone/title: field_case_conference_phone_text
+  field_case_conference_email/uri: field_case_conference_email_link
+  field_case_conference_email/title: field_case_conference_email_text
   field_prosecution_unit_notice: field_prosecution_unit_notice
   field_opening_hours: field_opening_hours
   field_opening_hours_notice: field_opening_hours_notice
-#  field_specialty_services_or_faci:
-#    plugin: sub_process
-#    source:
-#      - field_specialty_services_or_faci_CIU
-#      - field_specialty_services_or_faci_CPO
-#      - field_specialty_services_or_faci_FVIU
-#      - field_specialty_services_or_faci_FVLO
-#      - field_specialty_services_or_faci_FCLO
-#      - field_specialty_services_or_faci_Justice_Of_The_Peace
-#      - field_specialty_services_or_faci_LGBTIQ
-#      - field_specialty_services_or_faci_NW
-#      - field_specialty_services_or_faci_PPU
-#      - field_specialty_services_or_faci_PU
-#      - field_specialty_services_or_faci_RFO
-#      - field_specialty_services_or_faci_SOCIT
-#      - field_specialty_services_or_faci_VASO
-#      - field_specialty_services_or_faci_YRO
-#    process:
-#      target_id:
-#        plugin: migration_lookup
-#        migration: station_speciality_services_facility_terms
-#        source: term_name
-#  field_accessibility:
-#    plugin: sub_process
-#    source: field_accessibility
-#    process:
-#      target_id:
-#        plugin: migration_lookup
-#        migration: station_accessibility_terms
-#        source: term_name
-#      name: term_name
+  #  field_specialty_services_or_faci:
+  #    -
+  #      plugin: get
+  #      source:
+  #        - field_specialty_services_or_faci_CIU
+  #        - field_specialty_services_or_faci_CPO
+  #        - field_specialty_services_or_faci_FVIU
+  #        - field_specialty_services_or_faci_FVLO
+  #        - field_specialty_services_or_faci_FCLO
+  #        - field_specialty_services_or_faci_Justice_Of_The_Peace
+  #        - field_specialty_services_or_faci_LGBTIQ
+  #        - field_specialty_services_or_faci_NW
+  #        - field_specialty_services_or_faci_PPU
+  #        - field_specialty_services_or_faci_PU
+  #        - field_specialty_services_or_faci_RFO
+  #        - field_specialty_services_or_faci_SOCIT
+  #        - field_specialty_services_or_faci_VASO
+  #        - field_specialty_services_or_faci_YRO
+  #    -
+  #      plugin: migration_lookup
+  #      migration: station_speciality_services_facility_terms
+  #      source: term_name
+  field_accessibility:
+    plugin: migration_lookup
+    migration: station_accessibility_terms
+    source: field_accessibility
 destination:
-  plugin: entity:node
+  plugin: 'entity:node'
   default_bundle: station
 migration_dependencies:
   required:
     - station_accessibility_terms
     - station_speciality_services_facility_terms
-dependencies:
-  enforced:
-    module:
-      - tide_station_locator
+    - station_state_terms
