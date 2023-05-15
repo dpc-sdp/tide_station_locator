@@ -1,0 +1,20 @@
+id: my_module_csv_terms
+label: Import Accessibility Terms
+migration_group: station_locator
+
+source:
+  plugin: csv
+  path: modules/custom/tide_station_locator/source/accessibility.csv
+  header_row_count: 1
+  keys:
+    - term_id
+
+destination:
+  plugin: entity:taxonomy_term
+
+process:
+  vid:
+    plugin: default_value
+    default_value: accessibility
+  name: term_name
+

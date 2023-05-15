@@ -1,0 +1,10 @@
+uuid: 9c114e48-6eb1-4b53-ba13-aa68120afd57
+langcode: en
+status: true
+dependencies: {  }
+id: station_locator
+label: 'Station Locator'
+description: 'Migrations for VicPol stations'
+source_type: 'JSON API'
+module: null
+shared_configuration: null
