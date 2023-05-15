@@ -4,7 +4,7 @@ migration_group: station_locator
 
 source:
   plugin: csv
-  path: modules/custom/tide_station_locator/source/accessibility.csv
+  path: modules/custom/tide_station_locator/assets/accessibility.csv
   header_row_count: 1
   keys:
     - term_id
