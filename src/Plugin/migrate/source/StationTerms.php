@@ -8,11 +8,11 @@ use Drupal\migrate\Plugin\migrate\source\CSV;
  * Source plugin for CSV terms migration.
  *
  * @MigrateSource(
- *   id = "tide_station_locator_accessibility_terms",
+ *   id = "tide_station_locator_terms",
  *   source_module = "tide_station_locator",
  * )
  */
-class StationAccessibilityTerms extends CSV {
+class StationTerms extends CSV {
 
   /**
    * {@inheritdoc}

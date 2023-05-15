@@ -7,4 +7,3 @@ description: 'Migrations for VicPol stations'
 source_type: 'JSON API'
 module: null
 shared_configuration: null
-

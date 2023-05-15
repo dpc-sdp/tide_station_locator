@@ -1,23 +1,23 @@
 langcode: en
 status: true
 dependencies: {  }
-id: station_accessibility_terms
+id: station_speciality_services_facility_terms
 class: null
 field_plugin_method: null
 cck_plugin_method: null
 migration_tags: null
 migration_group: station_locator
-label: 'Import Accessibility Terms'
+label: 'Import Speciality services and facility Terms'
 source:
   plugin: csv
-  path: modules/contrib/tide_station_locator/assets/accessibility.csv
+  path: modules/contrib/tide_station_locator/assets/specialityservicesandfacility.csv
   header_row_count: 1
   ids:
     - term_name
 process:
   vid:
     plugin: default_value
-    default_value: accessibility
+    default_value: specialty_services_or_facilities
   name: term_name
 destination:
   plugin: 'entity:taxonomy_term'
