@@ -28,19 +28,9 @@ Feature: Station content type is available and follow URL format.
     And I should see an "input#edit-field-postcode-0-value" element
     And I should see an "input#edit-field-postcode-0-value.required" element
 
-    Then I see field "Serviced postcodes"
-    And I should see an "input#edit-field-serviced-postcodes-0-value" element
-    And I should see an "input#edit-field-serviced-postcodes-0-value.required" element
-    And I should see an "input#edit-field-serviced-postcodes-add-more" element
-
     Then I see field "Suburb"
     And I should see an "input#edit-field-suburb-0-value" element
     And I should see an "input#edit-field-suburb-0-value.required" element
-
-    Then I see field "Serviced suburbs"
-    And I should see an "input#edit-field-serviced-suburbs-0-value" element
-    And I should see an "input#edit-field-serviced-suburbs-0-value.required" element
-    And I should see an "input#edit-field-serviced-suburbs-add-more" element
 
     Then I see field "Google Maps URL"
     And I should see an "input#edit-field-google-maps-url-0-uri" element
