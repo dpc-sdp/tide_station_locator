@@ -4,3 +4,59 @@
  * @file
  * Tide Station Locator module functionality.
  */
+
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+function getAPIData() {
+
+  // Path to the SSL certificates
+  $rootCertPath = '/app/keys/non-prod-root.cer';
+  $clientCertPath = '/app/keys/non-prod-client.cer';
+  $clientKeyPath = '/app/keys/non-prod-key.key';
+
+  // API endpoint URL
+  $apiUrl = 'https://api.example.com/endpoint';
+
+  // Create a Guzzle HTTP client instance
+  $client = new Client();
+
+  // Set the SSL certificate options
+  $sslOptions = [
+    'verify' => $rootCertPath, // Verify the API server using the root certificate
+    'cert' => [$clientCertPath, $clientKeyPath] // Use the client certificate and private key
+  ];
+
+  // Make the API request
+  try {
+    $response = $client->request('GET', $apiUrl, ['ssl_key' => $sslOptions]);
+    $statusCode = $response->getStatusCode();
+    $content = $response->getBody()->getContents();
+
+  } catch (Exception $e) {
+    // Handle any errors that occur during the request
+    // ...
+  }
+
+  $full_data = json_decode($content,true);
+
+  // Process the data so that we can save it in a format we need.
+  $stations = $full_data['records'];
+  $final_stations = [];
+  foreach($stations as $key => $station) {
+    // Loop through attributes.
+    foreach ($station['attributes'] as $attribute ) {
+      // Add attribute name as the key.
+      $station[$attribute['name']] = $attribute['value'];
+    }
+    unset ($station['attributes']);
+    $final_stations['records'][$key] = $station;
+  }
+  $file_save_path_stream_directory = 'public://';
+  \Drupal::service('file_system')->prepareDirectory($file_save_path_stream_directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
+  $fileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
+  // Save the processed JSON file.
+  $file = file_save_data(json_encode($final_stations), $fileLocation, FileSystemInterface::EXISTS_REPLACE);
+
+
+}
