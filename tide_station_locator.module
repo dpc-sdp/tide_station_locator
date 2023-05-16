@@ -4,3 +4,24 @@
  * @file
  * Tide Station Locator module functionality.
  */
+
+use Drupal\migrate_tools\MigrateExecutable;
+use Drupal\migrate\MigrateMessage;
+
+/**
+ * Function to migrate stations.
+ */
+function tide_station_locator_migrate_stations() {
+
+  try {
+    $migration_id = 'station_nodes';
+    $migration = \Drupal::service('plugin.manager.migration')
+      ->createInstance($migration_id);
+    $migration->getIdMap()->prepareUpdate();
+    $executable = new MigrateExecutable($migration, new MigrateMessage());
+    $executable->import();
+  } catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
+}
