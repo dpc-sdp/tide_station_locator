@@ -256,6 +256,9 @@ process:
     plugin: migration_lookup
     migration: station_accessibility_terms
     source: field_accessibility
+  moderation_state:
+    plugin: default_value
+    default_value: published
 destination:
   plugin: 'entity:node'
   default_bundle: station
