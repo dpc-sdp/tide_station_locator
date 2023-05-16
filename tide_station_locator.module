@@ -20,7 +20,8 @@ function tide_station_locator_migrate_stations() {
     $migration->getIdMap()->prepareUpdate();
     $executable = new MigrateExecutable($migration, new MigrateMessage());
     $executable->import();
-  } catch (Exception $e) {
+  }
+  catch (Exception $e) {
     // Something went wrong somewhere.
     watchdog_exception('tide_station_locator', $e);
   }
