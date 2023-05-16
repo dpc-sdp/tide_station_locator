@@ -14,15 +14,60 @@ use Drupal\migrate\MigrateMessage;
 function tide_station_locator_migrate_stations() {
 
   try {
-    $migration_id = 'station_nodes';
-    $migration = \Drupal::service('plugin.manager.migration')
-      ->createInstance($migration_id);
-    $migration->getIdMap()->prepareUpdate();
-    $executable = new MigrateExecutable($migration, new MigrateMessage());
-    $executable->import();
+    _tide_station_locator_migrate('station_nodes');
   }
   catch (Exception $e) {
     // Something went wrong somewhere.
     watchdog_exception('tide_station_locator', $e);
   }
+}
+
+/**
+ * Function to migrate state terms.
+ */
+function tide_station_locator_migrate_state() {
+  try {
+    _tide_station_locator_migrate('station_state_terms');
+  }
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
+}
+
+/**
+ * Function to migrate speciality terms.
+ */
+function tide_station_locator_migrate_speciality() {
+  try {
+    _tide_station_locator_migrate('station_speciality_services_facility_terms');
+  }
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
+}
+
+/**
+ * Function to migrate accessibility terms.
+ */
+function tide_station_locator_migrate_accessibility() {
+  try {
+    _tide_station_locator_migrate('station_accessibility_terms');
+  }
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
+}
+
+/**
+ * Helper function to run the migration.
+ */
+function _tide_station_locator_migrate($migration_id) {
+  $migration = \Drupal::service('plugin.manager.migration')
+    ->createInstance($migration_id);
+  $migration->getIdMap()->prepareUpdate();
+  $executable = new MigrateExecutable($migration, new MigrateMessage());
+  $executable->import();
 }

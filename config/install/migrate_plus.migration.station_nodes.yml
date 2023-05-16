@@ -227,26 +227,31 @@ process:
   field_prosecution_unit_notice: field_prosecution_unit_notice
   field_opening_hours: field_opening_hours
   field_opening_hours_notice: field_opening_hours_notice
-#  field_specialty_services_or_faci:
-#    plugin: migration_lookup
-#    migration:
-#      - station_speciality_services_facility_terms
-#    source_ids:
-#      station_speciality_services_facility_terms:
-#        - field_specialty_services_or_faci_CIU
-#        - field_specialty_services_or_faci_CPO
-#        - field_specialty_services_or_faci_FVIU
-#        - field_specialty_services_or_faci_FVLO
-#        - field_specialty_services_or_faci_FCLO
-#        - field_specialty_services_or_faci_Justice_Of_The_Peace
-#        - field_specialty_services_or_faci_LGBTIQ
-#        - field_specialty_services_or_faci_NW
-#        - field_specialty_services_or_faci_PPU
-#        - field_specialty_services_or_faci_PU
-#        - field_specialty_services_or_faci_RFO
-#        - field_specialty_services_or_faci_SOCIT
-#        - field_specialty_services_or_faci_VASO
-#        - field_specialty_services_or_faci_YRO
+  _field_specialty_services_or_faci:
+    plugin: get
+    source:
+      - field_specialty_services_or_faci_CIU
+      - field_specialty_services_or_faci_CPO
+      - field_specialty_services_or_faci_FVIU
+      - field_specialty_services_or_faci_FVLO
+      - field_specialty_services_or_faci_FCLO
+      - field_specialty_services_or_faci_Justice_Of_The_Peace
+      - field_specialty_services_or_faci_LGBTIQ
+      - field_specialty_services_or_faci_NW
+      - field_specialty_services_or_faci_PPU
+      - field_specialty_services_or_faci_PU
+      - field_specialty_services_or_faci_RFO
+      - field_specialty_services_or_faci_SOCIT
+      - field_specialty_services_or_faci_VASO
+      - field_specialty_services_or_faci_YRO
+  field_specialty_services_or_faci:
+    plugin: entity_generate
+    source: '@_field_specialty_services_or_faci'
+    value_key: name
+    bundle_key: vid
+    bundle: specialty_services_or_facilities
+    entity_type: taxonomy_term
+    ignore_case: true
   field_accessibility:
     plugin: migration_lookup
     migration: station_accessibility_terms
