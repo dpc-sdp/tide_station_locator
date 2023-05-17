@@ -19,8 +19,6 @@ dependencies:
     - field.field.node.station.field_prosecution_unit_fax
     - field.field.node.station.field_prosecution_unit_notice
     - field.field.node.station.field_prosecution_unit_phone
-    - field.field.node.station.field_serviced_postcodes
-    - field.field.node.station.field_serviced_suburbs
     - field.field.node.station.field_specialty_services_or_faci
     - field.field.node.station.field_state
     - field.field.node.station.field_station_code
@@ -176,22 +174,6 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
-    third_party_settings: {  }
-  field_serviced_postcodes:
-    type: string_textfield
-    weight: 14
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_serviced_suburbs:
-    type: string_textfield
-    weight: 16
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_specialty_services_or_faci:
     type: entity_reference_autocomplete
