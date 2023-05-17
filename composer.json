@@ -16,6 +16,8 @@
     "dpc-sdp/tide_landing_page": "dev-reference",
     "dpc-sdp/tide_site": "dev-reference",
     "drupal/geofield": "^1.53",
+    "drupal/migrate_plus": "^5.0",
+    "drupal/migrate_source_csv": "^3.5",
     "drupal/search_api_location": "^1.0@alpha"
   },
   "type": "drupal-module"
