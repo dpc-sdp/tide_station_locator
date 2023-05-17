@@ -16,7 +16,7 @@ function getAPIData() {
   $clientKeyPath = '/app/keys/non-prod-key.key';
 
   // API endpoint URL
-  $apiUrl = 'https://api.example.com/endpoint';
+  $apiUrl = 'https://vicpol-itd-sit.gateway.nonprod.api.vic.gov.au/technology/rdm/3.0.0';
 
   // Create a Guzzle HTTP client instance
   $client = new Client();
