@@ -6,46 +6,47 @@
  */
 
 use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
 
-function getAPIData() {
+/**
+ *
+ */
+function tide_station_locator_getAPIData() {
 
-  // Path to the SSL certificates
+  // Path to the SSL certificates.
   $rootCertPath = '/app/keys/non-prod-root.cer';
   $clientCertPath = '/app/keys/non-prod-client.cer';
   $clientKeyPath = '/app/keys/non-prod-key.key';
 
-  // API endpoint URL
+  // API endpoint URL.
   $apiUrl = 'https://vicpol-itd-sit.gateway.nonprod.api.vic.gov.au/technology/rdm/3.0.0';
 
-  // Create a Guzzle HTTP client instance
+  // Create a Guzzle HTTP client instance.
   $client = new Client();
 
-  // Set the SSL certificate options
+  // Set the SSL certificate options.
   $sslOptions = [
-    'verify' => $rootCertPath, // Verify the API server using the root certificate
-    'cert' => [$clientCertPath, $clientKeyPath] // Use the client certificate and private key
+    'verify' => $rootCertPath,
+    'cert' => [$clientCertPath, $clientKeyPath],
   ];
 
-  // Make the API request
+  // Make the API request.
   try {
     $response = $client->request('GET', $apiUrl, ['ssl_key' => $sslOptions]);
     $statusCode = $response->getStatusCode();
     $content = $response->getBody()->getContents();
 
   } catch (Exception $e) {
-    // Handle any errors that occur during the request
-    // ...
+    // Handle any errors that occur during the request.
   }
 
-  $full_data = json_decode($content,true);
+  $full_data = json_decode($content, TRUE);
 
   // Process the data so that we can save it in a format we need.
   $stations = $full_data['records'];
   $final_stations = [];
-  foreach($stations as $key => $station) {
+  foreach ($stations as $key => $station) {
     // Loop through attributes.
-    foreach ($station['attributes'] as $attribute ) {
+    foreach ($station['attributes'] as $attribute) {
       // Add attribute name as the key.
       $station[$attribute['name']] = $attribute['value'];
     }
@@ -53,7 +54,8 @@ function getAPIData() {
     $final_stations['records'][$key] = $station;
   }
   $file_save_path_stream_directory = 'public://';
-  \Drupal::service('file_system')->prepareDirectory($file_save_path_stream_directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
+  \Drupal::service('file_system')
+    ->prepareDirectory($file_save_path_stream_directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
   $fileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
   // Save the processed JSON file.
   $file = file_save_data(json_encode($final_stations), $fileLocation, FileSystemInterface::EXISTS_REPLACE);
