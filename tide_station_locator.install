@@ -11,8 +11,8 @@ use Drupal\redirect\Entity\Redirect;
  * Importing redirects from the redirect spreadsheet.
  */
 function tide_station_locator_update_9001() {
-  if (file_exists(dirname(DRUPAL_ROOT) . '/app/modules/contrib/tide_station_locator/assets/redirects.php')) {
-    include dirname(DRUPAL_ROOT) . '/app/modules/contrib/tide_station_locator/assets/redirects.php';
+  if (file_exists(dirname(DRUPAL_ROOT) . '/docroot/modules/contrib/tide_station_locator/assets/redirects.php')) {
+    include dirname(DRUPAL_ROOT) . '/docroot/modules/contrib/tide_station_locator/assets/redirects.php';
 
     if (is_array($content_vicpol)) {
       foreach ($content_vicpol as $from => $to) {
