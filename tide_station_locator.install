@@ -10,13 +10,13 @@ use Drupal\redirect\Entity\Redirect;
 /**
  * Importing redirects from the redirect spreadsheet.
  */
-function tide_station_locator_core_update_9001() {
+function tide_station_locator_update_9001() {
   if (file_exists(dirname(DRUPAL_ROOT) . '/app/modules/contrib/tide_station_locator/assets/redirects.php')) {
     include dirname(DRUPAL_ROOT) . '/app/modules/contrib/tide_station_locator/assets/redirects.php';
 
     if (is_array($content_vicpol)) {
       foreach ($content_vicpol as $from => $to) {
-        _tide_station_locator_core_update_9001_add_redirects($from, $to);
+        _tide_station_locator_update_9001_add_redirects($from, $to);
       }
     }
   }
@@ -25,7 +25,7 @@ function tide_station_locator_core_update_9001() {
 /**
  *  Helper method to find the destination URL.
  */
-function _tide_station_locator_core_update_9001_verify_redirect_to_address($to) {
+function _tide_station_locator_update_9001_verify_redirect_to_address($to) {
   if ((substr($to, 0, 4) == 'http')) {
     return $to;
   }
@@ -40,8 +40,8 @@ function _tide_station_locator_core_update_9001_verify_redirect_to_address($to) 
 /**
  *  Helper method to create the redirect.
  */
-function _tide_station_locator_core_update_9001_add_redirects($from, $to) {
-  _tide_station_locator_core_update_9001_verify_redirect_to_address($to);
+function _tide_station_locator_update_9001_add_redirects($from, $to) {
+  _tide_station_locator_update_9001_verify_redirect_to_address($to);
   if ($from != '' && $to != '') {
     $redirectrepo = redirect_repository();
     if ($redirectrepo->findBySourcePath($from)) {
