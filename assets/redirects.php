@@ -9,7 +9,7 @@ $content_vicpol = [
   'https://www.police.vic.gov.au/location/?q=alexandra' => '/site-4/alexandra-police-station',
   'https://www.police.vic.gov.au/location/?q=altona' => '/site-4/altona-police-station',
   'https://www.police.vic.gov.au/location/?q=angelsea' => '/site-4/anglesea-police-station',
-  'https://www.police.vic.gov.au/location/?q=apollo-bay' =>	'/site-4/apollo-bay-police-station',
+  'https://www.police.vic.gov.au/location/?q=apollo-bay' => '/site-4/apollo-bay-police-station',
   'https://www.police.vic.gov.au/location/?q=apsley' => '/site-4/apsley-police-station',
   'https://www.police.vic.gov.au/location/?q=ararat' => '/site-4/ararat-police-station',
   'https://www.police.vic.gov.au/location/?q=avoca' => '/site-4/avoca-police-station',
