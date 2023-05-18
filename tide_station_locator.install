@@ -23,7 +23,7 @@ function tide_station_locator_update_9001() {
 }
 
 /**
- *  Helper method to find the destination URL.
+ * Helper method to find the destination URL.
  */
 function _tide_station_locator_update_9001_verify_redirect_to_address($to) {
   if ((substr($to, 0, 4) == 'http')) {
@@ -38,7 +38,7 @@ function _tide_station_locator_update_9001_verify_redirect_to_address($to) {
 }
 
 /**
- *  Helper method to create the redirect.
+ * Helper method to create the redirect.
  */
 function _tide_station_locator_update_9001_add_redirects($from, $to) {
   _tide_station_locator_update_9001_verify_redirect_to_address($to);
