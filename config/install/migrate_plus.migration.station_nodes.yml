@@ -192,6 +192,12 @@ process:
     plugin: default_value
     default_value: station
   title: title
+  field_node_primary_site:
+    plugin: default_value
+    default_value: 4
+  field_node_site:
+    plugin: default_value
+    default_value: 4
   field_street_address: field_street_address
   field_suburb: field_suburb
   field_state:
