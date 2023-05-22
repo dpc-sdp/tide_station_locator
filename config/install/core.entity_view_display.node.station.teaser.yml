@@ -20,8 +20,6 @@ dependencies:
     - field.field.node.station.field_prosecution_unit_fax
     - field.field.node.station.field_prosecution_unit_notice
     - field.field.node.station.field_prosecution_unit_phone
-    - field.field.node.station.field_serviced_postcodes
-    - field.field.node.station.field_serviced_suburbs
     - field.field.node.station.field_specialty_services_or_faci
     - field.field.node.station.field_state
     - field.field.node.station.field_station_code
@@ -63,8 +61,6 @@ hidden:
   field_prosecution_unit_fax: true
   field_prosecution_unit_notice: true
   field_prosecution_unit_phone: true
-  field_serviced_postcodes: true
-  field_serviced_suburbs: true
   field_specialty_services_or_faci: true
   field_state: true
   field_station_code: true
