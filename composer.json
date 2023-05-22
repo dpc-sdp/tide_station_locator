@@ -21,7 +21,7 @@
     "drupal/search_api_location": "^1.0@alpha",
     "guzzlehttp/psr7": "^1.9",
     "php-http/message": "^1",
-    "php-http/message-factory": "^1.1"
+    "php-http/message-factory": "^1"
   },
   "type": "drupal-module"
 }
