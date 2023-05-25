@@ -7,24 +7,23 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use Drupal\simple_oauth\Client\ClientConfigFactory;
 use Drupal\Core\File\FileSystemInterface;
 
 /**
- *
+ * This function is for accessing the API.
  */
-function tide_station_locator_getAPIData() {
+function tide_station_locator_get_api_data() {
 
-  // Path to your .crt and .key files
+  // Path to your .crt and .key files.
   $certPath = '/app/keys/non-prod-client.cer';
   $keyPath = '/app/keys/non-prod-key.key';
-  // Path to the CA bundle file
+  // Path to the CA bundle file.
   $caBundlePath = '/app/keys/cacert.pem';
 
   require "/app/keys/variables.php";
 
   $client = new Client([
-    'base_uri' => $apiUrl, // Replace with your API endpoint
+    'base_uri' => $apiUrl,
     'curl' => [
       CURLOPT_SSLCERT => $certPath,
       CURLOPT_SSLKEY => $keyPath,
@@ -32,7 +31,7 @@ function tide_station_locator_getAPIData() {
     ],
   ]);
 
-  $accessToken = null;
+  $accessToken = NULL;
   try {
     $response = $client->post($tokenEndpoint, [
       RequestOptions::FORM_PARAMS => [
@@ -42,10 +41,11 @@ function tide_station_locator_getAPIData() {
       ],
     ]);
 
-    $data = json_decode($response->getBody()->getContents(), true);
+    $data = json_decode($response->getBody()->getContents(), TRUE);
     $accessToken = $data['access_token'];
   } catch (\Exception $e) {
-    // Handle token retrieval error
+
+    // Handle token retrieval error.
   }
 
   $payload = [
@@ -54,14 +54,14 @@ function tide_station_locator_getAPIData() {
       [
         'name' => 'ACTIVE',
         'value' => ['Y'],
-        'caseSensitive' => false,
+        'caseSensitive' => FALSE,
       ],
     ],
     'startIndex' => 1,
     'recordCount' => 5,
   ];
 
-  // Make an API request
+  // Make an API request.
   $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
     RequestOptions::HEADERS => [
       'Authorization' => 'Bearer ' . $accessToken,
@@ -73,7 +73,7 @@ function tide_station_locator_getAPIData() {
     RequestOptions::JSON => $payload,
   ]);
 
-  // Get the response body
+  // Get the response body.
   $body = $response->getBody()->getContents();
 
   $full_data = json_decode($body, TRUE);
@@ -91,13 +91,10 @@ function tide_station_locator_getAPIData() {
     $final_stations['records'][$key] = $station;
   }
 
-//  print_r($final_stations); die;
   $file_save_path_stream_directory = 'public://';
   \Drupal::service('file_system')
     ->prepareDirectory($file_save_path_stream_directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
   $fileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
   // Save the processed JSON file.
   $file = file_save_data(json_encode($final_stations), $fileLocation, FileSystemInterface::EXISTS_REPLACE);
-
-
 }
