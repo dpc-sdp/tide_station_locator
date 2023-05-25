@@ -22,7 +22,7 @@ function tide_station_locator_get_api_data() {
 
   // Initiating variables to escape phpcs errors.
   $apiUrl = '';
-  // OAuth configuration
+  // OAuth configuration variables.
   $tokenEndpoint = '';
   $clientId = '';
   $clientSecret = '';
