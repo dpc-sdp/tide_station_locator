@@ -20,6 +20,14 @@ function tide_station_locator_get_api_data() {
   // Path to the CA bundle file.
   $caBundlePath = '/app/keys/cacert.pem';
 
+  // Initiating variables to escape phpcs errors.
+  $apiUrl = '';
+  // OAuth configuration
+  $tokenEndpoint = '';
+  $clientId = '';
+  $clientSecret = '';
+  $rdm_auth = '';
+
   require "/app/keys/variables.php";
 
   $client = new Client([
