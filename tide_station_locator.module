@@ -6,40 +6,101 @@
  */
 
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use Drupal\simple_oauth\Client\ClientConfigFactory;
+use Drupal\Core\File\FileSystemInterface;
 
 /**
  *
  */
 function tide_station_locator_getAPIData() {
 
-  // Path to the SSL certificates.
-  $rootCertPath = '/app/keys/non-prod-root.cer';
-  $clientCertPath = '/app/keys/non-prod-client.cer';
-  $clientKeyPath = '/app/keys/non-prod-key.key';
+  // Path to your .crt and .key files
+  $certPath = '/app/keys/non-prod-client.cer';
+  $keyPath = '/app/keys/non-prod-key.key';
+
+  // OAuth configuration
+//  $clientConfigFactory = \Drupal::service('simple_oauth.client_config.factory');
+//  $clientConfig = $clientConfigFactory->get('YOUR_CLIENT_ID');
+//  $tokenEndpoint = $clientConfig->getTokenEndpoint();
+  $tokenEndpoint = 'https://login.microsoftonline.com/59aab5f9-7fdb-4dfd-89dd-0f4a2651f587/oauth2/token';
+  $clientId = 'e7681e3b-c60d-4c58-9ff1-d0c4a6436444';
+  $clientSecret = 'Dd18Q~5d5U6hoc1sUGO2Wmm4MqFdfQ4uy72Ikc~P';
+  $redirectUri = 'YOUR_REDIRECT_URI';
+  $scope = 'YOUR_SCOPE';
 
   // API endpoint URL.
-  $apiUrl = 'https://vicpol-itd-sit.gateway.nonprod.api.vic.gov.au/technology/rdm/3.0.0';
+  $apiUrl = "https://vicpol-itd-sit.gateway.nonprod.api.vic.gov.au/"; //technology/rdm/3.0.0/STATION_LOCATION/search 'https://vicpol-itd-sit.gateway.nonprod.api.vic.gov.au/';
+  // Path to the CA bundle file
+  $caBundlePath = '/app/keys/cacert.pem';
 
-  // Create a Guzzle HTTP client instance.
-  $client = new Client();
 
-  // Set the SSL certificate options.
-  $sslOptions = [
-    'verify' => $rootCertPath,
-    'cert' => [$clientCertPath, $clientKeyPath],
-  ];
+  $client = new Client([
+    'base_uri' => $apiUrl, // Replace with your API endpoint
+    'curl' => [
+      CURLOPT_SSLCERT => $certPath,
+      CURLOPT_SSLKEY => $keyPath,
+      CURLOPT_CAINFO => $caBundlePath,
+//      CURLOPT_SSL_VERIFYHOST => false,
+//      CURLOPT_SSL_VERIFYPEER => false,
+    ],
+  ]);
+  // Get the access token
+//  $accessToken = NULL;
+//  try {
+//    $accessToken = $clientConfig->getAccessToken($clientId, $clientSecret);
+//  } catch (\Exception $e) {
+//    // Handle token retrieval error
+//    // ...
+//  }
 
-  // Make the API request.
+  $accessToken = null;
   try {
-    $response = $client->request('GET', $apiUrl, ['ssl_key' => $sslOptions]);
-    $statusCode = $response->getStatusCode();
-    $content = $response->getBody()->getContents();
+    $response = $client->post($tokenEndpoint, [
+      RequestOptions::FORM_PARAMS => [
+        'grant_type' => 'client_credentials',
+        'client_id' => $clientId,
+        'client_secret' => $clientSecret,
+        'redirect_uri' => $redirectUri,
+      ],
+    ]);
 
-  } catch (Exception $e) {
-    // Handle any errors that occur during the request.
+    $data = json_decode($response->getBody()->getContents(), true);
+    $accessToken = $data['access_token'];
+  } catch (\Exception $e) {
+    // Handle token retrieval error
+    // ...
   }
 
-  $full_data = json_decode($content, TRUE);
+  $payload = [
+    'name' => 'STATION_LOCATION',
+    'attributes' => [
+      [
+        'name' => 'ACTIVE',
+        'value' => ['Y'],
+        'caseSensitive' => false,
+      ],
+    ],
+    'startIndex' => 1,
+    'recordCount' => 5,
+  ];
+
+  // Make an API request
+  $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
+    RequestOptions::HEADERS => [
+      'Authorization' => 'Bearer ' . $accessToken,
+      'rdmAuthorization' => 'Basic c2Fsc2FkaWdpdGFsOlNhbHNhQDI0Njg6VmljdG9yaWEgUG9saWNl',
+      'Accept' => '*/*',
+      'Content-Type' => 'application/json',
+      'Accept-Encoding' => 'gzip, deflate, br',
+    ],
+    RequestOptions::JSON => $payload,
+  ]);
+
+  // Get the response body
+  $body = $response->getBody()->getContents();
+
+  $full_data = json_decode($body, TRUE);
 
   // Process the data so that we can save it in a format we need.
   $stations = $full_data['records'];
@@ -53,6 +114,8 @@ function tide_station_locator_getAPIData() {
     unset ($station['attributes']);
     $final_stations['records'][$key] = $station;
   }
+
+//  print_r($final_stations); die;
   $file_save_path_stream_directory = 'public://';
   \Drupal::service('file_system')
     ->prepareDirectory($file_save_path_stream_directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
