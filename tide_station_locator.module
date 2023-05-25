@@ -43,7 +43,8 @@ function tide_station_locator_get_api_data() {
 
     $data = json_decode($response->getBody()->getContents(), TRUE);
     $accessToken = $data['access_token'];
-  } catch (\Exception $e) {
+  }
+  catch (\Exception $e) {
 
     // Handle token retrieval error.
   }
@@ -87,7 +88,7 @@ function tide_station_locator_get_api_data() {
       // Add attribute name as the key.
       $station[$attribute['name']] = $attribute['value'];
     }
-    unset ($station['attributes']);
+    unset($station['attributes']);
     $final_stations['records'][$key] = $station;
   }
 
