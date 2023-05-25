@@ -18,22 +18,10 @@ function tide_station_locator_getAPIData() {
   // Path to your .crt and .key files
   $certPath = '/app/keys/non-prod-client.cer';
   $keyPath = '/app/keys/non-prod-key.key';
-
-  // OAuth configuration
-//  $clientConfigFactory = \Drupal::service('simple_oauth.client_config.factory');
-//  $clientConfig = $clientConfigFactory->get('YOUR_CLIENT_ID');
-//  $tokenEndpoint = $clientConfig->getTokenEndpoint();
-  $tokenEndpoint = 'https://login.microsoftonline.com/59aab5f9-7fdb-4dfd-89dd-0f4a2651f587/oauth2/token';
-  $clientId = 'e7681e3b-c60d-4c58-9ff1-d0c4a6436444';
-  $clientSecret = 'Dd18Q~5d5U6hoc1sUGO2Wmm4MqFdfQ4uy72Ikc~P';
-  $redirectUri = 'YOUR_REDIRECT_URI';
-  $scope = 'YOUR_SCOPE';
-
-  // API endpoint URL.
-  $apiUrl = "https://vicpol-itd-sit.gateway.nonprod.api.vic.gov.au/"; //technology/rdm/3.0.0/STATION_LOCATION/search 'https://vicpol-itd-sit.gateway.nonprod.api.vic.gov.au/';
   // Path to the CA bundle file
   $caBundlePath = '/app/keys/cacert.pem';
 
+  require "/app/keys/variables.php";
 
   $client = new Client([
     'base_uri' => $apiUrl, // Replace with your API endpoint
@@ -41,18 +29,8 @@ function tide_station_locator_getAPIData() {
       CURLOPT_SSLCERT => $certPath,
       CURLOPT_SSLKEY => $keyPath,
       CURLOPT_CAINFO => $caBundlePath,
-//      CURLOPT_SSL_VERIFYHOST => false,
-//      CURLOPT_SSL_VERIFYPEER => false,
     ],
   ]);
-  // Get the access token
-//  $accessToken = NULL;
-//  try {
-//    $accessToken = $clientConfig->getAccessToken($clientId, $clientSecret);
-//  } catch (\Exception $e) {
-//    // Handle token retrieval error
-//    // ...
-//  }
 
   $accessToken = null;
   try {
@@ -61,7 +39,6 @@ function tide_station_locator_getAPIData() {
         'grant_type' => 'client_credentials',
         'client_id' => $clientId,
         'client_secret' => $clientSecret,
-        'redirect_uri' => $redirectUri,
       ],
     ]);
 
@@ -69,7 +46,6 @@ function tide_station_locator_getAPIData() {
     $accessToken = $data['access_token'];
   } catch (\Exception $e) {
     // Handle token retrieval error
-    // ...
   }
 
   $payload = [
