@@ -5,105 +5,89 @@
  * Tide Station Locator module functionality.
  */
 
-use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
-use Drupal\Core\File\FileSystemInterface;
+use Drupal\migrate_tools\MigrateExecutable;
+use Drupal\migrate\MigrateMessage;
 
 /**
  * This function is for accessing the API.
  */
-function tide_station_locator_get_api_data() {
+function tide_station_locator_get_api_data($delta = FALSE) {
+  $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
 
-  // Path to your .crt and .key files.
-  $certPath = '/app/keys/non-prod-client.cer';
-  $keyPath = '/app/keys/non-prod-key.key';
-  // Path to the CA bundle file.
-  $caBundlePath = '/app/keys/cacert.pem';
+  // Connect API.
+  $result = $station_api_connector->connect_api();
 
-  // Initiating variables to escape phpcs errors.
-  $apiUrl = '';
-  // OAuth configuration variables.
-  $tokenEndpoint = '';
-  $clientId = '';
-  $clientSecret = '';
-  $rdm_auth = '';
+  // get API response.
+  $full_data = $station_api_connector->get_api_response($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta);
 
-  require "/app/keys/variables.php";
+  if ($full_data && !empty($full_data['records'])) {
+    // Get formatted data and save the file.
+    $station_api_connector->get_formatted_station_response($full_data['records']);
+  }
+}
 
-  $client = new Client([
-    'base_uri' => $apiUrl,
-    'curl' => [
-      CURLOPT_SSLCERT => $certPath,
-      CURLOPT_SSLKEY => $keyPath,
-      CURLOPT_CAINFO => $caBundlePath,
-    ],
-  ]);
+/**
+ * Function to migrate stations.
+ */
+function tide_station_locator_migrate_stations($options) {
 
-  $accessToken = NULL;
   try {
-    $response = $client->post($tokenEndpoint, [
-      RequestOptions::FORM_PARAMS => [
-        'grant_type' => 'client_credentials',
-        'client_id' => $clientId,
-        'client_secret' => $clientSecret,
-      ],
-    ]);
-
-    $data = json_decode($response->getBody()->getContents(), TRUE);
-    $accessToken = $data['access_token'];
+    // Connect to API and download the latest station JSON and migrate.
+    tide_station_locator_get_api_data($options['delta']);
+    _tide_station_locator_migrate('station_nodes');
   }
-  catch (\Exception $e) {
-
-    // Handle token retrieval error.
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
   }
+}
 
-  $payload = [
-    'name' => 'STATION_LOCATION',
-    'attributes' => [
-      [
-        'name' => 'ACTIVE',
-        'value' => ['Y'],
-        'caseSensitive' => FALSE,
-      ],
-    ],
-    'startIndex' => 1,
-    'recordCount' => 5,
-  ];
-
-  // Make an API request.
-  $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
-    RequestOptions::HEADERS => [
-      'Authorization' => 'Bearer ' . $accessToken,
-      'rdmAuthorization' => $rdm_auth,
-      'Accept' => '*/*',
-      'Content-Type' => 'application/json',
-      'Accept-Encoding' => 'gzip, deflate, br',
-    ],
-    RequestOptions::JSON => $payload,
-  ]);
-
-  // Get the response body.
-  $body = $response->getBody()->getContents();
-
-  $full_data = json_decode($body, TRUE);
-
-  // Process the data so that we can save it in a format we need.
-  $stations = $full_data['records'];
-  $final_stations = [];
-  foreach ($stations as $key => $station) {
-    // Loop through attributes.
-    foreach ($station['attributes'] as $attribute) {
-      // Add attribute name as the key.
-      $station[$attribute['name']] = $attribute['value'];
-    }
-    unset($station['attributes']);
-    $final_stations['records'][$key] = $station;
+/**
+ * Function to migrate state terms.
+ */
+function tide_station_locator_migrate_state() {
+  try {
+    _tide_station_locator_migrate('station_state_terms');
   }
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
+}
 
-  $file_save_path_stream_directory = 'public://';
-  \Drupal::service('file_system')
-    ->prepareDirectory($file_save_path_stream_directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
-  $fileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
-  // Save the processed JSON file.
-  $file = file_save_data(json_encode($final_stations), $fileLocation, FileSystemInterface::EXISTS_REPLACE);
+/**
+ * Function to migrate speciality terms.
+ */
+function tide_station_locator_migrate_speciality() {
+  try {
+    _tide_station_locator_migrate('station_speciality_services_facility_terms');
+  }
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
+}
+
+/**
+ * Function to migrate accessibility terms.
+ */
+function tide_station_locator_migrate_accessibility() {
+  try {
+    _tide_station_locator_migrate('station_accessibility_terms');
+  }
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
+}
+
+/**
+ * Helper function to run the migration.
+ */
+function _tide_station_locator_migrate($migration_id) {
+  $migration = \Drupal::service('plugin.manager.migration')
+    ->createInstance($migration_id);
+  $migration->getIdMap()->prepareUpdate();
+  $executable = new MigrateExecutable($migration, new MigrateMessage());
+  $executable->import();
 }
