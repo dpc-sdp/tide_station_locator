@@ -4,6 +4,7 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
+        "dpc-sdp/tide_core": "^3",
         "dpc-sdp/tide_landing_page": "^3",
         "dpc-sdp/tide_site": "^3",
         "drupal/geofield": "^1.53",
