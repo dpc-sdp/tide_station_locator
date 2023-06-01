@@ -11,14 +11,14 @@ use Drupal\migrate\MigrateMessage;
 /**
  * This function is for accessing the API.
  */
-function tide_station_locator_get_api_data($delta = FALSE) {
+function tide_station_locator_get_api_data($delta = FALSE, $recordCount) {
   $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
 
   // Connect API.
   $result = $station_api_connector->connect_api();
 
   // get API response.
-  $full_data = $station_api_connector->get_api_response($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta);
+  $full_data = $station_api_connector->get_api_response($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta, $recordCount);
 
   if ($full_data && !empty($full_data['records'])) {
     // Get formatted data and save the file.
@@ -33,47 +33,8 @@ function tide_station_locator_migrate_stations($options) {
 
   try {
     // Connect to API and download the latest station JSON and migrate.
-    tide_station_locator_get_api_data($options['delta']);
+    tide_station_locator_get_api_data($options['delta'], $options['recordCount']);
     _tide_station_locator_migrate('station_nodes');
-  }
-  catch (Exception $e) {
-    // Something went wrong somewhere.
-    watchdog_exception('tide_station_locator', $e);
-  }
-}
-
-/**
- * Function to migrate state terms.
- */
-function tide_station_locator_migrate_state() {
-  try {
-    _tide_station_locator_migrate('station_state_terms');
-  }
-  catch (Exception $e) {
-    // Something went wrong somewhere.
-    watchdog_exception('tide_station_locator', $e);
-  }
-}
-
-/**
- * Function to migrate speciality terms.
- */
-function tide_station_locator_migrate_speciality() {
-  try {
-    _tide_station_locator_migrate('station_speciality_services_facility_terms');
-  }
-  catch (Exception $e) {
-    // Something went wrong somewhere.
-    watchdog_exception('tide_station_locator', $e);
-  }
-}
-
-/**
- * Function to migrate accessibility terms.
- */
-function tide_station_locator_migrate_accessibility() {
-  try {
-    _tide_station_locator_migrate('station_accessibility_terms');
   }
   catch (Exception $e) {
     // Something went wrong somewhere.

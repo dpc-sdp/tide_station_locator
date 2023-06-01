@@ -124,7 +124,7 @@ class StationAPIConnector {
    * @return mixed
    *   Full data.
    */
-  public function get_api_response($client, $accessToken, $rdm_auth, $delta) {
+  public function get_api_response($client, $accessToken, $rdm_auth, $delta, $recordCount) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
@@ -135,7 +135,7 @@ class StationAPIConnector {
           'Content-Type' => 'application/json',
           'Accept-Encoding' => 'gzip, deflate, br',
         ],
-        RequestOptions::JSON => $this->api_query_payload($delta),
+        RequestOptions::JSON => $this->api_query_payload($delta, $recordCount),
       ]);
 
       if ($response->getStatusCode() == '200') {
@@ -167,18 +167,19 @@ class StationAPIConnector {
    * @return array
    *   Payload.
    */
-  public function api_query_payload($delta = FALSE) {
+  public function api_query_payload($delta = FALSE, $recordCount) {
     // Get the 'last_api_access'.
     $config = $this->configFactory->getEditable('tide_station_locator.settings');
+    $last_api_access = $config->get('last_api_access');
 
-    if ($delta && !empty($config->get('last_api_access'))) {
+    if ($delta && !empty($last_api_access)) {
       $payload = [
         'name' => 'STATION_LOCATION',
         "productKey" => -1,
         'attributes' => [
           [
             'name' => 'RECORD_MODDATE',
-            'value' => [$config->get('last_api_access')],
+            'value' => [$last_api_access],
             'operator' => 'gt',
             'caseSensitive' => FALSE,
           ],
@@ -186,6 +187,10 @@ class StationAPIConnector {
       ];
     }
     else {
+      // If the value is set then add it to payload.
+      if (!empty($recordCount)) {
+        $payload['recordCount'] = $recordCount;
+      }
       $payload = [
         'name' => 'STATION_LOCATION',
         'attributes' => [
@@ -196,26 +201,10 @@ class StationAPIConnector {
           ],
         ],
         'startIndex' => 1,
-        'recordCount' => 5,
       ];
     }
 
     return $payload;
-  }
-
-  /**
-   * Helper method to get the 'last_access_api'.
-   *
-   * @return string
-   *   Config value last_api_access.
-   */
-  public function get_last_access_api() {
-    $config = $this->configFactory->getEditable('tide_station_locator.settings');
-    if (empty($config->get('last_api_access'))) {
-      $config->set('last_api_access', date('Y-m-d h:i:s'))->save();
-    }
-
-    return $config->get('last_api_access');
   }
 
   /**
