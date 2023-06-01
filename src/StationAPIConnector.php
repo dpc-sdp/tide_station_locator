@@ -59,9 +59,11 @@ class StationAPIConnector {
    */
   public function connectApi() {
     try {
+      // Get the folder.
+      $folder = (getenv('LAGOON_ENVIRONMENT_TYPE') !== 'production') ? 'nonprod' : 'prod';
       // Path to your .crt and .key files.
-      $certPath = '/app/keys/nonprod/api.crt';
-      $keyPath = '/app/keys/nonprod/api.pem';
+      $certPath = '/app/keys/' . $folder . '/api.crt';
+      $keyPath = '/app/keys/' . $folder . '/api.pem';
       // Path to the CA bundle file.
       $caBundlePath = '/app/keys/cacert.pem';
 
