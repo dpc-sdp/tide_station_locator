@@ -60,20 +60,19 @@ class StationAPIConnector {
   public function connect_api() {
     try {
       // Path to your .crt and .key files.
-      $certPath = '/app/keys/non-prod-client.cer';
-      $keyPath = '/app/keys/non-prod-key.key';
+      $certPath = '/app/keys/non-prod/api.crt';
+      $keyPath = '/app/keys/non-prod/api.pem';
       // Path to the CA bundle file.
       $caBundlePath = '/app/keys/cacert.pem';
 
       // Initiating variables to escape phpcs errors.
-      $apiUrl = '';
-      // OAuth configuration variables.
-      $tokenEndpoint = '';
-      $clientId = '';
-      $clientSecret = '';
-      $rdm_auth = '';
+      $apiUrl = getenv('API_URL');
 
-      require "/app/keys/variables.php";
+      // OAuth configuration variables.
+      $tokenEndpoint = getenv('TOKEN_END_POINT');
+      $clientId = getenv('CLIENT_ID');
+      $clientSecret = getenv('CLIENT_SECRET');
+      $rdm_auth = getenv('RDM_AUTH');
 
       $client = new Client([
         'base_uri' => $apiUrl,
