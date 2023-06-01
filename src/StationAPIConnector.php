@@ -268,34 +268,34 @@ class StationAPIConnector {
     // Save the state csv.
     $stateFileLocation = $file_save_path_stream_directory . '/' . 'state.csv';
     $stateFile = fopen($stateFileLocation, 'w');
-    array_unshift($states,'term_name');
-    // Write data in the CSV format
+    array_unshift($states, 'term_name');
+    // Write data in the CSV format.
     foreach (array_unique($states) as $state) {
       fputcsv($stateFile, [$state]);
     }
-    //close the stream
+    // Close the stream.
     fclose($stateFile);
 
     // Save the accessibility csv.
     $accessibilityFileLocation = $file_save_path_stream_directory . '/' . 'accessibility.csv';
     $accessibilityFile = fopen($accessibilityFileLocation, 'w');
-    array_unshift($accessibility_terms,'term_name');
-    // Write data in the CSV format
+    array_unshift($accessibility_terms, 'term_name');
+    // Write data in the CSV format.
     foreach (array_unique($accessibility_terms) as $accessibility) {
       fputcsv($accessibilityFile, [$accessibility]);
     }
-    //close the stream
+    // Close the stream.
     fclose($accessibilityFile);
 
     // Save the specialityservicesandfacility csv.
     $specialityFileLocation = $file_save_path_stream_directory . '/' . 'specialityservicesandfacility.csv';
     $specialityFile = fopen($specialityFileLocation, 'w');
-    array_unshift($speciality_terms,'term_name');
-    // Write data in the CSV format
+    array_unshift($speciality_terms, 'term_name');
+    // Write data in the CSV format.
     foreach (array_unique($speciality_terms) as $speciality) {
       fputcsv($specialityFile, [$speciality]);
     }
-    //close the stream
+    // Close the stream.
     fclose($specialityFile);
   }
 

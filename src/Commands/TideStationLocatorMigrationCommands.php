@@ -26,7 +26,11 @@ class TideStationLocatorMigrationCommands extends DrushCommands {
    * @option execute-dependencies
    *   Optional execute the migration along with the dependencies.
    */
-  public function importStations(array $options = ['delta' => FALSE, 'execute-dependencies' => TRUE]) {
+  public function importStations(array
+  $options = [
+    'delta' => FALSE,
+    'execute-dependencies' => TRUE,
+  ]) {
     tide_station_locator_migrate_stations($options);
   }
 
