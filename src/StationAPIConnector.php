@@ -57,7 +57,7 @@ class StationAPIConnector {
    * @return mixed
    *   Client Id, Access token, Rdm auth values.
    */
-  public function connect_api() {
+  public function connectApi() {
     try {
       // Path to your .crt and .key files.
       $certPath = '/app/keys/non-prod/api.crt';
@@ -99,7 +99,7 @@ class StationAPIConnector {
       return [
         'clientId' => $client,
         'accessToken' => $accessToken,
-        'rdm_auth' => $rdm_auth
+        'rdm_auth' => $rdm_auth,
       ];
     }
     catch (\Exception $e) {
@@ -124,7 +124,7 @@ class StationAPIConnector {
    * @return mixed
    *   Full data.
    */
-  public function get_api_response($client, $accessToken, $rdm_auth, $delta) {
+  public function getApiResponse($client, $accessToken, $rdm_auth, $delta) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
@@ -135,7 +135,7 @@ class StationAPIConnector {
           'Content-Type' => 'application/json',
           'Accept-Encoding' => 'gzip, deflate, br',
         ],
-        RequestOptions::JSON => $this->api_query_payload($delta),
+        RequestOptions::JSON => $this->apiQueryPayload($delta),
       ]);
 
       if ($response->getStatusCode() == '200') {
@@ -170,7 +170,7 @@ class StationAPIConnector {
    * @return array
    *   Payload.
    */
-  public function api_query_payload($delta = FALSE) {
+  public function apiQueryPayload($delta = FALSE) {
     // Get the 'last_api_access'.
     $config = $this->configFactory->getEditable('tide_station_locator.settings');
     $last_api_access = $config->get('last_api_access');
@@ -186,7 +186,7 @@ class StationAPIConnector {
             'operator' => 'gt',
             'caseSensitive' => FALSE,
           ],
-        ]
+        ],
       ];
     }
     else {
@@ -209,12 +209,12 @@ class StationAPIConnector {
   /**
    * Helper method to format and save the JSON file.
    *
-   * @param $stations
+   * @param array $stations
    *   Records array.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function get_formatted_station_response($stations) {
+  public function getFormattedStationResponse($stations) {
     // Process the data so that we can save it in a format we need.
     $final_stations = [];
     foreach ($stations as $key => $station) {
@@ -229,9 +229,10 @@ class StationAPIConnector {
 
     $file_save_path_stream_directory = 'public://';
     $this->fileSystem->prepareDirectory($file_save_path_stream_directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
-    $fileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
-    // Save the processed JSON file.
-    $file = file_save_data(json_encode($final_stations), $fileLocation, FileSystemInterface::EXISTS_REPLACE);
+
+    // Save the stations JSON.
+    $stationsFileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
+    $stationsFile = file_save_data(json_encode($final_stations), $stationsFileLocation, FileSystemInterface::EXISTS_REPLACE);
   }
 
 }
