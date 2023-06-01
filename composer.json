@@ -4,9 +4,8 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
-        "dpc-sdp/tide_core": "^3.2.8",
-        "dpc-sdp/tide_landing_page": "^3.0.14",
-        "dpc-sdp/tide_site": "^3.0.14",
+        "dpc-sdp/tide_landing_page": "^3",
+        "dpc-sdp/tide_site": "^3",
         "drupal/geofield": "^1.53",
         "drupal/search_api_location": "^1.0@alpha",
         "drupal/migrate_source_csv": "^3.5",
@@ -22,21 +21,7 @@
     "repositories": {
         "drupal": {
             "type": "composer",
-            "url": "https://packages.drupal.org/9",
-            "canonical": false
-        },
-        "drupal/entity_embed": {
-            "type": "git",
-            "url": "https://git.drupalcode.org/issue/entity_embed-3272732.git"
-        },
-        "drupal/video_embed_field": {
-            "type": "vcs",
-            "no-api": true,
-            "url": "https://git.drupalcode.org/issue/video_embed_field-3311063.git"
-        },
-        "asset-packagist": {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
+            "url": "https://packages.drupal.org/8"
         }
     }
 }
