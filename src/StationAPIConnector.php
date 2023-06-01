@@ -60,8 +60,8 @@ class StationAPIConnector {
   public function connectApi() {
     try {
       // Path to your .crt and .key files.
-      $certPath = '/app/keys/non-prod/api.crt';
-      $keyPath = '/app/keys/non-prod/api.pem';
+      $certPath = '/app/keys/nonprod/api.crt';
+      $keyPath = '/app/keys/nonprod/api.pem';
       // Path to the CA bundle file.
       $caBundlePath = '/app/keys/cacert.pem';
 
