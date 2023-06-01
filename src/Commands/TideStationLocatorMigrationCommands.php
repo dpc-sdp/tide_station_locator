@@ -28,9 +28,10 @@ class TideStationLocatorMigrationCommands extends DrushCommands {
    */
   public function importStations(
     array $options = [
-    'delta' => FALSE,
-    'execute-dependencies' => TRUE,
-  ]) {
+      'delta' => FALSE,
+      'execute-dependencies' => TRUE,
+      ]
+  ) {
     tide_station_locator_migrate_stations($options);
   }
 
