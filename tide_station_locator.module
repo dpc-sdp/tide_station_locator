@@ -33,7 +33,7 @@ function tide_station_locator_migrate_stations($options) {
 
   try {
     // Connect to API and download the latest station JSON and migrate.
-    tide_station_locator_get_api_data($options['delta'], $options['recordCount']);
+    tide_station_locator_get_api_data($options['delta']);
     _tide_station_locator_migrate('station_nodes');
   }
   catch (Exception $e) {
