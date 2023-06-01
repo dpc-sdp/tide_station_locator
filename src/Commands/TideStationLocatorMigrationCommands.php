@@ -24,7 +24,7 @@ class TideStationLocatorMigrationCommands extends DrushCommands {
    * @option delta
    *   Optional delta if we only want to migrate updated stations.
    */
-  public function importStations(array $options = ['delta' => FALSE, 'recordCount' => '']) {
+  public function importStations(array $options = ['delta' => FALSE]) {
     tide_station_locator_migrate_stations($options);
   }
 

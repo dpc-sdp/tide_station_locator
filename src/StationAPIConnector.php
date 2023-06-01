@@ -124,7 +124,7 @@ class StationAPIConnector {
    * @return mixed
    *   Full data.
    */
-  public function get_api_response($client, $accessToken, $rdm_auth, $delta, $recordCount) {
+  public function get_api_response($client, $accessToken, $rdm_auth, $delta) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
@@ -135,7 +135,7 @@ class StationAPIConnector {
           'Content-Type' => 'application/json',
           'Accept-Encoding' => 'gzip, deflate, br',
         ],
-        RequestOptions::JSON => $this->api_query_payload($delta, $recordCount),
+        RequestOptions::JSON => $this->api_query_payload($delta),
       ]);
 
       if ($response->getStatusCode() == '200') {
@@ -164,10 +164,13 @@ class StationAPIConnector {
   /**
    * Helper method to get the Query Payload.
    *
+   * @param bool $delta
+   *   Whether the update or full migration required.
+   *
    * @return array
    *   Payload.
    */
-  public function api_query_payload($delta = FALSE, $recordCount) {
+  public function api_query_payload($delta = FALSE) {
     // Get the 'last_api_access'.
     $config = $this->configFactory->getEditable('tide_station_locator.settings');
     $last_api_access = $config->get('last_api_access');
@@ -187,10 +190,6 @@ class StationAPIConnector {
       ];
     }
     else {
-      // If the value is set then add it to payload.
-      if (!empty($recordCount)) {
-        $payload['recordCount'] = $recordCount;
-      }
       $payload = [
         'name' => 'STATION_LOCATION',
         'attributes' => [

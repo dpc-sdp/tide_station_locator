@@ -11,14 +11,14 @@ use Drupal\migrate\MigrateMessage;
 /**
  * This function is for accessing the API.
  */
-function tide_station_locator_get_api_data($delta = FALSE, $recordCount) {
+function tide_station_locator_get_api_data($delta = FALSE) {
   $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
 
   // Connect API.
   $result = $station_api_connector->connect_api();
 
   // get API response.
-  $full_data = $station_api_connector->get_api_response($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta, $recordCount);
+  $full_data = $station_api_connector->get_api_response($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta);
 
   if ($full_data && !empty($full_data['records'])) {
     // Get formatted data and save the file.
