@@ -34,6 +34,17 @@ function tide_station_locator_migrate_stations($options) {
   try {
     // Connect to API and download the latest station JSON and migrate.
     tide_station_locator_get_api_data($options['delta']);
+    if ($options['execute-dependencies'] == TRUE) {
+      $dependent_migrations =
+        [
+          'station_accessibility_terms',
+          'station_speciality_services_facility_terms',
+          'station_state_terms',
+        ];
+      foreach ($dependent_migrations as $migration_ids) {
+        _tide_station_locator_migrate($migration_ids);
+      }
+    }
     _tide_station_locator_migrate('station_nodes');
   }
   catch (Exception $e) {

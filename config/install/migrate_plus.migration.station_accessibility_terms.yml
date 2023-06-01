@@ -10,7 +10,7 @@ migration_group: station_locator
 label: 'Import Accessibility Terms'
 source:
   plugin: csv
-  path: modules/contrib/tide_station_locator/assets/accessibility.csv
+  path: public://accessibility.csv
   header_row_count: 1
   ids:
     - term_name

@@ -102,7 +102,7 @@ class StationAPIConnector {
         'rdm_auth' => $rdm_auth,
       ];
     }
-    catch (\Exception $e) {
+    catch (BadResponseException $e) {
       $this->logger->get('tide_station_locator connect API.')
         ->error('BadResponse error: @error', ['@error' => $e->getResponse()]);
       return FALSE;
@@ -215,13 +215,44 @@ class StationAPIConnector {
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getFormattedStationResponse($stations) {
+    $speciality_keys = [
+      'Crime_Investigate_Unit_CIU',
+      'Crime_Prevent_Officer_CPO',
+      'FVIU',
+      'FVLO',
+      'FCLO',
+      'Justice_Of_The_Peace',
+      'LGBTIQ_Liaison_Officer_LLO',
+      'Neighbourhood_Watch',
+      'Pro_active_Police_Unit_PPU',
+      'Prosecutions_Unit',
+      'Regional_Firearms_Officers',
+      'SOCIT',
+      'Victim_Assist_Supp_Officer',
+      'Youth_Resource_Officer',
+    ];
+
+    $final_stations = $states = $accessibility_terms = $speciality_terms = [];
+    $i = 0;
     // Process the data so that we can save it in a format we need.
-    $final_stations = [];
     foreach ($stations as $key => $station) {
       // Loop through attributes.
       foreach ($station['attributes'] as $attribute) {
         // Add attribute name as the key.
         $station[$attribute['name']] = $attribute['value'];
+
+        if ($attribute['name'] == 'State_Name') {
+          $states[$key] = $attribute['value'];
+        }
+        if ($attribute['name'] == 'Accessibility') {
+          $accessibility_terms[$key] = $attribute['value'];
+        }
+        if (in_array($attribute['name'], $speciality_keys)) {
+          if (!empty($attribute['value'])) {
+            $speciality_terms[$i] = $attribute['value'];
+            $i++;
+          }
+        }
       }
       unset($station['attributes']);
       $final_stations['records'][$key] = $station;
@@ -233,6 +264,39 @@ class StationAPIConnector {
     // Save the stations JSON.
     $stationsFileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
     $stationsFile = file_save_data(json_encode($final_stations), $stationsFileLocation, FileSystemInterface::EXISTS_REPLACE);
+
+    // Save the state csv.
+    $stateFileLocation = $file_save_path_stream_directory . '/' . 'state.csv';
+    $stateFile = fopen($stateFileLocation, 'w');
+    array_unshift($states,'term_name');
+    // Write data in the CSV format
+    foreach (array_unique($states) as $state) {
+      fputcsv($stateFile, [$state]);
+    }
+    //close the stream
+    fclose($stateFile);
+
+    // Save the accessibility csv.
+    $accessibilityFileLocation = $file_save_path_stream_directory . '/' . 'accessibility.csv';
+    $accessibilityFile = fopen($accessibilityFileLocation, 'w');
+    array_unshift($accessibility_terms,'term_name');
+    // Write data in the CSV format
+    foreach (array_unique($accessibility_terms) as $accessibility) {
+      fputcsv($accessibilityFile, [$accessibility]);
+    }
+    //close the stream
+    fclose($accessibilityFile);
+
+    // Save the specialityservicesandfacility csv.
+    $specialityFileLocation = $file_save_path_stream_directory . '/' . 'specialityservicesandfacility.csv';
+    $specialityFile = fopen($specialityFileLocation, 'w');
+    array_unshift($speciality_terms,'term_name');
+    // Write data in the CSV format
+    foreach (array_unique($speciality_terms) as $speciality) {
+      fputcsv($specialityFile, [$speciality]);
+    }
+    //close the stream
+    fclose($specialityFile);
   }
 
 }
