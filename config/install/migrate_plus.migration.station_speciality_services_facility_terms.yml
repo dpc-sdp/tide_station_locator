@@ -10,7 +10,7 @@ migration_group: station_locator
 label: 'Import Speciality services and facility Terms'
 source:
   plugin: csv
-  path: modules/contrib/tide_station_locator/assets/specialityservicesandfacility.csv
+  path: public://specialityservicesandfacility.csv
   header_row_count: 1
   ids:
     - term_name
