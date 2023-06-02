@@ -187,6 +187,7 @@ class StationAPIConnector {
             'value' => [$last_api_access],
             'operator' => 'gt',
             'caseSensitive' => FALSE,
+            'recordCount' => 500,
           ],
         ],
       ];
@@ -199,6 +200,7 @@ class StationAPIConnector {
             'name' => 'ACTIVE',
             'value' => ['Y'],
             'caseSensitive' => FALSE,
+            'recordCount' => 500,
           ],
         ],
         'startIndex' => 1,
@@ -234,7 +236,27 @@ class StationAPIConnector {
       'Youth_Resource_Officer',
     ];
 
-    $final_stations = $states = $accessibility_terms = $speciality_terms = [];
+    $final_stations = $states = $speciality_terms = [];
+
+    // We want the accessibility terms to be in a certain order.
+    // So initialising it.
+    $accessibility_terms = [
+      'Front entrance ground level' => 'Front entrance ground level',
+      'Automatic entrance door' => 'Automatic entrance door',
+      'Wheelchair/ramp access Internal' => 'Wheelchair/ramp access Internal',
+      'Wheelchair/ramp access External' => 'Wheelchair/ramp access External',
+      'Accessible parking' => 'Accessible parking',
+      'Internal parking lift access' => 'Internal parking lift access',
+      'Automatic lift door' => 'Automatic lift door',
+      'Accessible toilet public/interior' => 'Accessible toilet public/interior',
+      'Hearing loop' => 'Hearing loop',
+      'Audible level recognition' => 'Audible level recognition',
+      'SCOPE Communication Access accredited police station' => 'SCOPE Communication Access accredited police station',
+      'Lift braille buttons' => 'Lift braille buttons',
+      'External/entrance braille signage' => 'External/entrance braille signage',
+      'Internal braille signage' => 'Internal braille signage',
+    ];
+
     $i = 0;
     // Process the data so that we can save it in a format we need.
     foreach ($stations as $key => $station) {
