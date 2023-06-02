@@ -106,7 +106,7 @@ class StationAPIConnector {
     }
     catch (BadResponseException $e) {
       $this->logger->get('tide_station_locator connect API.')
-        ->error('BadResponse error: @error', ['@error' => $e->getResponse()]);
+        ->error('BadResponse error: @error', ['@error' => $e->getMessage()]);
       return FALSE;
     }
   }
@@ -156,7 +156,7 @@ class StationAPIConnector {
     }
     catch (BadResponseException $e) {
       $this->logger->get('tide_station_locator API response')
-        ->error('BadResponse error: @error', ['@error' => $e->getResponse()]);
+        ->error('BadResponse error: @error', ['@error' => $e->getMessage()]);
       return FALSE;
     }
 
