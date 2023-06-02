@@ -181,13 +181,13 @@ class StationAPIConnector {
       $payload = [
         'name' => 'STATION_LOCATION',
         "productKey" => -1,
+        'recordCount' => 500,
         'attributes' => [
           [
             'name' => 'RECORD_MODDATE',
             'value' => [$last_api_access],
             'operator' => 'gt',
             'caseSensitive' => FALSE,
-            'recordCount' => 500,
           ],
         ],
       ];
@@ -200,10 +200,10 @@ class StationAPIConnector {
             'name' => 'ACTIVE',
             'value' => ['Y'],
             'caseSensitive' => FALSE,
-            'recordCount' => 500,
           ],
         ],
         'startIndex' => 1,
+        'recordCount' => 500,
       ];
     }
 
