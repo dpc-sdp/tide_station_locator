@@ -1,0 +1,4 @@
+services:
+  tide_station_locator.station_api_connector:
+    class: Drupal\tide_station_locator\StationAPIConnector
+    arguments: ['@config.factory', '@logger.factory', '@file_system']

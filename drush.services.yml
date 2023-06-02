@@ -1,0 +1,5 @@
+services:
+  tide_station_locator_migration.commands:
+    class: \Drupal\tide_station_locator\Commands\TideStationLocatorMigrationCommands
+    tags:
+      - { name: drush.command }
