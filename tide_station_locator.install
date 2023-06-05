@@ -8,9 +8,24 @@
 use Drupal\redirect\Entity\Redirect;
 
 /**
- * Importing redirects from the redirect spreadsheet.
+ * Implements hook_install().
+ */
+function tide_station_locator_install() {
+  // Importing redirects from the redirect spreadsheet.
+  _tide_station_locator_add_redirects();
+}
+
+/**
+ * Implements hook_update_n to import the redirects.
  */
 function tide_station_locator_update_9001() {
+  _tide_station_locator_add_redirects();
+}
+
+/**
+ * Importing redirects from the redirect spreadsheet.
+ */
+function _tide_station_locator_add_redirects() {
   if (file_exists(dirname(DRUPAL_ROOT) . '/docroot/modules/contrib/tide_station_locator/assets/redirects.php')) {
     include dirname(DRUPAL_ROOT) . '/docroot/modules/contrib/tide_station_locator/assets/redirects.php';
     $content_vicpol = _tide_station_locator_redirects();
@@ -24,31 +39,15 @@ function tide_station_locator_update_9001() {
 }
 
 /**
- * Helper method to find the destination URL.
- */
-function _tide_station_locator_update_9001_verify_redirect_to_address($to) {
-  if ((substr($to, 0, 4) == 'http')) {
-    return $to;
-  }
-  $to = (substr($to, 0, 1) == '/') ? $to : '/' . $to;
-  $path = \Drupal::service('path_alias.manager')->getPathByAlias($to);
-  if (preg_match('/node\/(\d+)/', $path, $matches)) {
-    return 'node/' . $matches[1];
-  }
-  return '';
-}
-
-/**
  * Helper method to create the redirect.
  */
 function _tide_station_locator_update_9001_add_redirects($from, $to) {
-  _tide_station_locator_update_9001_verify_redirect_to_address($to);
   if ($from != '' && $to != '') {
     $redirectrepo = redirect_repository();
+    $from = str_replace("https://www.police.vic.gov.au/", "", $from);
     if ($redirectrepo->findBySourcePath($from)) {
       return;
     }
-    $from = str_replace("https://www.police.vic.gov.au/", "", $from);
     $redirect = Redirect::create();
     $redirect->setLanguage('en');
     $redirect->setStatusCode(301);
