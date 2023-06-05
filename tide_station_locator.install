@@ -16,8 +16,6 @@ function tide_station_locator_install() {
 }
 
 /**
- * Implements hook_update_N.
- *
  * Importing redirects from the redirect spreadsheet.
  */
 function tide_station_locator_update_9001() {
