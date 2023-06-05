@@ -188,7 +188,7 @@ function _tide_station_locator_redirects() {
     'https://www.police.vic.gov.au/location/?q=maryborough' => 'https://www.police.vic.gov.au/maryborough-police-station',
     'https://www.police.vic.gov.au/location/?q=marysville' => 'https://www.police.vic.gov.au/marysville-police-station',
     'https://www.police.vic.gov.au/location/?q=meeniyan' => 'https://www.police.vic.gov.au/meeniyan-police-station',
-    'https://www.police.vic.gov.au/location/?q=melbourne' => 'https://www.police.vic.gov.au/melbourne-east-police-station',
+    'https://www.police.vic.gov.au/location/?q=melbourne' => 'https://www.police.vic.gov.au/melbourne-west-police-station',
     'https://www.police.vic.gov.au/location/?q=north-melbourne' => 'https://www.police.vic.gov.au/melbourne-north-police-station',
     'https://www.police.vic.gov.au/location/?q=melton' => 'https://www.police.vic.gov.au/melton-police-station',
     'https://www.police.vic.gov.au/location/?q=merbein' => 'https://www.police.vic.gov.au/merbein-police-station',
