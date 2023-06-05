@@ -10,7 +10,7 @@ migration_group: station_locator
 label: 'Import State Terms'
 source:
   plugin: csv
-  path: modules/contrib/tide_station_locator/assets/state.csv
+  path: public://state.csv
   header_row_count: 1
   ids:
     - term_name

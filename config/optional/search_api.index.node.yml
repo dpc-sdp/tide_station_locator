@@ -365,6 +365,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_geolocation
+  field_google_maps_url:
+    label: 'Google Maps URL'
+    datasource_id: 'entity:node'
+    property_path: field_google_maps_url
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_google_maps_url
   field_google_maps_url_title:
     label: 'Google Maps URL » Link text'
     datasource_id: 'entity:node'
@@ -958,6 +966,7 @@ processor_settings:
       - field_event_details_event_requirements_uuid
       - field_event_intro_text
       - field_fax
+      - field_google_maps_url
       - field_google_maps_url_title
       - field_landing_page_contact_body
       - field_landing_page_contact_name

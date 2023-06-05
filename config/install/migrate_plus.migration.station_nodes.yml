@@ -17,7 +17,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: json
   urls:
-    - modules/contrib/tide_station_locator/assets/station.json
+    - public://stations.json
   item_selector: records
   fields:
     -
