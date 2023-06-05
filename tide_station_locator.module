@@ -68,15 +68,35 @@ function _tide_station_locator_migrate($migration_id) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function tide_station_locator_form_node_station_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $fields = [
-    'title', 'field_accessibility', 'field_case_conference_email', 'field_case_conference_phone', 'field_email',
-    'field_fax', 'field_geolocation', 'field_google_maps_url', 'field_opening_hours', 'field_opening_hours_notice',
-    'field_phone', 'field_postcode', 'field_node_primary_site', 'field_prosecution_unit_email', 'field_prosecution_unit_fax',
-    'field_prosecution_unit_notice', 'field_prosecution_unit_phone', 'field_node_site', 'field_specialty_services_or_faci',
-    'field_state', 'field_station_code', 'field_street_address', 'field_suburb',
-  ];
-  foreach ($fields as $field) {
-    $form[$field]['#disabled'] = TRUE;
+function tide_station_locator_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (in_array($form_id, ['node_station_edit_form', 'node_station_form'])) {
+    $fields = [
+      'title',
+      'field_accessibility',
+      'field_case_conference_email',
+      'field_case_conference_phone',
+      'field_email',
+      'field_fax',
+      'field_geolocation',
+      'field_google_maps_url',
+      'field_opening_hours',
+      'field_opening_hours_notice',
+      'field_phone',
+      'field_postcode',
+      'field_node_primary_site',
+      'field_prosecution_unit_email',
+      'field_prosecution_unit_fax',
+      'field_prosecution_unit_notice',
+      'field_prosecution_unit_phone',
+      'field_node_site',
+      'field_specialty_services_or_faci',
+      'field_state',
+      'field_station_code',
+      'field_street_address',
+      'field_suburb',
+    ];
+    foreach ($fields as $field) {
+      $form[$field]['#disabled'] = TRUE;
+    }
   }
 }
