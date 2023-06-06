@@ -218,7 +218,7 @@ class StationAPIConnector {
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function getFormattedStationResponse($stations) {
+  public function getFormattedStationResponse(array $stations) {
     $speciality_keys = [
       'Crime_Investigate_Unit_CIU',
       'Crime_Prevent_Officer_CPO',
