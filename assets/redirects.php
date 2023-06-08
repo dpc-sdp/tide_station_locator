@@ -13,6 +13,7 @@
  */
 function _tide_station_locator_redirects() {
   $content_vicpol = [
+    'https://www.police.vic.gov.au/location' => 'https://www.police.vic.gov.au/police-station-location',
     'https://www.police.vic.gov.au/location/?q=alexandra' => 'https://www.police.vic.gov.au/alexandra-police-station',
     'https://www.police.vic.gov.au/location/?q=altona' => 'https://www.police.vic.gov.au/altona-police-station',
     'https://www.police.vic.gov.au/location/?q=angelsea' => 'https://www.police.vic.gov.au/anglesea-police-station',
