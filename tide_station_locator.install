@@ -18,7 +18,7 @@ function tide_station_locator_install() {
 /**
  * Importing redirects from the redirect spreadsheet.
  */
-function tide_station_locator_update_9001() {
+function tide_station_locator_update_9002() {
   _tide_station_locator_add_redirects();
 }
 
@@ -26,34 +26,15 @@ function tide_station_locator_update_9001() {
  * Importing redirects from the redirect spreadsheet.
  */
 function _tide_station_locator_add_redirects() {
-  if (file_exists(dirname(DRUPAL_ROOT) . '/docroot/modules/contrib/tide_station_locator/assets/redirects.php')) {
-    include dirname(DRUPAL_ROOT) . '/docroot/modules/contrib/tide_station_locator/assets/redirects.php';
-    $content_vicpol = _tide_station_locator_redirects();
-
-    if (is_array($content_vicpol)) {
-      foreach ($content_vicpol as $from => $to) {
-        _tide_station_locator_update_9001_add_redirects($from, $to);
-      }
-    }
+  $redirectrepo = redirect_repository();
+  if ($redirectrepo->findBySourcePath('location')) {
+    return;
   }
-}
-
-/**
- * Helper method to create the redirect.
- */
-function _tide_station_locator_update_9001_add_redirects($from, $to) {
-  if ($from != '' && $to != '') {
-    $redirectrepo = redirect_repository();
-    $from = str_replace("https://www.police.vic.gov.au/", "", $from);
-    if ($redirectrepo->findBySourcePath($from)) {
-      return;
-    }
-    $redirect = Redirect::create();
-    $redirect->setLanguage('en');
-    $redirect->setStatusCode(301);
-    $redirect->setSource($from);
-    $redirect->setRedirect($to);
-    $redirect->getRedirect();
-    $redirect->save();
-  }
+  $redirect = Redirect::create();
+  $redirect->setLanguage('en');
+  $redirect->setStatusCode(301);
+  $redirect->setSource('location');
+  $redirect->setRedirect('https://www.police.vic.gov.au/police-station-location');
+  $redirect->getRedirect();
+  $redirect->save();
 }
