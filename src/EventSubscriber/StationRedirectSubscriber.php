@@ -46,13 +46,18 @@ class StationRedirectSubscriber implements EventSubscriberInterface {
       // This is necessary because this also gets called on
       // node sub-tabs such as "edit", "revisions", etc.  This
       // prevents those pages from redirected.
-      if ($uri && $uri[0] == '/site-4/location') {
+      if ($uri && $uri[0] == '/site-4/location' && !empty($uri[1])) {
         $content_vicpol = _tide_station_locator_redirects();
         if (in_array($uri[1], array_keys($content_vicpol))) {
           $response = new RedirectResponse($content_vicpol[$uri[1]]);
           $event->setResponse($response);
           $response->send();
         }
+      }
+      elseif ($uri && $uri[0] == '/site-4/location') {
+        $response = new RedirectResponse('https://www.police.vic.gov.au/police-station-location');
+        $event->setResponse($response);
+        $response->send();
       }
     }
   }
