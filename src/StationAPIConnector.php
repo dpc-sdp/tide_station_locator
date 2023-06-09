@@ -218,7 +218,7 @@ class StationAPIConnector {
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function getFormattedStationResponse($stations) {
+  public function getFormattedStationResponse(array $stations) {
     $speciality_keys = [
       'Crime_Investigate_Unit_CIU',
       'Crime_Prevent_Officer_CPO',
@@ -269,7 +269,12 @@ class StationAPIConnector {
           $states[$key] = $attribute['value'];
         }
         if ($attribute['name'] == 'Accessibility') {
-          $accessibility_terms[$key] = $attribute['value'];
+          $accessibility_terms_array = explode(",", $attribute['value']);
+          if (isset($accessibility_terms_array) && is_array($accessibility_terms_array)) {
+            foreach ($accessibility_terms_array as $key1 => $item) {
+              $accessibility_terms[trim($item)] = trim($item);
+            }
+          }
         }
         if (in_array($attribute['name'], $speciality_keys)) {
           if (!empty($attribute['value'])) {
