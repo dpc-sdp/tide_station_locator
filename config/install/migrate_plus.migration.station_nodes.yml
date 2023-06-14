@@ -259,9 +259,17 @@ process:
     entity_type: taxonomy_term
     ignore_case: true
   field_accessibility:
-    plugin: migration_lookup
-    migration: station_accessibility_terms
-    source: field_accessibility
+    - plugin: skip_on_empty
+      method: process
+    - plugin: explode
+      delimiter: ', '
+      source: field_accessibility
+    -
+      plugin: entity_generate
+      bundle_key: vid
+      bundle: accessibility
+      entity_type: taxonomy_term
+      ignore_case: true
   moderation_state:
     plugin: default_value
     default_value: published
