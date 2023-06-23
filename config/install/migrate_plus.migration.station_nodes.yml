@@ -261,9 +261,9 @@ process:
   field_accessibility:
     - plugin: skip_on_empty
       method: process
+      source: field_accessibility
     - plugin: explode
       delimiter: ', '
-      source: field_accessibility
     -
       plugin: entity_generate
       bundle_key: vid
