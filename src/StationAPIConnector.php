@@ -3,11 +3,11 @@
 namespace Drupal\tide_station_locator;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\RequestOptions;
-use Drupal\Core\File\FileSystemInterface;
 
 /**
  * Connects to station locator API.
@@ -280,7 +280,7 @@ class StationAPIConnector {
               }
               // Check for same term but with different case.
               $accessibility_keys = array_keys($accessibility_terms);
-              if (array_search(strtolower($trimmed_item),array_map('strtolower',$accessibility_keys))) {
+              if (array_search(strtolower($trimmed_item), array_map('strtolower', $accessibility_keys))) {
                 continue;
               }
 
