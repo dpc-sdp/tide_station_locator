@@ -50,7 +50,7 @@ Feature: Station content type is available and follow URL format.
     And I should see an "input#edit-field-email-0-uri" element
     And I should see an "input#edit-field-email-0-uri.required" element
     And I should see an "input#edit-field-email-0-title" element
-    And I should not see an "input#edit-field-email-0-title.required" element
+    And I should see an "input#edit-field-email-0-title.required" element
 
     Then I see field "Opening hours"
     And I should see an "input#edit-field-opening-hours-0-value" element
