@@ -5,9 +5,9 @@
  * Tide Station Locator module functionality.
  */
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\migrate_tools\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * This function is for accessing the API.
