@@ -2,7 +2,3 @@ services:
   tide_station_locator.station_api_connector:
     class: Drupal\tide_station_locator\StationAPIConnector
     arguments: ['@config.factory', '@logger.factory', '@file_system']
-  tide_station_locator.station_redirects:
-    class: Drupal\tide_station_locator\EventSubscriber\StationRedirectSubscriber
-    tags:
-      - { name: event_subscriber }
