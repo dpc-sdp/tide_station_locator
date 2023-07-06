@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: station_locator
+label: 'Station Locator'
+description: 'Migrations for VicPol stations'
+source_type: 'JSON API'
+module: null
+shared_configuration: null

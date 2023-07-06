@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Specialty services or facilities'
+vid: specialty_services_or_facilities
+description: 'Specialty services or facilities for Station'
+weight: 0
