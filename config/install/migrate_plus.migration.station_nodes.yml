@@ -184,6 +184,14 @@ source:
       name: field_accessibility
       label: Accessibility
       selector: /Accessibility
+    -
+      name: publish_on
+      label: ValidFrontDt
+      selector: /ValidFrontDt
+    -
+      name: unpublish_on
+      label: ValidToDt
+      selector: /ValidToDt
   ids:
     field_station_code:
       type: string
@@ -265,6 +273,8 @@ process:
   moderation_state:
     plugin: default_value
     default_value: published
+  publish_on: publish_on
+  unpublish_on: unpublish_on
 destination:
   plugin: 'entity:node'
   default_bundle: station
