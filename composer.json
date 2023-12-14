@@ -12,7 +12,8 @@
         "drupal/migrate_plus": "^5.0",
         "php-http/message": "^1",
         "php-http/message-factory": "^1",
-        "guzzlehttp/psr7": "^1.9"
+        "guzzlehttp/psr7": "^1.9",
+        "drupal/scheduler": "^1.5"
     },
     "extra": {
         "enable-patching": true,
