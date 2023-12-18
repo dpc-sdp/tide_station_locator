@@ -4,15 +4,16 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
-        "dpc-sdp/tide_landing_page": "^3.0.10",
-        "dpc-sdp/tide_site": "^3.0.13",
+        "dpc-sdp/tide_landing_page": "^3.0.16",
+        "dpc-sdp/tide_site": "^3.0.16",
         "drupal/geofield": "^1.53",
         "drupal/search_api_location": "^1.0@alpha",
         "drupal/migrate_source_csv": "^3.5",
         "drupal/migrate_plus": "^5.0",
         "php-http/message": "^1",
         "php-http/message-factory": "^1",
-        "guzzlehttp/psr7": "^1.9"
+        "guzzlehttp/psr7": "^1.9",
+        "drupal/scheduler": "^1.5"
     },
     "extra": {
         "enable-patching": true,

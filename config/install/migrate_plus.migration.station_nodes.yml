@@ -184,6 +184,14 @@ source:
       name: field_accessibility
       label: Accessibility
       selector: /Accessibility
+    -
+      name: publish_on
+      label: ValidFrontDt
+      selector: /ValidFrontDt
+    -
+      name: unpublish_on
+      label: ValidToDt
+      selector: /ValidToDt
   ids:
     field_station_code:
       type: string
@@ -273,6 +281,20 @@ process:
   moderation_state:
     plugin: default_value
     default_value: published
+  publish_on:
+    plugin: format_date
+    source: publish_on
+    from_format: 'Y-m-d'
+    to_format: 'U'
+    from_timezone: 'Australia/Melbourne'
+    to_timezone: 'Australia/Melbourne'
+  unpublish_on:
+    plugin: format_date
+    source: unpublish_on
+    from_format: 'Y-m-d'
+    to_format: 'U'
+    from_timezone: 'Australia/Melbourne'
+    to_timezone: 'Australia/Melbourne'
 destination:
   plugin: 'entity:node'
   default_bundle: station
