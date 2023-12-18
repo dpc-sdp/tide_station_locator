@@ -3,11 +3,11 @@
 namespace Drupal\tide_station_locator;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\RequestOptions;
-use Drupal\Core\File\FileSystemInterface;
 
 /**
  * Connects to station locator API.
@@ -272,7 +272,19 @@ class StationAPIConnector {
           $accessibility_terms_array = explode(",", $attribute['value']);
           if (isset($accessibility_terms_array) && is_array($accessibility_terms_array)) {
             foreach ($accessibility_terms_array as $key1 => $item) {
-              $accessibility_terms[trim($item)] = trim($item);
+              $trimmed_item = trim($item);
+              // Getting rif od non-breaking space.
+              $trimmed_item = trim($trimmed_item, " \t\n\r\0\x0B\xc2\xa0");
+              if ($trimmed_item === "") {
+                continue;
+              }
+              // Check for same term but with different case.
+              $accessibility_keys = array_keys($accessibility_terms);
+              if (array_search(strtolower($trimmed_item), array_map('strtolower', $accessibility_keys))) {
+                continue;
+              }
+
+              $accessibility_terms[$trimmed_item] = $trimmed_item;
             }
           }
         }
