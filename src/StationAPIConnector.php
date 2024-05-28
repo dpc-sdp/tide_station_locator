@@ -304,7 +304,7 @@ class StationAPIConnector {
 
     // Save the stations JSON.
     $stationsFileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
-    $stationsFile = file_save_data(json_encode($final_stations), $stationsFileLocation, FileSystemInterface::EXISTS_REPLACE);
+    $stationsFile = \Drupal::service('file.repository')->writeData(json_encode($final_stations), $stationsFileLocation, FileSystemInterface::EXISTS_REPLACE);
 
     // Save the state csv.
     $stateFileLocation = $file_save_path_stream_directory . '/' . 'state.csv';

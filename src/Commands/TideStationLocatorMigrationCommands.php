@@ -18,7 +18,7 @@ class TideStationLocatorMigrationCommands extends DrushCommands {
    *   Import stations.
    *
    * @command migrate-stations
-   * @aliases ms
+   * @aliases mvps
    * @validate-module-enabled tide_station_locator
    *
    * @option delta
