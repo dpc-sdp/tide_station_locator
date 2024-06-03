@@ -229,7 +229,6 @@ class StationAPIConnector {
       'LGBTIQ_Liaison_Officer_LLO',
       'Neighbourhood_Watch',
       'Pro_active_Police_Unit_PPU',
-      'Prosecutions_Unit',
       'Regional_Firearms_Officers',
       'SOCIT',
       'Victim_Assist_Supp_Officer',
