@@ -161,10 +161,6 @@ source:
       label: 'Specialty services or facilities'
       selector: /Pro_active_Police_Unit_PPU
     -
-      name: field_specialty_services_or_faci_PU
-      label: 'Specialty services or facilities'
-      selector: /Prosecutions_Unit
-    -
       name: field_specialty_services_or_faci_RFO
       label: 'Specialty services or facilities'
       selector: /Regional_Firearms_Officers
@@ -245,7 +241,6 @@ process:
       - field_specialty_services_or_faci_LGBTIQ
       - field_specialty_services_or_faci_NW
       - field_specialty_services_or_faci_PPU
-      - field_specialty_services_or_faci_PU
       - field_specialty_services_or_faci_RFO
       - field_specialty_services_or_faci_SOCIT
       - field_specialty_services_or_faci_VASO
