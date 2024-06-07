@@ -229,7 +229,6 @@ class StationAPIConnector {
       'LGBTIQ_Liaison_Officer_LLO',
       'Neighbourhood_Watch',
       'Pro_active_Police_Unit_PPU',
-      'Prosecutions_Unit',
       'Regional_Firearms_Officers',
       'SOCIT',
       'Victim_Assist_Supp_Officer',
@@ -263,7 +262,7 @@ class StationAPIConnector {
       // Loop through attributes.
       foreach ($station['attributes'] as $attribute) {
         // Add attribute name as the key.
-        $station[$attribute['name']] = $attribute['value'];
+        $station[$attribute['name']] = html_entity_decode($attribute['value']);
 
         if ($attribute['name'] == 'State_Name') {
           $states[$key] = $attribute['value'];
@@ -284,13 +283,13 @@ class StationAPIConnector {
                 continue;
               }
 
-              $accessibility_terms[$trimmed_item] = $trimmed_item;
+              $accessibility_terms[$trimmed_item] = html_entity_decode($trimmed_item);
             }
           }
         }
         if (in_array($attribute['name'], $speciality_keys)) {
           if (!empty($attribute['value'])) {
-            $speciality_terms[$i] = $attribute['value'];
+            $speciality_terms[$i] = html_entity_decode($attribute['value']);
             $i++;
           }
         }
