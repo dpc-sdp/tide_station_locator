@@ -4,6 +4,7 @@ type: module
 package: VicPol
 core_version_requirement: ^9.2 || ^10
 dependencies:
+  - dpc-sdp:tide_core
   - dpc-sdp:tide_landing_page
   - dpc-sdp:tide_site
   - drupal:geofield
