@@ -18,8 +18,7 @@
     }
   },
   "require": {
-    "dpc-sdp/tide_landing_page": "dev-reference",
-    "dpc-sdp/tide_site": "dev-reference",
+    "dpc-sdp/tide_core": "dev-reference",
     "drupal/geofield": "^1.53",
     "drupal/migrate_plus": "^6.0",
     "drupal/migrate_source_csv": "^3.5",
