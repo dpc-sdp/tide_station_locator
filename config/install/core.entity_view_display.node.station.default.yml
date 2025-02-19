@@ -24,8 +24,11 @@ dependencies:
     - field.field.node.station.field_station_code
     - field.field.node.station.field_street_address
     - field.field.node.station.field_suburb
+    - field.field.node.station.field_validity_from
+    - field.field.node.station.field_validity_to
     - node.type.station
   module:
+    - datetime
     - geofield
     - link
     - user
@@ -241,6 +244,24 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 109
+    region: content
+  field_validity_from:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 132
+    region: content
+  field_validity_to:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 133
     region: content
   links:
     settings: {  }
