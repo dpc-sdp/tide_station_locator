@@ -2,73 +2,72 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.media.field_media_image
+    - field.storage.node.body
     - field.storage.node.field_accessibility
     - field.storage.node.field_audience
-    - field.storage.node.body
     - field.storage.node.field_case_conference_email
     - field.storage.node.field_case_conference_phone
-    - field.storage.node.field_landing_page_contact
-    - field.storage.paragraph.field_paragraph_body
-    - field.storage.paragraph.field_paragraph_name
-    - field.storage.node.field_landing_page_component
-    - field.storage.paragraph.field_paragraph_accordion
-    - field.storage.paragraph.field_paragraph_accordion_body
-    - field.storage.paragraph.field_paragraph_accordion_name
-    - field.storage.paragraph.field_paragraph_summary
-    - field.storage.paragraph.field_paragraph_title
-    - field.storage.paragraph.field_paragraph_topic
-    - field.storage.node.field_news_date
-    - field.storage.node.field_publication_date
     - field.storage.node.field_email
     - field.storage.node.field_event_category
     - field.storage.node.field_event_description
     - field.storage.node.field_event_details
-    - field.storage.paragraph.field_paragraph_date_range
-    - field.storage.paragraph.field_event_requirements
-    - field.storage.paragraph.field_paragraph_location
-    - field.storage.paragraph.field_paragraph_link
-    - field.storage.paragraph.field_paragraph_event_price_from
-    - field.storage.paragraph.field_paragraph_event_price_to
-    - field.storage.node.field_news_intro_text
     - field.storage.node.field_fax
-    - field.storage.media.field_media_image
     - field.storage.node.field_featured_image
     - field.storage.node.field_geolocation
     - field.storage.node.field_google_maps_url
+    - field.storage.node.field_landing_page_component
+    - field.storage.node.field_landing_page_contact
     - field.storage.node.field_landing_page_intro_text
-    - field.storage.node.field_page_intro_text
+    - field.storage.node.field_landing_page_summary
+    - field.storage.node.field_news_date
+    - field.storage.node.field_news_intro_text
+    - field.storage.node.field_node_primary_site
+    - field.storage.node.field_node_site
     - field.storage.node.field_opening_hours
     - field.storage.node.field_opening_hours_notice
     - field.storage.node.field_phone
     - field.storage.node.field_postcode
-    - field.storage.node.field_node_primary_site
     - field.storage.node.field_prosecution_unit_email
     - field.storage.node.field_prosecution_unit_fax
     - field.storage.node.field_prosecution_unit_notice
     - field.storage.node.field_prosecution_unit_phone
-    - field.storage.node.field_publication_authors
     - field.storage.node.field_publication
-    - field.storage.node.field_node_site
+    - field.storage.node.field_publication_authors
+    - field.storage.node.field_publication_date
     - field.storage.node.field_specialty_services_or_faci
     - field.storage.node.field_state
     - field.storage.node.field_station_code
     - field.storage.node.field_status
     - field.storage.node.field_street_address
     - field.storage.node.field_suburb
-    - field.storage.node.field_landing_page_summary
     - field.storage.node.field_tags
     - field.storage.node.field_topic
+    - field.storage.node.field_validity_from
+    - field.storage.node.field_validity_to
+    - field.storage.paragraph.field_event_requirements
+    - field.storage.paragraph.field_paragraph_accordion
+    - field.storage.paragraph.field_paragraph_accordion_body
+    - field.storage.paragraph.field_paragraph_accordion_name
+    - field.storage.paragraph.field_paragraph_body
+    - field.storage.paragraph.field_paragraph_date_range
+    - field.storage.paragraph.field_paragraph_event_price_from
+    - field.storage.paragraph.field_paragraph_event_price_to
+    - field.storage.paragraph.field_paragraph_link
+    - field.storage.paragraph.field_paragraph_location
+    - field.storage.paragraph.field_paragraph_name
+    - field.storage.paragraph.field_paragraph_summary
+    - field.storage.paragraph.field_paragraph_title
+    - field.storage.paragraph.field_paragraph_topic
     - search_api.server.elasticsearch_bay
   module:
-    - taxonomy
-    - node
-    - paragraphs
     - file
     - media
-    - tide_media
+    - node
+    - paragraphs
     - search_api_location
-    - search_api
-    - tide_authenticated_content
+    - taxonomy
+    - tide_media
 _core:
   default_config_hash: _wAy3LjoNhyhgWgRgmh21ET7w8dsS246ygHYi4_9H7M
 id: node
@@ -81,7 +80,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: body
     type: text
-    boost: !!float 0
+    boost: 0.0
     dependencies:
       config:
         - field.storage.node.body
@@ -155,6 +154,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_case_conference_email
+  field_case_conference_email_title:
+    label: 'Case conference email » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_case_conference_email:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_case_conference_email
   field_case_conference_phone:
     label: 'Case conference phone'
     datasource_id: 'entity:node'
@@ -163,10 +170,26 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_case_conference_phone
+  field_case_conference_phone_title:
+    label: 'Case conference phone » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_case_conference_phone:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_case_conference_phone
   field_email:
     label: Email
     datasource_id: 'entity:node'
     property_path: field_email
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_email
+  field_email_title:
+    label: 'Email » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_email:title'
     type: string
     dependencies:
       config:
@@ -386,7 +409,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_landing_page_contact:entity:field_paragraph_body'
     type: text
-    boost: !!float 0
+    boost: 0.0
     dependencies:
       config:
         - field.storage.node.field_landing_page_contact
@@ -409,7 +432,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: field_landing_page_intro_text
     type: text
-    boost: !!float 0
+    boost: 0.0
     dependencies:
       config:
         - field.storage.node.field_landing_page_intro_text
@@ -484,21 +507,12 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_opening_hours_notice
-  field_page_intro_text:
-    label: 'Introduction Text'
-    datasource_id: 'entity:node'
-    property_path: field_page_intro_text
-    type: text
-    boost: !!float 0
-    dependencies:
-      config:
-        - field.storage.node.field_page_intro_text
   field_paragraph_accordion_body:
     label: 'Content components » Paragraph » Accordion Content » Paragraph » Body'
     datasource_id: 'entity:node'
     property_path: 'field_landing_page_component:entity:field_paragraph_accordion:entity:field_paragraph_accordion_body'
     type: text
-    boost: !!float 0
+    boost: 0.0
     dependencies:
       config:
         - field.storage.node.field_landing_page_component
@@ -511,7 +525,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_landing_page_component:entity:field_paragraph_accordion:entity:field_paragraph_accordion_name'
     type: text
-    boost: !!float 5
+    boost: 5.0
     dependencies:
       config:
         - field.storage.node.field_landing_page_component
@@ -524,7 +538,6 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_landing_page_component:entity:field_paragraph_body'
     type: text
-    boost: !!float 0
     dependencies:
       config:
         - field.storage.node.field_landing_page_component
@@ -558,7 +571,6 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_landing_page_component:entity:field_paragraph_summary'
     type: text
-    boost: !!float 0
     dependencies:
       config:
         - field.storage.node.field_landing_page_component
@@ -570,7 +582,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_landing_page_component:entity:field_paragraph_title'
     type: text
-    boost: !!float 13
+    boost: 13.0
     dependencies:
       config:
         - field.storage.node.field_landing_page_component
@@ -593,7 +605,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_landing_page_component:entity:field_paragraph_topic:entity:name'
     type: string
-    boost: !!float 5
+    boost: 5.0
     dependencies:
       config:
         - field.storage.node.field_landing_page_component
@@ -621,6 +633,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_phone
+  field_phone_title:
+    label: 'Phone » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_phone:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_phone
   field_postcode:
     label: Postcode
     datasource_id: 'entity:node'
@@ -633,6 +653,14 @@ field_settings:
     label: 'Prosecution Unit email'
     datasource_id: 'entity:node'
     property_path: field_prosecution_unit_email
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_prosecution_unit_email
+  field_prosecution_unit_email_title:
+    label: 'Prosecution Unit email » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_prosecution_unit_email:title'
     type: string
     dependencies:
       config:
@@ -657,6 +685,14 @@ field_settings:
     label: 'Prosecution Unit phone'
     datasource_id: 'entity:node'
     property_path: field_prosecution_unit_phone
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_prosecution_unit_phone
+  field_prosecution_unit_phone_title:
+    label: 'Prosecution Unit phone » Link text'
+    datasource_id: 'entity:node'
+    property_path: 'field_prosecution_unit_phone:title'
     type: string
     dependencies:
       config:
@@ -788,7 +824,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_tags:entity:name'
     type: string
-    boost: !!float 5
+    boost: 5.0
     dependencies:
       config:
         - field.storage.node.field_tags
@@ -817,7 +853,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'field_topic:entity:name'
     type: string
-    boost: !!float 5
+    boost: 5.0
     dependencies:
       config:
         - field.storage.node.field_topic
@@ -833,6 +869,22 @@ field_settings:
         - field.storage.node.field_topic
       module:
         - taxonomy
+  field_validity_from:
+    label: From
+    datasource_id: 'entity:node'
+    property_path: field_validity_from
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_validity_from
+  field_validity_to:
+    label: To
+    datasource_id: 'entity:node'
+    property_path: field_validity_to
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_validity_to
   langcode:
     label: Language
     datasource_id: 'entity:node'
@@ -871,7 +923,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: 'body:summary_processed'
     type: text
-    boost: !!float 0
+    boost: 0.0
     dependencies:
       config:
         - field.storage.node.body
@@ -880,7 +932,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: title
     type: text
-    boost: !!float 21
+    boost: 21.0
     dependencies:
       module:
         - node
@@ -926,10 +978,10 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
-  authenticated_status: {  }
   content_access:
     weights:
       preprocess_query: -30
+  custom_value: {  }
   entity_status: {  }
   entity_type: {  }
   hierarchy:
@@ -950,8 +1002,11 @@ processor_settings:
       - field_audience_name
       - field_audience_uuid
       - field_case_conference_email
+      - field_case_conference_email_title
       - field_case_conference_phone
+      - field_case_conference_phone_title
       - field_email
+      - field_email_title
       - field_event_category_name
       - field_event_category_uuid
       - field_event_description
@@ -976,7 +1031,6 @@ processor_settings:
       - field_news_intro_text
       - field_opening_hours
       - field_opening_hours_notice
-      - field_page_intro_text
       - field_paragraph_accordion_body
       - field_paragraph_accordion_name
       - field_paragraph_body
@@ -987,11 +1041,14 @@ processor_settings:
       - field_paragraph_topic_name
       - field_paragraph_topic_uuid
       - field_phone
+      - field_phone_title
       - field_postcode
       - field_prosecution_unit_email
+      - field_prosecution_unit_email_title
       - field_prosecution_unit_fax
       - field_prosecution_unit_notice
       - field_prosecution_unit_phone
+      - field_prosecution_unit_phone_title
       - field_publication_authors
       - field_publication_title
       - field_publication_uuid
@@ -1026,6 +1083,7 @@ tracker_settings:
     indexing_order: fifo
 options:
   cron_limit: 50
+  delete_on_fail: true
   index_directly: false
   track_changes_in_references: true
 server: elasticsearch_bay
