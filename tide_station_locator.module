@@ -77,6 +77,7 @@ function tide_station_locator_form_node_form_alter(&$form, FormStateInterface $f
       'field_case_conference_phone',
       'field_email',
       'field_fax',
+      'field_validity_from',
       'field_geolocation',
       'field_google_maps_url',
       'field_opening_hours',
@@ -94,6 +95,7 @@ function tide_station_locator_form_node_form_alter(&$form, FormStateInterface $f
       'field_station_code',
       'field_street_address',
       'field_suburb',
+      'field_validity_to',
     ];
     foreach ($fields as $field) {
       $form[$field]['#disabled'] = TRUE;
