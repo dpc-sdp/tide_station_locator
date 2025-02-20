@@ -73,7 +73,6 @@ function _tide_station_locator_content_moderator() {
     $from = $station->get('field_validity_from')->getValue()[0]['value'] ?? null;
     $to = $station->get('field_validity_to')->getValue()[0]['value'] ?? null;
     $current_time = time();
-    $status = 1;
 
     if ($from && $to) {
       $from_time = strtotime($from);
@@ -84,18 +83,17 @@ function _tide_station_locator_content_moderator() {
       }
       elseif ($from_time > $current_time) {
         $moderation_state = 'draft';
-        $status = 0;
       }
       elseif ($to_time < $current_time) {
         $moderation_state = 'archived';
       }
 
       if (isset($moderation_state)) {
+        // If moderation_state is draft first make it archived.
+        if ($moderation_state === 'draft') {
+          $station->set('moderation_state', 'archived')->save();
+        }
         $station->set('moderation_state', $moderation_state)->save();
-      }
-      if (isset($status) && $status == 0) {
-        $station->set('moderation_state', 'archived')->save();
-        $station->set('moderation_state', 'draft')->save();
       }
     }
   }
