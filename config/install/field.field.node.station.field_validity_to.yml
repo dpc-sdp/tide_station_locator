@@ -14,7 +14,10 @@ label: To
 description: ''
 required: true
 translatable: false
-default_value: {  }
+default_value:
+  -
+    default_date_type: relative
+    default_date: '9999-12-31'
 default_value_callback: ''
 settings: {  }
 field_type: datetime
