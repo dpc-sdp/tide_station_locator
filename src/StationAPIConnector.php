@@ -293,6 +293,14 @@ class StationAPIConnector {
             $i++;
           }
         }
+        // If the date is empty set default value.
+        if ($attribute['name'] == 'ValidFromDt' && empty($attribute['value'])) {
+          $station['ValidFromDt'] = '1900-01-01';
+        }
+        // If the date is empty set default value.
+        if ($attribute['name'] == 'ValidToDt' && empty($attribute['value'])) {
+          $station['ValidToDt'] = '9999-12-31';
+        }
       }
       unset($station['attributes']);
       $final_stations['records'][$key] = $station;

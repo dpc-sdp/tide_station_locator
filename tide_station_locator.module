@@ -14,18 +14,18 @@ use Drupal\node\Entity\Node;
  * This function is for accessing the API.
  */
 function tide_station_locator_get_api_data($delta = FALSE) {
-    $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
+  $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
 
-    // Connect API.
-    $result = $station_api_connector->connectApi();
+  // Connect API.
+  $result = $station_api_connector->connectApi();
 
-    // Get API response.
-    $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta);
+  // Get API response.
+  $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta);
 
-    if ($full_data && !empty($full_data['records'])) {
-        // Get formatted data and save the file.
-        $station_api_connector->getFormattedStationResponse($full_data['records']);
-    }
+  if ($full_data && !empty($full_data['records'])) {
+    // Get formatted data and save the file.
+    $station_api_connector->getFormattedStationResponse($full_data['records']);
+  }
 }
 
 /**
@@ -33,112 +33,113 @@ function tide_station_locator_get_api_data($delta = FALSE) {
  */
 function tide_station_locator_migrate_stations($options) {
 
-    try {
-        // Connect to API and download the latest station JSON and migrate.
-        tide_station_locator_get_api_data($options['delta']);
-        if ($options['execute-dependencies'] == TRUE) {
-            $dependent_migrations =
-                [
-                    'station_accessibility_terms',
-                    'station_speciality_services_facility_terms',
-                    'station_state_terms',
-                ];
-            foreach ($dependent_migrations as $migration_ids) {
-                _tide_station_locator_migrate($migration_ids);
-            }
-        }
-        _tide_station_locator_migrate('station_nodes');
+  try {
+    // Connect to API and download the latest station JSON and migrate.
+    tide_station_locator_get_api_data($options['delta']);
+    if ($options['execute-dependencies'] == TRUE) {
+      $dependent_migrations =
+        [
+          'station_accessibility_terms',
+          'station_speciality_services_facility_terms',
+          'station_state_terms',
+        ];
+      foreach ($dependent_migrations as $migration_ids) {
+        _tide_station_locator_migrate($migration_ids);
+      }
     }
-    catch (Exception $e) {
-        // Something went wrong somewhere.
-        watchdog_exception('tide_station_locator', $e);
-    }
+    _tide_station_locator_migrate('station_nodes');
+  }
+  catch (Exception $e) {
+    // Something went wrong somewhere.
+    watchdog_exception('tide_station_locator', $e);
+  }
 
-    // Set the correct moderation of stations based on dates.
-    _tide_station_locator_content_moderator();
+  // Set the correct moderation of stations based on dates.
+  _tide_station_locator_content_moderator();
 }
 
 /**
  * Helper method to set the correct moderation based on dates.
  */
 function _tide_station_locator_content_moderator() {
-    $nids = \Drupal::entityQuery('node')
-        ->condition('type', 'station')
-        ->accessCheck(FALSE)
-        ->execute();
+  $nids = \Drupal::entityQuery('node')
+    ->condition('type', 'station')
+    ->accessCheck(FALSE)
+    ->execute();
 
-    $stations = Node::loadMultiple($nids);
+  $stations = Node::loadMultiple($nids);
 
-    foreach ($stations as $station) {
-        $from = $station->get('field_validity_from')->getValue()[0]['value'] ?? null;
-        $to = $station->get('field_validity_to')->getValue()[0]['value'] ?? null;
-        $current_time = time();
+  foreach ($stations as $station) {
+    $from = $station->get('field_validity_from')->getValue()[0]['value'] ?? null;
+    $to = $station->get('field_validity_to')->getValue()[0]['value'] ?? null;
+    $current_time = time();
 
-        if ($from && $to) {
-            $from_time = strtotime($from);
-            $to_time = strtotime($to);
+    if ($from && $to) {
+      $from_time = strtotime($from);
+      $to_time = strtotime($to);
 
-            if ($from_time < $current_time && $to_time > $current_time) {
-                $status = 'published';
-            } elseif ($from_time > $current_time) {
-                $status = 'draft';
-            } elseif ($to_time < $current_time) {
-                $status = 'archived';
-            }
+      if ($from_time < $current_time && $to_time > $current_time) {
+        $status = 'published';
+      }
+      elseif ($from_time > $current_time) {
+        $status = 'draft';
+      }
+      elseif ($to_time < $current_time) {
+        $status = 'archived';
+      }
 
-            if (isset($status)) {
-                $station->set('moderation_state', $status)->save();
-            }
-        }
+      if (isset($status)) {
+        $station->set('moderation_state', $status)->save();
+      }
     }
-
+  }
 }
 
 /**
  * Helper function to run the migration.
  */
 function _tide_station_locator_migrate($migration_id) {
-    $migration = \Drupal::service('plugin.manager.migration')
-        ->createInstance($migration_id);
-    $migration->getIdMap()->prepareUpdate();
-    $executable = new MigrateExecutable($migration, new MigrateMessage());
-    $executable->import();
+  $migration = \Drupal::service('plugin.manager.migration')
+    ->createInstance($migration_id);
+  $migration->getIdMap()->prepareUpdate();
+  $executable = new MigrateExecutable($migration, new MigrateMessage());
+  $executable->import();
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function tide_station_locator_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-    if (in_array($form_id, ['node_station_edit_form', 'node_station_form'])) {
-        $fields = [
-            'title',
-            'field_accessibility',
-            'field_case_conference_email',
-            'field_case_conference_phone',
-            'field_email',
-            'field_fax',
-            'field_validity_from',
-            'field_geolocation',
-            'field_google_maps_url',
-            'field_opening_hours',
-            'field_opening_hours_notice',
-            'field_phone',
-            'field_postcode',
-            'field_node_primary_site',
-            'field_prosecution_unit_email',
-            'field_prosecution_unit_fax',
-            'field_prosecution_unit_notice',
-            'field_prosecution_unit_phone',
-            'field_node_site',
-            'field_specialty_services_or_faci',
-            'field_state',
-            'field_station_code',
-            'field_street_address',
-            'field_suburb',
-            'field_validity_to',
-        ];
-        foreach ($fields as $field) {
-            $form[$field]['#disabled'] = TRUE;
-        }
+  if (in_array($form_id, ['node_station_edit_form', 'node_station_form'])) {
+    $fields = [
+      'title',
+      'field_accessibility',
+      'field_case_conference_email',
+      'field_case_conference_phone',
+      'field_email',
+      'field_fax',
+      'field_validity_from',
+      'field_geolocation',
+      'field_google_maps_url',
+      'field_opening_hours',
+      'field_opening_hours_notice',
+      'field_phone',
+      'field_postcode',
+      'field_node_primary_site',
+      'field_prosecution_unit_email',
+      'field_prosecution_unit_fax',
+      'field_prosecution_unit_notice',
+      'field_prosecution_unit_phone',
+      'field_node_site',
+      'field_specialty_services_or_faci',
+      'field_state',
+      'field_station_code',
+      'field_street_address',
+      'field_suburb',
+      'field_validity_to',
+    ];
+    foreach ($fields as $field) {
+      $form[$field]['#disabled'] = TRUE;
     }
+  }
 }
