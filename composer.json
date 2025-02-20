@@ -5,14 +5,14 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "dpc-sdp/tide_core": "^5.0.0",
+        "drupal/datetime_more": "^1.0",
         "drupal/geofield": "^1.53",
         "drupal/search_api_location": "^1.0@alpha",
         "drupal/migrate_source_csv": "^3.5",
         "drupal/migrate_plus": "^6.0",
         "php-http/message": "^1",
         "php-http/message-factory": "^1",
-        "guzzlehttp/psr7": "~2.6.2",
-        "drupal/datetime_more": "^1.0"
+        "guzzlehttp/psr7": "~2.6.2"
     },
     "extra": {
         "enable-patching": true,
