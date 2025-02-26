@@ -281,8 +281,8 @@ class StationAPIConnector {
         }
         if (in_array($attribute['name'], $speciality_keys)) {
           if (!empty($attribute['value'])) {
-            $speciality_terms[$i] = html_entity_decode($attribute['DisplayName']);
-            $speciality_terms[$i]['value'] = $attribute['value'];
+            $speciality_terms[$i]['term_name'] = html_entity_decode($attribute['DisplayName']);
+            $speciality_terms[$i]['field_key'] = $attribute['value'];
             $i++;
           }
         }
@@ -333,7 +333,7 @@ class StationAPIConnector {
     $specialityFile = fopen($specialityFileLocation, 'w');
     // Write data in the CSV format.
     fputcsv($specialityFile, ["term_name", "field_key"]);
-    foreach ($speciality_terms as $key => $values) {
+    foreach ($speciality_terms as $values) {
       fputcsv($specialityFile, [$values['term_name'], $values['field_key']]);
     }
     // Close the stream.
