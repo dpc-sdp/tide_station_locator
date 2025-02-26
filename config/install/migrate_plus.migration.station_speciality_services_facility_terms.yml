@@ -19,6 +19,7 @@ process:
     plugin: default_value
     default_value: specialty_services_or_facilities
   name: term_name
+  field_key: field_key
 destination:
   plugin: 'entity:taxonomy_term'
 migration_dependencies: null

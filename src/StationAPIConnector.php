@@ -219,22 +219,6 @@ class StationAPIConnector {
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getFormattedStationResponse(array $stations) {
-    $speciality_keys = [
-      'Crime_Investigate_Unit_CIU',
-      'Crime_Prevent_Officer_CPO',
-      'FVIU',
-      'FVLO',
-      'FCLO',
-      'Justice_Of_The_Peace',
-      'LGBTIQ_Liaison_Officer_LLO',
-      'Neighbourhood_Watch',
-      'Pro_active_Police_Unit_PPU',
-      'Regional_Firearms_Officers',
-      'SOCIT',
-      'Victim_Assist_Supp_Officer',
-      'Youth_Resource_Officer',
-    ];
-
     $final_stations = $states = $speciality_terms = [];
 
     // We want the accessibility terms to be in a certain order.
@@ -287,9 +271,18 @@ class StationAPIConnector {
             }
           }
         }
+        $speciality_keys = [];
+        $speciality_terms = \Drupal::entityTypeManager()
+            ->getStorage('taxonomy_term')
+            ->loadByProperties(['vid' => 'specialty_services_or_facilities']);
+        foreach ($speciality_terms as $speciality_term) {
+          $key = $speciality_term->get('field_key')->getValue()[0]['value'] ?? 'null';
+          $speciality_keys[$key] = $key;
+        }
         if (in_array($attribute['name'], $speciality_keys)) {
           if (!empty($attribute['value'])) {
-            $speciality_terms[$i] = html_entity_decode($attribute['value']);
+            $speciality_terms[$i] = html_entity_decode($attribute['DisplayName']);
+            $speciality_terms[$i]['value'] = $attribute['value'];
             $i++;
           }
         }
@@ -338,10 +331,10 @@ class StationAPIConnector {
     // Save the specialityservicesandfacility csv.
     $specialityFileLocation = $file_save_path_stream_directory . '/' . 'specialityservicesandfacility.csv';
     $specialityFile = fopen($specialityFileLocation, 'w');
-    array_unshift($speciality_terms, 'term_name');
     // Write data in the CSV format.
-    foreach (array_unique($speciality_terms) as $speciality) {
-      fputcsv($specialityFile, [$speciality]);
+    fputcsv($specialityFile, ["term_name", "field_key"]);
+    foreach ($speciality_terms as $key => $values) {
+      fputcsv($specialityFile, [$values['term_name'], $values['field_key']]);
     }
     // Close the stream.
     fclose($specialityFile);
