@@ -13,7 +13,7 @@ source:
   path: public://specialityservicesandfacility.csv
   header_row_count: 1
   ids:
-    - term_name
+    - field_key
 process:
   vid:
     plugin: default_value
