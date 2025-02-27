@@ -219,7 +219,11 @@ class StationAPIConnector {
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getFormattedStationResponse(array $stations) {
-    $final_stations = $states = $speciality_terms = [];
+    $final_stations = $states = $speciality_keys = [];
+
+    $speciality_terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['vid' => 'specialty_services_or_facilities']);
 
     // We want the accessibility terms to be in a certain order.
     // So initialising it.
@@ -245,8 +249,13 @@ class StationAPIConnector {
     foreach ($stations as $key => $station) {
       // Loop through attributes.
       foreach ($station['attributes'] as $attribute) {
-        // Add attribute name as the key.
-        $station[$attribute['name']] = html_entity_decode($attribute['value']);
+        if (html_entity_decode($attribute['value']) == 'Y') {
+          $station[$attribute['name']] = html_entity_decode($attribute['displayName']);
+        }
+        else {
+          // Add attribute name as the key.
+          $station[$attribute['name']] = html_entity_decode($attribute['value']);
+        }
 
         if ($attribute['name'] == 'State_Name') {
           $states[$key] = $attribute['value'];
@@ -271,10 +280,6 @@ class StationAPIConnector {
             }
           }
         }
-        $speciality_keys = [];
-        $speciality_terms = \Drupal::entityTypeManager()
-            ->getStorage('taxonomy_term')
-            ->loadByProperties(['vid' => 'specialty_services_or_facilities']);
         foreach ($speciality_terms as $speciality_term) {
           $key = $speciality_term->get('field_key')->getValue()[0]['value'] ?? 'null';
           $speciality_keys[$key] = $key;

@@ -135,11 +135,11 @@ source:
     -
       name: field_specialty_services_or_faci_CIU
       label: 'Specialty services or facilities'
-      selector: /Crime_Investigate_Unit_CIU
+      selector: /CIU
     -
       name: field_specialty_services_or_faci_CPO
       label: 'Specialty services or facilities'
-      selector: /Crime_Prevent_Officer_CPO
+      selector: /CPO
     -
       name: field_specialty_services_or_faci_FVIU
       label: 'Specialty services or facilities'
@@ -159,7 +159,7 @@ source:
     -
       name: field_specialty_services_or_faci_LGBTIQ
       label: 'Specialty services or facilities'
-      selector: /LGBTIQ_Liaison_Officer_LLO
+      selector: /LLO
     -
       name: field_specialty_services_or_faci_NW
       label: 'Specialty services or facilities'
@@ -167,7 +167,7 @@ source:
     -
       name: field_specialty_services_or_faci_PPU
       label: 'Specialty services or facilities'
-      selector: /Pro_active_Police_Unit_PPU
+      selector: /PPU
     -
       name: field_specialty_services_or_faci_RFO
       label: 'Specialty services or facilities'
@@ -184,6 +184,10 @@ source:
       name: field_specialty_services_or_faci_YRO
       label: 'Specialty services or facilities'
       selector: /Youth_Resource_Officer
+    -
+      name: field_specialty_services_or_faci_DLO
+      label: 'Specialty services or facilities'
+      selector: /DLO
     -
       name: field_accessibility
       label: Accessibility
@@ -265,6 +269,7 @@ process:
       - field_specialty_services_or_faci_SOCIT
       - field_specialty_services_or_faci_VASO
       - field_specialty_services_or_faci_YRO
+      - field_specialty_services_or_faci_DLO
   field_specialty_services_or_faci:
     plugin: entity_generate
     source: '@_field_specialty_services_or_faci'
