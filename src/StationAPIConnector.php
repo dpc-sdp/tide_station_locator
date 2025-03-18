@@ -75,6 +75,7 @@ class StationAPIConnector {
       $clientId = getenv('CLIENT_ID');
       $clientSecret = getenv('CLIENT_SECRET');
       $rdm_auth = getenv('RDM_AUTH');
+      $resource = getenv('RESOURCE');
 
       $client = new Client([
         'base_uri' => $apiUrl,
@@ -92,6 +93,7 @@ class StationAPIConnector {
           'grant_type' => 'client_credentials',
           'client_id' => $clientId,
           'client_secret' => $clientSecret,
+          'resource' => $resource,
         ],
       ]);
 
