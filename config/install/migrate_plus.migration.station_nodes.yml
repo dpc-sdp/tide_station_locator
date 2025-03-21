@@ -17,7 +17,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: json
   urls:
-    - public://stations.json
+    - 'public://stations.json'
   item_selector: records
   fields:
     -
@@ -125,13 +125,21 @@ source:
       label: 'Opening hours notice'
       selector: /Notice
     -
+      name: field_validity_from
+      label: 'From'
+      selector: /ValidFromDt
+    -
+      name: field_validity_to
+      label: 'To'
+      selector: /ValidToDt
+    -
       name: field_specialty_services_or_faci_CIU
       label: 'Specialty services or facilities'
-      selector: /Crime_Investigate_Unit_CIU
+      selector: /CIU
     -
       name: field_specialty_services_or_faci_CPO
       label: 'Specialty services or facilities'
-      selector: /Crime_Prevent_Officer_CPO
+      selector: /CPO
     -
       name: field_specialty_services_or_faci_FVIU
       label: 'Specialty services or facilities'
@@ -151,7 +159,7 @@ source:
     -
       name: field_specialty_services_or_faci_LGBTIQ
       label: 'Specialty services or facilities'
-      selector: /LGBTIQ_Liaison_Officer_LLO
+      selector: /LLO
     -
       name: field_specialty_services_or_faci_NW
       label: 'Specialty services or facilities'
@@ -159,7 +167,7 @@ source:
     -
       name: field_specialty_services_or_faci_PPU
       label: 'Specialty services or facilities'
-      selector: /Pro_active_Police_Unit_PPU
+      selector: /PPU
     -
       name: field_specialty_services_or_faci_RFO
       label: 'Specialty services or facilities'
@@ -177,6 +185,10 @@ source:
       label: 'Specialty services or facilities'
       selector: /Youth_Resource_Officer
     -
+      name: field_specialty_services_or_faci_DLO
+      label: 'Specialty services or facilities'
+      selector: /DLO
+    -
       name: field_accessibility
       label: Accessibility
       selector: /Accessibility
@@ -188,12 +200,6 @@ process:
     plugin: default_value
     default_value: station
   title: title
-  field_node_primary_site:
-    plugin: default_value
-    default_value: 4
-  field_node_site:
-    plugin: default_value
-    default_value: 4
   field_street_address: field_street_address
   field_suburb: field_suburb
   field_state:
@@ -229,6 +235,24 @@ process:
   field_prosecution_unit_notice: field_prosecution_unit_notice
   field_opening_hours: field_opening_hours
   field_opening_hours_notice: field_opening_hours_notice
+  field_validity_from:
+    plugin: format_date
+    source: field_validity_from
+    from_format: 'Y-m-d'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'UTC'
+    to_timezone: 'UTC'
+    settings:
+      validate_format: false
+  field_validity_to:
+    plugin: format_date
+    source: field_validity_to
+    from_format: 'Y-m-d'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'UTC'
+    to_timezone: 'UTC'
+    settings:
+      validate_format: false
   _field_specialty_services_or_faci:
     plugin: get
     source:
@@ -245,6 +269,7 @@ process:
       - field_specialty_services_or_faci_SOCIT
       - field_specialty_services_or_faci_VASO
       - field_specialty_services_or_faci_YRO
+      - field_specialty_services_or_faci_DLO
   field_specialty_services_or_faci:
     plugin: entity_generate
     source: '@_field_specialty_services_or_faci'
@@ -254,10 +279,12 @@ process:
     entity_type: taxonomy_term
     ignore_case: true
   field_accessibility:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: field_accessibility
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: ', '
     -
       plugin: entity_generate
@@ -265,6 +292,12 @@ process:
       bundle: accessibility
       entity_type: taxonomy_term
       ignore_case: true
+  field_node_primary_site:
+    plugin: default_value
+    default_value: 4
+  field_node_site:
+    plugin: default_value
+    default_value: 4
   moderation_state:
     plugin: default_value
     default_value: published

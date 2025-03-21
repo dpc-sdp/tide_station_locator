@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * Tide Station Locator install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function tide_station_locator_install() {
+  _tide_station_locator_update_speciality_keys();
+}
+
+/**
+ * Update the speciality terms with key values.
+ */
+function _tide_station_locator_update_speciality_keys() {
+  $speciality_keys = [
+    [
+      'name'=> 'CIU',
+      'DisplayName' => 'Crime Investigation Unit (CIU)'
+    ],
+    [
+      'name'=> 'CPO',
+      'DisplayName' => 'Crime Prevention Officer (CPO)'
+    ],
+    [
+      'name'=> 'FVIU',
+      'DisplayName' => 'Family Violence Investigation Unit (FVIU)'
+    ],
+    [
+      'name'=> 'FVLO',
+      'DisplayName' => 'Family Violence Liaison Officer (FVLO)'
+    ],
+    [
+      'name'=> 'FCLO',
+      'DisplayName' => 'Farm Crime Liaison Officer (FCLO)'
+    ],
+    [
+      'name'=> 'Justice_Of_The_Peace',
+      'DisplayName' => 'Justice of the Peace'
+    ],
+    [
+      'name'=> 'Neighbourhood_Watch',
+      'DisplayName' => 'Neighbourhood Watch'
+    ],
+    [
+      'name'=> 'PPU',
+      'DisplayName' => 'Pro-active Policing Unit (PPU)'
+    ],
+    [
+      'name'=> 'Regional_Firearms_Officers',
+      'DisplayName' => 'Regional Firearms Officer'
+    ],
+    [
+      'name'=> 'SOCIT',
+      'DisplayName' => 'Sexual Offences and Child Abuse Investigation Team (SOCIT)'
+    ],
+    [
+      'name'=> 'Victim_Assist_Supp_Officer',
+      'DisplayName' => 'Victim Assistance Support Officer'
+    ],
+    [
+      'name'=> 'Youth_Resource_Officer',
+      'DisplayName' => 'Youth Resource Officer'
+    ],
+    [
+      'name'=> 'LLO',
+      'DisplayName' => 'LGBTIQ_Liaison_Officer_LLO',
+    ],
+    [
+      'name'=> 'DLO',
+      'DisplayName' => 'Disability Liaison Officer (DLO)',
+    ],
+  ];
+
+  $entityManager = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  foreach ($speciality_keys as $speciality_key) {
+    $terms = $entityManager->loadByProperties([
+      'name' => $speciality_key['DisplayName'],
+      'vid' => 'specialty_services_or_facilities'
+    ]);
+
+    if ($term = reset($terms)) {
+      $term->set('field_key', $speciality_key['name'])->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function tide_station_locator_update_10001() {
+  _tide_station_locator_update_speciality_keys();
+}
