@@ -65,12 +65,10 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_accessibility:
-    type: entity_reference_autocomplete
+    type: string_textfield
     weight: 29
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -249,8 +247,8 @@ content:
       date_order: YMD
       time_type: '24'
       increment: '1'
-      year_min: '1'
-      year_max: '1900'
+      year_min: '1900'
+      year_max: '9999'
       input_year: number
       input_month: select
       input_day: select
@@ -266,7 +264,7 @@ content:
       date_order: YMD
       time_type: '24'
       increment: '1'
-      year_min: '1'
+      year_min: '1900'
       year_max: '9999'
       input_year: number
       input_month: select

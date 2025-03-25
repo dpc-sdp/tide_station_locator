@@ -225,25 +225,6 @@ class StationAPIConnector {
       ->getStorage('taxonomy_term')
       ->loadByProperties(['vid' => 'specialty_services_or_facilities']);
 
-    // We want the accessibility terms to be in a certain order.
-    // So initialising it.
-    $accessibility_terms = [
-      'Front entrance ground level' => 'Front entrance ground level',
-      'Automatic entrance door' => 'Automatic entrance door',
-      'Wheelchair/ramp access Internal' => 'Wheelchair/ramp access Internal',
-      'Wheelchair/ramp access External' => 'Wheelchair/ramp access External',
-      'Accessible parking' => 'Accessible parking',
-      'Internal parking lift access' => 'Internal parking lift access',
-      'Automatic lift door' => 'Automatic lift door',
-      'Accessible toilet public/interior' => 'Accessible toilet public/interior',
-      'Hearing loop' => 'Hearing loop',
-      'Audible level recognition' => 'Audible level recognition',
-      'SCOPE Communication Access accredited police station' => 'SCOPE Communication Access accredited police station',
-      'Lift braille buttons' => 'Lift braille buttons',
-      'External/entrance braille signage' => 'External/entrance braille signage',
-      'Internal braille signage' => 'Internal braille signage',
-    ];
-
     $i = 0;
     // Process the data so that we can save it in a format we need.
     foreach ($stations as $key => $station) {
@@ -252,6 +233,21 @@ class StationAPIConnector {
         if (html_entity_decode($attribute['value']) == 'Y') {
           $station['specialty_services'][] = [$attribute['name'], html_entity_decode($attribute['displayName'])];
         }
+        // Fetch the accessibility values.
+        elseif ($attribute['name'] == 'Accessibility') {
+          $accessibility_array = explode(",", $attribute['value']);
+          if (isset($accessibility_array) && is_array($accessibility_array)) {
+            foreach ($accessibility_array as $item) {
+              $trimmed_item = trim($item);
+              // Getting rif od non-breaking space.
+              $trimmed_item = trim($trimmed_item, " \t\n\r\0\x0B\xc2\xa0");
+              if ($trimmed_item === "") {
+                continue;
+              }
+              $station['Accessibility'][] = [ucfirst(html_entity_decode($trimmed_item))];
+            }
+          }
+        }
         else {
           // Add attribute name as the key.
           $station[$attribute['name']] = html_entity_decode($attribute['value']);
@@ -259,38 +255,6 @@ class StationAPIConnector {
 
         if ($attribute['name'] == 'State_Name') {
           $states[$key] = $attribute['value'];
-        }
-        if ($attribute['name'] == 'Accessibility') {
-          $accessibility_terms_array = explode(",", $attribute['value']);
-          if (isset($accessibility_terms_array) && is_array($accessibility_terms_array)) {
-            foreach ($accessibility_terms_array as $key1 => $item) {
-              $trimmed_item = trim($item);
-              // Getting rif od non-breaking space.
-              $trimmed_item = trim($trimmed_item, " \t\n\r\0\x0B\xc2\xa0");
-              if ($trimmed_item === "") {
-                continue;
-              }
-              // Check for same term but with different case.
-              $accessibility_keys = array_keys($accessibility_terms);
-              if (array_search(strtolower($trimmed_item), array_map('strtolower', $accessibility_keys))) {
-                continue;
-              }
-
-              $accessibility_terms[$trimmed_item] = html_entity_decode($trimmed_item);
-            }
-          }
-        }
-        foreach ($speciality_terms as $speciality_term) {
-          if (is_object($speciality_term)) {
-            $key = $speciality_term->get('field_key')->getValue()[0]['value'] ?? 'null';
-            $speciality_keys[$key] = $key;
-          }
-        }
-
-        if (in_array($attribute['name'], $speciality_keys)) {
-          $speciality_terms_data[$i]['term_name'] = html_entity_decode($attribute['displayName']);
-          $speciality_terms_data[$i]['field_key'] = $attribute['name'];
-          $i++;
         }
         // If the date is empty set default value.
         if ($attribute['name'] == 'ValidFromDt' && empty($attribute['value'])) {
@@ -322,28 +286,6 @@ class StationAPIConnector {
     }
     // Close the stream.
     fclose($stateFile);
-
-    // Save the accessibility csv.
-    $accessibilityFileLocation = $file_save_path_stream_directory . '/' . 'accessibility.csv';
-    $accessibilityFile = fopen($accessibilityFileLocation, 'w');
-    array_unshift($accessibility_terms, 'term_name');
-    // Write data in the CSV format.
-    foreach (array_unique($accessibility_terms) as $accessibility) {
-      fputcsv($accessibilityFile, [$accessibility]);
-    }
-    // Close the stream.
-    fclose($accessibilityFile);
-
-    // Save the specialityservicesandfacility csv.
-    $specialityFileLocation = $file_save_path_stream_directory . '/' . 'specialityservicesandfacility.csv';
-    $specialityFile = fopen($specialityFileLocation, 'w');
-    // Write data in the CSV format.
-    fputcsv($specialityFile, ["term_name", "field_key"]);
-    foreach ($speciality_terms_data as $values) {
-      fputcsv($specialityFile, [$values['term_name'], $values['field_key']]);
-    }
-    // Close the stream.
-    fclose($specialityFile);
   }
 
 }

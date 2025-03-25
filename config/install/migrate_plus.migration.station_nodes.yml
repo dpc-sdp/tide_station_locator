@@ -126,11 +126,11 @@ source:
       selector: /Notice
     -
       name: field_validity_from
-      label: 'From'
+      label: From
       selector: /ValidFromDt
     -
       name: field_validity_to
-      label: 'To'
+      label: To
       selector: /ValidToDt
     -
       name: field_specialty_services_or_faci_CIU
@@ -238,19 +238,19 @@ process:
   field_validity_from:
     plugin: format_date
     source: field_validity_from
-    from_format: 'Y-m-d'
+    from_format: Y-m-d
     to_format: 'Y-m-d\TH:i:s'
-    from_timezone: 'UTC'
-    to_timezone: 'UTC'
+    from_timezone: UTC
+    to_timezone: UTC
     settings:
       validate_format: false
   field_validity_to:
     plugin: format_date
     source: field_validity_to
-    from_format: 'Y-m-d'
+    from_format: Y-m-d
     to_format: 'Y-m-d\TH:i:s'
-    from_timezone: 'UTC'
-    to_timezone: 'UTC'
+    from_timezone: UTC
+    to_timezone: UTC
     settings:
       validate_format: false
   _field_specialty_services_or_faci:

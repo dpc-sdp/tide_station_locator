@@ -4,7 +4,6 @@ dependencies:
   config:
     - field.storage.media.field_media_image
     - field.storage.node.body
-    - field.storage.node.field_accessibility
     - field.storage.node.field_audience
     - field.storage.node.field_case_conference_email
     - field.storage.node.field_case_conference_phone
@@ -101,24 +100,6 @@ field_settings:
     dependencies:
       module:
         - node
-  field_accessibility:
-    label: Accessibility
-    datasource_id: 'entity:node'
-    property_path: field_accessibility
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_accessibility
-  field_accessibility_name:
-    label: 'Accessibility » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_accessibility:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_accessibility
-      module:
-        - taxonomy
   field_audience:
     label: Audience
     datasource_id: 'entity:node'
@@ -1015,7 +996,6 @@ processor_settings:
     all_fields: true
     fields:
       - body
-      - field_accessibility_name
       - field_audience_name
       - field_audience_uuid
       - field_case_conference_email
