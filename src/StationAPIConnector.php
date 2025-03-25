@@ -219,7 +219,7 @@ class StationAPIConnector {
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getFormattedStationResponse(array $stations) {
-    $final_stations = $states = $speciality_keys = [];
+    $final_stations = $states = $speciality_keys = $speciality_terms_data = [];
 
     $speciality_terms = \Drupal::entityTypeManager()
       ->getStorage('taxonomy_term')
@@ -250,7 +250,7 @@ class StationAPIConnector {
       // Loop through attributes.
       foreach ($station['attributes'] as $attribute) {
         if (html_entity_decode($attribute['value']) == 'Y') {
-          $station[$attribute['name']] = html_entity_decode($attribute['displayName']);
+          $station['specialty_services'][] = [$attribute['name'], html_entity_decode($attribute['displayName'])];
         }
         else {
           // Add attribute name as the key.
@@ -281,15 +281,16 @@ class StationAPIConnector {
           }
         }
         foreach ($speciality_terms as $speciality_term) {
-          $key = $speciality_term->get('field_key')->getValue()[0]['value'] ?? 'null';
-          $speciality_keys[$key] = $key;
-        }
-        if (in_array($attribute['name'], $speciality_keys)) {
-          if (!empty($attribute['value'])) {
-            $speciality_terms[$i]['term_name'] = html_entity_decode($attribute['DisplayName']);
-            $speciality_terms[$i]['field_key'] = $attribute['value'];
-            $i++;
+          if (is_object($speciality_term)) {
+            $key = $speciality_term->get('field_key')->getValue()[0]['value'] ?? 'null';
+            $speciality_keys[$key] = $key;
           }
+        }
+
+        if (in_array($attribute['name'], $speciality_keys)) {
+          $speciality_terms_data[$i]['term_name'] = html_entity_decode($attribute['displayName']);
+          $speciality_terms_data[$i]['field_key'] = $attribute['name'];
+          $i++;
         }
         // If the date is empty set default value.
         if ($attribute['name'] == 'ValidFromDt' && empty($attribute['value'])) {
@@ -338,7 +339,7 @@ class StationAPIConnector {
     $specialityFile = fopen($specialityFileLocation, 'w');
     // Write data in the CSV format.
     fputcsv($specialityFile, ["term_name", "field_key"]);
-    foreach ($speciality_terms as $values) {
+    foreach ($speciality_terms_data as $values) {
       fputcsv($specialityFile, [$values['term_name'], $values['field_key']]);
     }
     // Close the stream.
