@@ -117,3 +117,21 @@ function tide_station_locator_update_10001() {
 function tide_station_locator_update_10002() {
   _tide_station_locator_update_speciality_keys();
 }
+
+/**
+ * Implements hook_update_N() - Delete terms.
+ */
+function tide_station_locator_update_10003() {
+  $controller = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  foreach (['accessibility', 'state'] as $vocabulary) {
+    $term_ids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', $vocabulary)
+      ->execute();
+
+    if (!empty($term_ids)) {
+      $entities = $controller->loadMultiple($term_ids);
+      $controller->delete($entities);
+    }
+  }
+}
