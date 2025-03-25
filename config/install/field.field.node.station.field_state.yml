@@ -4,7 +4,6 @@ dependencies:
   config:
     - field.storage.node.field_state
     - node.type.station
-    - taxonomy.vocabulary.station_state
 id: node.station.field_state
 field_name: field_state
 entity_type: node
@@ -15,14 +14,5 @@ required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings:
-  handler: 'default:taxonomy_term'
-  handler_settings:
-    target_bundles:
-      station_state: station_state
-    sort:
-      field: name
-      direction: asc
-    auto_create: false
-    auto_create_bundle: ''
-field_type: entity_reference
+settings: {  }
+field_type: string

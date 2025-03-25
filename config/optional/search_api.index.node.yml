@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.storage.media.field_media_image
     - field.storage.node.body
+    - field.storage.node.field_accessibility
     - field.storage.node.field_audience
     - field.storage.node.field_case_conference_email
     - field.storage.node.field_case_conference_phone
@@ -35,7 +36,6 @@ dependencies:
     - field.storage.node.field_publication_authors
     - field.storage.node.field_publication_date
     - field.storage.node.field_specialty_services_or_faci
-    - field.storage.node.field_state
     - field.storage.node.field_station_code
     - field.storage.node.field_status
     - field.storage.node.field_street_address
@@ -100,6 +100,14 @@ field_settings:
     dependencies:
       module:
         - node
+  field_accessibility:
+    label: Accessibility
+    datasource_id: 'entity:node'
+    property_path: field_accessibility
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_accessibility
   field_audience:
     label: Audience
     datasource_id: 'entity:node'
@@ -751,24 +759,6 @@ field_settings:
         - field.storage.node.field_specialty_services_or_faci
       module:
         - taxonomy
-  field_state:
-    label: State
-    datasource_id: 'entity:node'
-    property_path: field_state
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_state
-  field_state_name:
-    label: 'State » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_state:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_state
-      module:
-        - taxonomy
   field_station_code:
     label: 'Station code'
     datasource_id: 'entity:node'
@@ -996,6 +986,7 @@ processor_settings:
     all_fields: true
     fields:
       - body
+      - field_accessibility
       - field_audience_name
       - field_audience_uuid
       - field_case_conference_email
@@ -1051,7 +1042,6 @@ processor_settings:
       - field_publication_title
       - field_publication_uuid
       - field_specialty_services_or_faci_name
-      - field_state_name
       - field_station_code
       - field_status
       - field_street_address

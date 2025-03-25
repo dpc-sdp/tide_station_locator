@@ -133,61 +133,9 @@ source:
       label: To
       selector: /ValidToDt
     -
-      name: field_specialty_services_or_faci_CIU
+      name: field_specialty_services_or_faci
       label: 'Specialty services or facilities'
-      selector: /CIU
-    -
-      name: field_specialty_services_or_faci_CPO
-      label: 'Specialty services or facilities'
-      selector: /CPO
-    -
-      name: field_specialty_services_or_faci_FVIU
-      label: 'Specialty services or facilities'
-      selector: /FVIU
-    -
-      name: field_specialty_services_or_faci_FVLO
-      label: 'Specialty services or facilities'
-      selector: /FVLO
-    -
-      name: field_specialty_services_or_faci_FCLO
-      label: 'Specialty services or facilities'
-      selector: /FCLO
-    -
-      name: field_specialty_services_or_faci_Justice_Of_The_Peace
-      label: 'Specialty services or facilities'
-      selector: /Justice_Of_The_Peace
-    -
-      name: field_specialty_services_or_faci_LGBTIQ
-      label: 'Specialty services or facilities'
-      selector: /LLO
-    -
-      name: field_specialty_services_or_faci_NW
-      label: 'Specialty services or facilities'
-      selector: /Neighbourhood_Watch
-    -
-      name: field_specialty_services_or_faci_PPU
-      label: 'Specialty services or facilities'
-      selector: /PPU
-    -
-      name: field_specialty_services_or_faci_RFO
-      label: 'Specialty services or facilities'
-      selector: /Regional_Firearms_Officers
-    -
-      name: field_specialty_services_or_faci_SOCIT
-      label: 'Specialty services or facilities'
-      selector: /SOCIT
-    -
-      name: field_specialty_services_or_faci_VASO
-      label: 'Specialty services or facilities'
-      selector: /Victim_Assist_Supp_Officer
-    -
-      name: field_specialty_services_or_faci_YRO
-      label: 'Specialty services or facilities'
-      selector: /Youth_Resource_Officer
-    -
-      name: field_specialty_services_or_faci_DLO
-      label: 'Specialty services or facilities'
-      selector: /DLO
+      selector: /specialty_services
     -
       name: field_accessibility
       label: Accessibility
@@ -202,10 +150,7 @@ process:
   title: title
   field_street_address: field_street_address
   field_suburb: field_suburb
-  field_state:
-    plugin: migration_lookup
-    migration: station_state_terms
-    source: field_state
+  field_state: field_state
   field_postcode: field_postcode
   field_google_maps_url/uri: field_google_maps_url
   field_station_code: field_station_code
@@ -253,27 +198,10 @@ process:
     to_timezone: UTC
     settings:
       validate_format: false
-  _field_specialty_services_or_faci:
-    plugin: get
-    source:
-      - field_specialty_services_or_faci_CIU
-      - field_specialty_services_or_faci_CPO
-      - field_specialty_services_or_faci_FVIU
-      - field_specialty_services_or_faci_FVLO
-      - field_specialty_services_or_faci_FCLO
-      - field_specialty_services_or_faci_Justice_Of_The_Peace
-      - field_specialty_services_or_faci_LGBTIQ
-      - field_specialty_services_or_faci_NW
-      - field_specialty_services_or_faci_PPU
-      - field_specialty_services_or_faci_RFO
-      - field_specialty_services_or_faci_SOCIT
-      - field_specialty_services_or_faci_VASO
-      - field_specialty_services_or_faci_YRO
-      - field_specialty_services_or_faci_DLO
   field_specialty_services_or_faci:
-    plugin: entity_generate
-    source: '@_field_specialty_services_or_faci'
-    value_key: name
+    plugin: entity_lookup
+    source: field_specialty_services_or_faci
+    value_key: field_key
     bundle_key: vid
     bundle: specialty_services_or_facilities
     entity_type: taxonomy_term
@@ -283,15 +211,6 @@ process:
       plugin: skip_on_empty
       method: process
       source: field_accessibility
-    -
-      plugin: explode
-      delimiter: ', '
-    -
-      plugin: entity_generate
-      bundle_key: vid
-      bundle: accessibility
-      entity_type: taxonomy_term
-      ignore_case: true
   field_node_primary_site:
     plugin: default_value
     default_value: 4
@@ -304,4 +223,4 @@ process:
 destination:
   plugin: 'entity:node'
   default_bundle: station
-migration_dependencies: {}
+migration_dependencies: {  }
