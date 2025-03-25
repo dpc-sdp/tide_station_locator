@@ -91,6 +91,9 @@ function _tide_station_locator_update_speciality_keys() {
   }
 }
 
+/**
+ * Implements hook_update_N() - Add config files.
+ */
 function tide_station_locator_update_10001() {
   $form_configs = [
     'field.storage.taxonomy_term.field_key.yml',
@@ -102,7 +105,7 @@ function tide_station_locator_update_10001() {
 }
 
 /**
- * Implements hook_update_N().
+ * Implements hook_update_N() - Add values to keys field.
  */
 function tide_station_locator_update_10002() {
   _tide_station_locator_update_speciality_keys();
