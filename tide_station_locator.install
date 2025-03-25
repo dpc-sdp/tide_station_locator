@@ -5,6 +5,8 @@
  * Tide Station Locator install file.
  */
 
+use Drupal\tide_core\TideEntityUpdateHelper;
+
 /**
  * Implements hook_install().
  */
@@ -89,9 +91,19 @@ function _tide_station_locator_update_speciality_keys() {
   }
 }
 
+function tide_station_locator_update_10001() {
+  $form_configs = [
+    'field.storage.taxonomy_term.field_key.yml',
+    'field.field.taxonomy_term.specialty_services_or_facilities.field_key.yml',
+  ];
+  /** @var \Drupal\tide_core\TideEntityUpdateHelper $s */
+  $tide_update_helper = \Drupal::service('tide_core.entity_update_helper');
+  $tide_update_helper->configMergeDeep('tide_station_locator', TideEntityUpdateHelper::INSTALL_DIR, $form_configs);
+}
+
 /**
  * Implements hook_update_N().
  */
-function tide_station_locator_update_10001() {
+function tide_station_locator_update_10002() {
   _tide_station_locator_update_speciality_keys();
 }
