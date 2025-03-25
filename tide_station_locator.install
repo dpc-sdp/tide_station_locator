@@ -96,8 +96,8 @@ function _tide_station_locator_update_speciality_keys() {
  */
 function tide_station_locator_update_10001() {
   $form_configs = [
-    'field.storage.taxonomy_term.field_key.yml',
-    'field.field.taxonomy_term.specialty_services_or_facilities.field_key.yml',
+    'field.storage.taxonomy_term.field_key',
+    'field.field.taxonomy_term.specialty_services_or_facilities.field_key',
   ];
   /** @var \Drupal\tide_core\TideEntityUpdateHelper $s */
   $tide_update_helper = \Drupal::service('tide_core.entity_update_helper');
