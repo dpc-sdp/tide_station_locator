@@ -219,18 +219,25 @@ class StationAPIConnector {
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getFormattedStationResponse(array $stations) {
-    $final_stations = $states = $speciality_keys = $speciality_terms_data = [];
+    $final_stations = $speciality_keys = [];
 
     $speciality_terms = \Drupal::entityTypeManager()
       ->getStorage('taxonomy_term')
       ->loadByProperties(['vid' => 'specialty_services_or_facilities']);
+
+    foreach ($speciality_terms as $speciality_term) {
+      if (is_object($speciality_term)) {
+        $key = $speciality_term->get('field_key')->getValue()[0]['value'] ?? 'null';
+        $speciality_keys[$key] = $key;
+      }
+    }
 
     $i = 0;
     // Process the data so that we can save it in a format we need.
     foreach ($stations as $key => $station) {
       // Loop through attributes.
       foreach ($station['attributes'] as $attribute) {
-        if (html_entity_decode($attribute['value']) == 'Y') {
+        if (html_entity_decode($attribute['value']) == 'Y' && in_array($attribute['name'], $speciality_keys)) {
           $station['specialty_services'][] = [$attribute['name'], html_entity_decode($attribute['displayName'])];
         }
         // Fetch the accessibility values.
