@@ -253,9 +253,6 @@ class StationAPIConnector {
           $station[$attribute['name']] = html_entity_decode($attribute['value']);
         }
 
-        if ($attribute['name'] == 'State_Name') {
-          $states[$key] = $attribute['value'];
-        }
         // If the date is empty set default value.
         if ($attribute['name'] == 'ValidFromDt' && empty($attribute['value'])) {
           $station['ValidFromDt'] = '1900-01-01';
@@ -275,17 +272,6 @@ class StationAPIConnector {
     // Save the stations JSON.
     $stationsFileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
     $stationsFile = \Drupal::service('file.repository')->writeData(json_encode($final_stations), $stationsFileLocation, FileSystemInterface::EXISTS_REPLACE);
-
-    // Save the state csv.
-    $stateFileLocation = $file_save_path_stream_directory . '/' . 'state.csv';
-    $stateFile = fopen($stateFileLocation, 'w');
-    array_unshift($states, 'term_name');
-    // Write data in the CSV format.
-    foreach (array_unique($states) as $state) {
-      fputcsv($stateFile, [$state]);
-    }
-    // Close the stream.
-    fclose($stateFile);
   }
 
 }
