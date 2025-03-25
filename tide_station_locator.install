@@ -5,8 +5,6 @@
  * Tide Station Locator install file.
  */
 
-use Drupal\tide_core\TideEntityUpdateHelper;
-
 /**
  * Implements hook_install().
  */
@@ -95,13 +93,22 @@ function _tide_station_locator_update_speciality_keys() {
  * Implements hook_update_N() - Add config files.
  */
 function tide_station_locator_update_10001() {
-  $form_configs = [
-    'field.storage.taxonomy_term.field_key',
-    'field.field.taxonomy_term.specialty_services_or_facilities.field_key',
-  ];
-  /** @var \Drupal\tide_core\TideEntityUpdateHelper $s */
-  $tide_update_helper = \Drupal::service('tide_core.entity_update_helper');
-  $tide_update_helper->configMergeDeep('tide_station_locator', TideEntityUpdateHelper::INSTALL_DIR, $form_configs);
+    $configs = [
+        'field.storage.taxonomy_term.field_key' => 'field_storage_config',
+        'field.field.taxonomy_term.specialty_services_or_facilities.field_key' => 'field_config',
+    ];
+    module_load_include('inc', 'tide_core', 'includes/helpers');
+    $config_location = [\Drupal::service('extension.list.module')->getPath('tide_station_locator') . '/config/install'];
+    // Check if field already exported to config/sync.
+    foreach ($configs as $config => $type) {
+        $config_read = _tide_read_config($config, $config_location, TRUE);
+        $storage = \Drupal::entityTypeManager()->getStorage($type);
+        $id = $storage->getIDFromConfigName($config, $storage->getEntityType()->getConfigPrefix());
+        if ($storage->load($id) == NULL) {
+            $config_entity = $storage->createFromStorageRecord($config_read);
+            $config_entity->save();
+        }
+    }
 }
 
 /**
