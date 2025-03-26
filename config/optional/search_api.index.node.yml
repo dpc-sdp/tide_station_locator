@@ -100,7 +100,7 @@ field_settings:
     dependencies:
       module:
         - node
-  field_accessibility:
+  field_accessibility_name:
     label: Accessibility
     datasource_id: 'entity:node'
     property_path: field_accessibility
@@ -986,7 +986,7 @@ processor_settings:
     all_fields: true
     fields:
       - body
-      - field_accessibility
+      - field_accessibility_name
       - field_audience_name
       - field_audience_uuid
       - field_case_conference_email
