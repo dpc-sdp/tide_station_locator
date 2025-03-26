@@ -223,7 +223,7 @@ class StationAPIConnector {
               if ($trimmed_item === "") {
                 continue;
               }
-              $station['Accessibility'][] = [ucfirst(html_entity_decode($trimmed_item))];
+              $station['Accessibility'][] = ucfirst(html_entity_decode($trimmed_item));
             }
           }
         }
