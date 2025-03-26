@@ -124,7 +124,7 @@ function tide_station_locator_update_10002() {
 function tide_station_locator_update_10003() {
   $controller = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
 
-  foreach (['accessibility', 'state'] as $vocabulary) {
+  foreach (['accessibility', 'station_state'] as $vocabulary) {
     $term_ids = \Drupal::entityQuery('taxonomy_term')
       ->condition('vid', $vocabulary)
       ->accessCheck(FALSE)->execute();

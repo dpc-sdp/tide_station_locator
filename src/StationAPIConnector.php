@@ -120,13 +120,11 @@ class StationAPIConnector {
    *   Access token.
    * @param string $rdm_auth
    *   Rdm Auth.
-   * @param bool $delta
-   *   Delta boolean.
    *
    * @return mixed
    *   Full data.
    */
-  public function getApiResponse($client, $accessToken, $rdm_auth, $delta) {
+  public function getApiResponse(string $client, string $accessToken, string $rdm_auth) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
@@ -137,7 +135,7 @@ class StationAPIConnector {
           'Content-Type' => 'application/json',
           'Accept-Encoding' => 'gzip, deflate, br',
         ],
-        RequestOptions::JSON => $this->apiQueryPayload($delta),
+        RequestOptions::JSON => $this->apiQueryPayload(),
       ]);
 
       if ($response->getStatusCode() == '200') {
@@ -166,48 +164,22 @@ class StationAPIConnector {
   /**
    * Helper method to get the Query Payload.
    *
-   * @param bool $delta
-   *   Whether the update or full migration required.
-   *
    * @return array
    *   Payload.
    */
-  public function apiQueryPayload($delta = FALSE) {
-    // Get the 'last_api_access'.
-    $config = $this->configFactory->getEditable('tide_station_locator.settings');
-    $last_api_access = $config->get('last_api_access');
-
-    if ($delta && !empty($last_api_access)) {
-      $payload = [
-        'name' => 'STATION_LOCATION',
-        "productKey" => -1,
-        'recordCount' => 500,
-        'attributes' => [
-          [
-            'name' => 'RECORD_MODDATE',
-            'value' => [$last_api_access],
-            'operator' => 'gt',
-            'caseSensitive' => FALSE,
-          ],
+  public function apiQueryPayload() {
+    return [
+      'name' => 'STATION_LOCATION',
+      'attributes' => [
+        [
+          'name' => 'ACTIVE',
+          'value' => ['Y'],
+          'caseSensitive' => FALSE,
         ],
-      ];
-    }
-    else {
-      $payload = [
-        'name' => 'STATION_LOCATION',
-        'attributes' => [
-          [
-            'name' => 'ACTIVE',
-            'value' => ['Y'],
-            'caseSensitive' => FALSE,
-          ],
-        ],
-        'startIndex' => 1,
-        'recordCount' => 500,
-      ];
-    }
-
-    return $payload;
+      ],
+      'startIndex' => 1,
+      'recordCount' => 500,
+    ];
   }
 
   /**

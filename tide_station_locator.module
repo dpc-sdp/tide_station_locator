@@ -13,14 +13,14 @@ use Drupal\node\Entity\Node;
 /**
  * This function is for accessing the API.
  */
-function tide_station_locator_get_api_data($delta = FALSE) {
+function tide_station_locator_get_api_data() {
   $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
 
   // Connect API.
   $result = $station_api_connector->connectApi();
 
   // Get API response.
-  $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta);
+  $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth']);
 
   if ($full_data && !empty($full_data['records'])) {
     // Get formatted data and save the file.
@@ -31,11 +31,11 @@ function tide_station_locator_get_api_data($delta = FALSE) {
 /**
  * Function to migrate stations.
  */
-function tide_station_locator_migrate_stations($options) {
+function tide_station_locator_migrate_stations() {
 
   try {
     // Connect to API and download the latest station JSON and migrate.
-    tide_station_locator_get_api_data($options['delta']);
+    tide_station_locator_get_api_data();
     _tide_station_locator_migrate('station_nodes');
   }
   catch (Exception $e) {
