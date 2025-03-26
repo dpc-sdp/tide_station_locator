@@ -139,11 +139,6 @@ class StationAPIConnector {
       ]);
 
       if ($response->getStatusCode() == '200') {
-        // Get the config.
-        $config = $this->configFactory->getEditable('tide_station_locator.settings');
-        // Update 'last_api_access'.
-        $config->set('last_api_access', date('Y-m-d h:i:s'))->save();
-
         // Get the response body.
         $body = $response->getBody()->getContents();
 
@@ -167,7 +162,7 @@ class StationAPIConnector {
    * @return array
    *   Payload.
    */
-  public function apiQueryPayload() {
+  public function apiQueryPayload(): array {
     return [
       'name' => 'STATION_LOCATION',
       'attributes' => [
@@ -210,7 +205,7 @@ class StationAPIConnector {
       // Loop through attributes.
       foreach ($station['attributes'] as $attribute) {
         if (html_entity_decode($attribute['value']) == 'Y' && in_array($attribute['name'], $speciality_keys)) {
-          $station['specialty_services'][] = [$attribute['name'], html_entity_decode($attribute['displayName'])];
+          $station['specialty_services'][] = $attribute['name'];
         }
         // Fetch the accessibility values.
         elseif ($attribute['name'] == 'Accessibility') {

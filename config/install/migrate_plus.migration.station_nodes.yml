@@ -223,4 +223,4 @@ process:
 destination:
   plugin: 'entity:node'
   default_bundle: station
-migration_dependencies: {  }
+migration_dependencies: null
