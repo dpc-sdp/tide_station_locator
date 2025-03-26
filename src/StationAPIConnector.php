@@ -114,17 +114,17 @@ class StationAPIConnector {
   /**
    * Get API response.
    *
-   * @param string $client
+   * @param $client
    *   Client ID.
-   * @param string $accessToken
+   * @param $accessToken
    *   Access token.
-   * @param string $rdm_auth
+   * @param $rdm_auth
    *   Rdm Auth.
    *
    * @return mixed
    *   Full data.
    */
-  public function getApiResponse(string $client, string $accessToken, string $rdm_auth) {
+  public function getApiResponse($client, $accessToken, $rdm_auth) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
