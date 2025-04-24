@@ -235,6 +235,23 @@ class StationAPIConnector {
         if ($attribute['name'] == 'ValidToDt' && empty($attribute['value'])) {
           $station['ValidToDt'] = '9999-12-31';
         }
+
+        // Set the moderationState based on date.
+        $current_time = time();
+        if ($station['ValidFromDt'] && $station['ValidToDt']) {
+          $from_time = strtotime($station['ValidFromDt']);
+          $to_time = strtotime($station['ValidToDt']);
+
+          if ($from_time < $current_time && $to_time > $current_time) {
+            $station['moderationState'] = 'published';
+          }
+          elseif ($from_time > $current_time) {
+            $station['moderationState'] = 'draft';
+          }
+          elseif ($to_time < $current_time) {
+            $station['moderationState'] = 'archived';
+          }
+        }
       }
       unset($station['attributes']);
       $final_stations['records'][$key] = $station;

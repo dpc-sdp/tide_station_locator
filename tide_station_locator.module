@@ -16,15 +16,28 @@ use Drupal\node\Entity\Node;
 function tide_station_locator_get_api_data() {
   $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
 
-  // Connect API.
-  $result = $station_api_connector->connectApi();
+  try {
+    // Connect API.
+    $result = $station_api_connector->connectApi();
 
-  // Get API response.
-  $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth']);
+    if (empty($result['clientId']) || empty($result['accessToken']) || empty($result['rdm_auth'])) {
+      \Drupal::logger('tide_station_locator')->error('Missing API credentials in the result.');
+      return;
+    }
 
-  if ($full_data && !empty($full_data['records'])) {
+    // Get API response.
+    $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth']);
+
+    if (!is_array($full_data) || empty($full_data['records'])) {
+      \Drupal::logger('tide_station_locator')->warning('API response is empty or malformed.');
+      return;
+    }
+
     // Get formatted data and save the file.
     $station_api_connector->getFormattedStationResponse($full_data['records']);
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('tide_station_locator')->error('Exception caught while retrieving station data: @message', ['@message' => $e->getMessage()]);
   }
 }
 
@@ -36,68 +49,11 @@ function tide_station_locator_migrate_stations() {
   try {
     // Connect to API and download the latest station JSON and migrate.
     tide_station_locator_get_api_data();
-    _tide_station_locator_migrate('station_nodes');
   }
   catch (Exception $e) {
     // Something went wrong somewhere.
     watchdog_exception('tide_station_locator', $e);
   }
-
-  // Set the correct moderation of stations based on dates.
-  _tide_station_locator_content_moderator();
-}
-
-/**
- * Helper method to set the correct moderation based on dates.
- */
-function _tide_station_locator_content_moderator() {
-  $nids = \Drupal::entityQuery('node')
-    ->condition('type', 'station')
-    ->accessCheck(FALSE)
-    ->execute();
-
-  $stations = Node::loadMultiple($nids);
-
-  foreach ($stations as $station) {
-    $current_moderation_state = $station->get('moderation_state')->getValue()[0]['value'] ?? null;
-    $from = $station->get('field_validity_from')->getValue()[0]['value'] ?? null;
-    $to = $station->get('field_validity_to')->getValue()[0]['value'] ?? null;
-    $current_time = time();
-
-    if ($from && $to) {
-      $from_time = strtotime($from);
-      $to_time = strtotime($to);
-
-      if ($from_time < $current_time && $to_time > $current_time) {
-        $moderation_state = 'published';
-      }
-      elseif ($from_time > $current_time) {
-        $moderation_state = 'draft';
-      }
-      elseif ($to_time < $current_time) {
-        $moderation_state = 'archived';
-      }
-
-      if (isset($moderation_state) && ($current_moderation_state !== $moderation_state)) {
-        // If moderation_state is draft first make it archived.
-        if ($moderation_state === 'draft') {
-          $station->set('moderation_state', 'archived')->save();
-        }
-        $station->set('moderation_state', $moderation_state)->save();
-      }
-    }
-  }
-}
-
-/**
- * Helper function to run the migration.
- */
-function _tide_station_locator_migrate($migration_id) {
-  $migration = \Drupal::service('plugin.manager.migration')
-    ->createInstance($migration_id);
-  $migration->getIdMap()->prepareUpdate();
-  $executable = new MigrateExecutable($migration, new MigrateMessage());
-  $executable->import();
 }
 
 /**

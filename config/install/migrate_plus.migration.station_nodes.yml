@@ -140,6 +140,11 @@ source:
       name: field_accessibility
       label: Accessibility
       selector: /Accessibility
+    -
+      name: moderation_state
+      label: moderationState
+      selector: /moderationState
+
   ids:
     field_station_code:
       type: string
@@ -217,9 +222,7 @@ process:
   field_node_site:
     plugin: default_value
     default_value: 4
-  moderation_state:
-    plugin: default_value
-    default_value: published
+  moderation_state: moderation_state
 destination:
   plugin: 'entity:node'
   default_bundle: station
