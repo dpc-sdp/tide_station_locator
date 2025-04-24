@@ -22,7 +22,7 @@ class TideStationLocatorMigrationCommands extends DrushCommands {
    * @validate-module-enabled tide_station_locator
    */
   public function importStations() {
-    tide_station_locator_migrate_stations();
+    tide_station_locator_get_api_data();
   }
 
 }

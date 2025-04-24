@@ -238,7 +238,7 @@ class StationAPIConnector {
 
         // Set the moderationState based on date.
         $current_time = time();
-        if ($station['ValidFromDt'] && $station['ValidToDt']) {
+        if (!empty($station['ValidFromDt']) && !empty($station['ValidToDt'])) {
           $from_time = strtotime($station['ValidFromDt']);
           $to_time = strtotime($station['ValidToDt']);
 
