@@ -75,6 +75,7 @@ class StationAPIConnector {
       $clientId = getenv('CLIENT_ID');
       $clientSecret = getenv('CLIENT_SECRET');
       $rdm_auth = getenv('RDM_AUTH');
+      $resource = getenv('RESOURCE');
 
       $client = new Client([
         'base_uri' => $apiUrl,
@@ -92,6 +93,7 @@ class StationAPIConnector {
           'grant_type' => 'client_credentials',
           'client_id' => $clientId,
           'client_secret' => $clientSecret,
+          'resource' => $resource,
           'scope' => 'rdm.details.read',
         ],
       ]);
@@ -125,7 +127,7 @@ class StationAPIConnector {
    * @return mixed
    *   Full data.
    */
-  public function getApiResponse($client, $accessToken, $rdm_auth) {
+  public function getApiResponse($client, $accessToken, $rdm_auth, $delta) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
@@ -144,6 +146,11 @@ class StationAPIConnector {
       ]);
 
       if ($response->getStatusCode() == '200') {
+        // Get the config.
+        $config = $this->configFactory->getEditable('tide_station_locator.settings');
+        // Update 'last_api_access'.
+        $config->set('last_api_access', date('Y-m-d h:i:s'))->save();
+
         // Get the response body.
         $body = $response->getBody()->getContents();
 
