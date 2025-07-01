@@ -92,6 +92,7 @@ class StationAPIConnector {
           'grant_type' => 'client_credentials',
           'client_id' => $clientId,
           'client_secret' => $clientSecret,
+          'scope' => 'rdm.details.read',
         ],
       ]);
 
