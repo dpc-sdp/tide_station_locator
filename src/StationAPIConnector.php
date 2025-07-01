@@ -138,6 +138,9 @@ class StationAPIConnector {
           'scope' => 'rdm.details.read',
         ],
         RequestOptions::JSON => $this->apiQueryPayload(),
+        RequestOptions::FORM_PARAMS => [
+          'scope' => 'rdm.details.read',
+          ],
       ]);
 
       if ($response->getStatusCode() == '200') {
