@@ -135,6 +135,7 @@ class StationAPIConnector {
           'Accept' => '*/*',
           'Content-Type' => 'application/json',
           'Accept-Encoding' => 'gzip, deflate, br',
+          'scope' => 'rdm.details.read',
         ],
         RequestOptions::JSON => $this->apiQueryPayload(),
       ]);
