@@ -127,7 +127,7 @@ class StationAPIConnector {
    * @return mixed
    *   Full data.
    */
-  public function getApiResponse($client, $accessToken, $rdm_auth, $delta) {
+  public function getApiResponse($client, $accessToken, $rdm_auth) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
