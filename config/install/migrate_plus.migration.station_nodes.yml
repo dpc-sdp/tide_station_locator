@@ -17,7 +17,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: json
   urls:
-    - public://stations.json
+    - 'public://stations.json'
   item_selector: records
   fields:
     -
@@ -125,61 +125,26 @@ source:
       label: 'Opening hours notice'
       selector: /Notice
     -
-      name: field_specialty_services_or_faci_CIU
-      label: 'Specialty services or facilities'
-      selector: /Crime_Investigate_Unit_CIU
+      name: field_validity_from
+      label: From
+      selector: /ValidFromDt
     -
-      name: field_specialty_services_or_faci_CPO
-      label: 'Specialty services or facilities'
-      selector: /Crime_Prevent_Officer_CPO
+      name: field_validity_to
+      label: To
+      selector: /ValidToDt
     -
-      name: field_specialty_services_or_faci_FVIU
+      name: field_specialty_services_or_faci
       label: 'Specialty services or facilities'
-      selector: /FVIU
-    -
-      name: field_specialty_services_or_faci_FVLO
-      label: 'Specialty services or facilities'
-      selector: /FVLO
-    -
-      name: field_specialty_services_or_faci_FCLO
-      label: 'Specialty services or facilities'
-      selector: /FCLO
-    -
-      name: field_specialty_services_or_faci_Justice_Of_The_Peace
-      label: 'Specialty services or facilities'
-      selector: /Justice_Of_The_Peace
-    -
-      name: field_specialty_services_or_faci_LGBTIQ
-      label: 'Specialty services or facilities'
-      selector: /LGBTIQ_Liaison_Officer_LLO
-    -
-      name: field_specialty_services_or_faci_NW
-      label: 'Specialty services or facilities'
-      selector: /Neighbourhood_Watch
-    -
-      name: field_specialty_services_or_faci_PPU
-      label: 'Specialty services or facilities'
-      selector: /Pro_active_Police_Unit_PPU
-    -
-      name: field_specialty_services_or_faci_RFO
-      label: 'Specialty services or facilities'
-      selector: /Regional_Firearms_Officers
-    -
-      name: field_specialty_services_or_faci_SOCIT
-      label: 'Specialty services or facilities'
-      selector: /SOCIT
-    -
-      name: field_specialty_services_or_faci_VASO
-      label: 'Specialty services or facilities'
-      selector: /Victim_Assist_Supp_Officer
-    -
-      name: field_specialty_services_or_faci_YRO
-      label: 'Specialty services or facilities'
-      selector: /Youth_Resource_Officer
+      selector: /specialty_services
     -
       name: field_accessibility
       label: Accessibility
       selector: /Accessibility
+    -
+      name: moderation_state
+      label: moderationState
+      selector: /moderationState
+
   ids:
     field_station_code:
       type: string
@@ -188,18 +153,9 @@ process:
     plugin: default_value
     default_value: station
   title: title
-  field_node_primary_site:
-    plugin: default_value
-    default_value: 4
-  field_node_site:
-    plugin: default_value
-    default_value: 4
   field_street_address: field_street_address
   field_suburb: field_suburb
-  field_state:
-    plugin: migration_lookup
-    migration: station_state_terms
-    source: field_state
+  field_state: field_state
   field_postcode: field_postcode
   field_google_maps_url/uri: field_google_maps_url
   field_station_code: field_station_code
@@ -229,50 +185,45 @@ process:
   field_prosecution_unit_notice: field_prosecution_unit_notice
   field_opening_hours: field_opening_hours
   field_opening_hours_notice: field_opening_hours_notice
-  _field_specialty_services_or_faci:
-    plugin: get
-    source:
-      - field_specialty_services_or_faci_CIU
-      - field_specialty_services_or_faci_CPO
-      - field_specialty_services_or_faci_FVIU
-      - field_specialty_services_or_faci_FVLO
-      - field_specialty_services_or_faci_FCLO
-      - field_specialty_services_or_faci_Justice_Of_The_Peace
-      - field_specialty_services_or_faci_LGBTIQ
-      - field_specialty_services_or_faci_NW
-      - field_specialty_services_or_faci_PPU
-      - field_specialty_services_or_faci_RFO
-      - field_specialty_services_or_faci_SOCIT
-      - field_specialty_services_or_faci_VASO
-      - field_specialty_services_or_faci_YRO
+  field_validity_from:
+    plugin: format_date
+    source: field_validity_from
+    from_format: Y-m-d
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: UTC
+    to_timezone: UTC
+    settings:
+      validate_format: false
+  field_validity_to:
+    plugin: format_date
+    source: field_validity_to
+    from_format: Y-m-d
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: UTC
+    to_timezone: UTC
+    settings:
+      validate_format: false
   field_specialty_services_or_faci:
-    plugin: entity_generate
-    source: '@_field_specialty_services_or_faci'
-    value_key: name
+    plugin: entity_lookup
+    source: field_specialty_services_or_faci
+    value_key: field_key
     bundle_key: vid
     bundle: specialty_services_or_facilities
     entity_type: taxonomy_term
     ignore_case: true
   field_accessibility:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: field_accessibility
-    - plugin: explode
-      delimiter: ', '
-    -
-      plugin: entity_generate
-      bundle_key: vid
-      bundle: accessibility
-      entity_type: taxonomy_term
-      ignore_case: true
-  moderation_state:
+  field_node_primary_site:
     plugin: default_value
-    default_value: published
+    default_value: 4
+  field_node_site:
+    plugin: default_value
+    default_value: 4
+  moderation_state: moderation_state
 destination:
   plugin: 'entity:node'
   default_bundle: station
-migration_dependencies:
-  required:
-    - station_accessibility_terms
-    - station_speciality_services_facility_terms
-    - station_state_terms
+migration_dependencies: null

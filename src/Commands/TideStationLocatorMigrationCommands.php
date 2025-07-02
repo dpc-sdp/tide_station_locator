@@ -20,19 +20,9 @@ class TideStationLocatorMigrationCommands extends DrushCommands {
    * @command migrate-stations
    * @aliases mvps
    * @validate-module-enabled tide_station_locator
-   *
-   * @option delta
-   *   Optional delta if we only want to migrate updated stations.
-   * @option execute-dependencies
-   *   Optional execute the migration along with the dependencies.
    */
-  public function importStations(
-    array $options = [
-      'delta' => FALSE,
-      'execute-dependencies' => TRUE,
-    ]
-  ) {
-    tide_station_locator_migrate_stations($options);
+  public function importStations() {
+    tide_station_locator_get_api_data();
   }
 
 }

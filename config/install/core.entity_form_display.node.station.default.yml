@@ -24,13 +24,35 @@ dependencies:
     - field.field.node.station.field_station_code
     - field.field.node.station.field_street_address
     - field.field.node.station.field_suburb
+    - field.field.node.station.field_validity_from
+    - field.field.node.station.field_validity_to
     - node.type.station
     - workflows.workflow.editorial
   module:
     - content_moderation
+    - datetime_more
+    - field_group
     - geofield
     - link
     - path
+third_party_settings:
+  field_group:
+    group_validity_range:
+      children:
+        - field_validity_from
+        - field_validity_to
+      label: 'Validity range'
+      region: content
+      parent_name: ''
+      weight: 10
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
 id: node.station.default
 targetEntityType: node
 bundle: station
@@ -43,24 +65,14 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_accessibility:
-    type: entity_reference_autocomplete
-    weight: 30
+    type: string_textfield
+    weight: 29
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_case_conference_email:
-    type: link_default
-    weight: 28
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-  field_case_conference_phone:
     type: link_default
     weight: 27
     region: content
@@ -68,9 +80,17 @@ content:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+  field_case_conference_phone:
+    type: link_default
+    weight: 26
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   field_email:
     type: link_default
-    weight: 20
+    weight: 19
     region: content
     settings:
       placeholder_url: ''
@@ -78,7 +98,7 @@ content:
     third_party_settings: {  }
   field_fax:
     type: string_textfield
-    weight: 19
+    weight: 18
     region: content
     settings:
       size: 60
@@ -86,14 +106,14 @@ content:
     third_party_settings: {  }
   field_geolocation:
     type: geofield_latlon
-    weight: 31
+    weight: 30
     region: content
     settings:
       html5_geolocation: false
     third_party_settings: {  }
   field_google_maps_url:
     type: link_default
-    weight: 17
+    weight: 16
     region: content
     settings:
       placeholder_url: ''
@@ -101,19 +121,19 @@ content:
     third_party_settings: {  }
   field_node_primary_site:
     type: options_buttons
-    weight: 32
+    weight: 31
     region: content
     settings: {  }
     third_party_settings: {  }
   field_node_site:
     type: options_buttons
-    weight: 33
+    weight: 32
     region: content
     settings: {  }
     third_party_settings: {  }
   field_opening_hours:
     type: string_textfield
-    weight: 21
+    weight: 20
     region: content
     settings:
       size: 60
@@ -121,7 +141,7 @@ content:
     third_party_settings: {  }
   field_opening_hours_notice:
     type: string_textarea
-    weight: 22
+    weight: 21
     region: content
     settings:
       rows: 5
@@ -129,7 +149,7 @@ content:
     third_party_settings: {  }
   field_phone:
     type: link_default
-    weight: 18
+    weight: 17
     region: content
     settings:
       placeholder_url: ''
@@ -137,7 +157,7 @@ content:
     third_party_settings: {  }
   field_postcode:
     type: string_textfield
-    weight: 13
+    weight: 14
     region: content
     settings:
       size: 60
@@ -145,7 +165,7 @@ content:
     third_party_settings: {  }
   field_prosecution_unit_email:
     type: link_default
-    weight: 25
+    weight: 24
     region: content
     settings:
       placeholder_url: ''
@@ -153,7 +173,7 @@ content:
     third_party_settings: {  }
   field_prosecution_unit_fax:
     type: string_textfield
-    weight: 24
+    weight: 23
     region: content
     settings:
       size: 60
@@ -161,7 +181,7 @@ content:
     third_party_settings: {  }
   field_prosecution_unit_notice:
     type: string_textarea
-    weight: 26
+    weight: 25
     region: content
     settings:
       rows: 5
@@ -169,7 +189,7 @@ content:
     third_party_settings: {  }
   field_prosecution_unit_phone:
     type: link_default
-    weight: 23
+    weight: 22
     region: content
     settings:
       placeholder_url: ''
@@ -177,7 +197,7 @@ content:
     third_party_settings: {  }
   field_specialty_services_or_faci:
     type: entity_reference_autocomplete
-    weight: 29
+    weight: 28
     region: content
     settings:
       match_operator: CONTAINS
@@ -186,18 +206,16 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_state:
-    type: entity_reference_autocomplete
-    weight: 12
+    type: string_textfield
+    weight: 13
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_station_code:
     type: string_textfield
-    weight: 10
+    weight: 11
     region: content
     settings:
       size: 60
@@ -205,7 +223,7 @@ content:
     third_party_settings: {  }
   field_street_address:
     type: string_textfield
-    weight: 11
+    weight: 12
     region: content
     settings:
       size: 60
@@ -218,6 +236,40 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_validity_from:
+    type: datetime_more_datelist
+    weight: 33
+    region: content
+    settings:
+      date_order: YMD
+      time_type: '24'
+      increment: '1'
+      year_min: '1900'
+      year_max: '9999'
+      input_year: number
+      input_month: select
+      input_day: select
+      input_hour: select
+      input_minute: select
+      input_second: select
+    third_party_settings: {  }
+  field_validity_to:
+    type: datetime_more_datelist
+    weight: 34
+    region: content
+    settings:
+      date_order: YMD
+      time_type: '24'
+      increment: '1'
+      year_min: '1900'
+      year_max: '9999'
+      input_year: number
+      input_month: select
+      input_day: select
+      input_hour: select
+      input_minute: select
+      input_second: select
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
