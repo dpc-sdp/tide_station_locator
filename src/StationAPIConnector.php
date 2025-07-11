@@ -94,6 +94,7 @@ class StationAPIConnector {
           'client_id' => $clientId,
           'client_secret' => $clientSecret,
           'resource' => $resource,
+          'scope' => 'rdm.details.read',
         ],
       ]);
 
@@ -116,19 +117,17 @@ class StationAPIConnector {
   /**
    * Get API response.
    *
-   * @param string $client
+   * @param $client
    *   Client ID.
-   * @param string $accessToken
+   * @param $accessToken
    *   Access token.
-   * @param string $rdm_auth
+   * @param $rdm_auth
    *   Rdm Auth.
-   * @param bool $delta
-   *   Delta boolean.
    *
    * @return mixed
    *   Full data.
    */
-  public function getApiResponse($client, $accessToken, $rdm_auth, $delta) {
+  public function getApiResponse($client, $accessToken, $rdm_auth) {
     try {
       // Make an API request.
       $response = $client->post('technology/rdm/3.0.0/STATION_LOCATION/search', [
@@ -138,8 +137,12 @@ class StationAPIConnector {
           'Accept' => '*/*',
           'Content-Type' => 'application/json',
           'Accept-Encoding' => 'gzip, deflate, br',
+          'scope' => 'rdm.details.read',
         ],
-        RequestOptions::JSON => $this->apiQueryPayload($delta),
+        RequestOptions::JSON => $this->apiQueryPayload(),
+        RequestOptions::FORM_PARAMS => [
+          'scope' => 'rdm.details.read',
+          ],
       ]);
 
       if ($response->getStatusCode() == '200') {
@@ -168,48 +171,22 @@ class StationAPIConnector {
   /**
    * Helper method to get the Query Payload.
    *
-   * @param bool $delta
-   *   Whether the update or full migration required.
-   *
    * @return array
    *   Payload.
    */
-  public function apiQueryPayload($delta = FALSE) {
-    // Get the 'last_api_access'.
-    $config = $this->configFactory->getEditable('tide_station_locator.settings');
-    $last_api_access = $config->get('last_api_access');
-
-    if ($delta && !empty($last_api_access)) {
-      $payload = [
-        'name' => 'STATION_LOCATION',
-        "productKey" => -1,
-        'recordCount' => 500,
-        'attributes' => [
-          [
-            'name' => 'RECORD_MODDATE',
-            'value' => [$last_api_access],
-            'operator' => 'gt',
-            'caseSensitive' => FALSE,
-          ],
+  public function apiQueryPayload(): array {
+    return [
+      'name' => 'STATION_LOCATION',
+      'attributes' => [
+        [
+          'name' => 'ACTIVE',
+          'value' => ['Y'],
+          'caseSensitive' => FALSE,
         ],
-      ];
-    }
-    else {
-      $payload = [
-        'name' => 'STATION_LOCATION',
-        'attributes' => [
-          [
-            'name' => 'ACTIVE',
-            'value' => ['Y'],
-            'caseSensitive' => FALSE,
-          ],
-        ],
-        'startIndex' => 1,
-        'recordCount' => 500,
-      ];
-    }
-
-    return $payload;
+      ],
+      'startIndex' => 1,
+      'recordCount' => 500,
+    ];
   }
 
   /**
@@ -221,78 +198,70 @@ class StationAPIConnector {
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getFormattedStationResponse(array $stations) {
-    $speciality_keys = [
-      'Crime_Investigate_Unit_CIU',
-      'Crime_Prevent_Officer_CPO',
-      'FVIU',
-      'FVLO',
-      'FCLO',
-      'Justice_Of_The_Peace',
-      'LGBTIQ_Liaison_Officer_LLO',
-      'Neighbourhood_Watch',
-      'Pro_active_Police_Unit_PPU',
-      'Regional_Firearms_Officers',
-      'SOCIT',
-      'Victim_Assist_Supp_Officer',
-      'Youth_Resource_Officer',
-    ];
+    $final_stations = $speciality_keys = [];
 
-    $final_stations = $states = $speciality_terms = [];
+    $speciality_terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['vid' => 'specialty_services_or_facilities']);
 
-    // We want the accessibility terms to be in a certain order.
-    // So initialising it.
-    $accessibility_terms = [
-      'Front entrance ground level' => 'Front entrance ground level',
-      'Automatic entrance door' => 'Automatic entrance door',
-      'Wheelchair/ramp access Internal' => 'Wheelchair/ramp access Internal',
-      'Wheelchair/ramp access External' => 'Wheelchair/ramp access External',
-      'Accessible parking' => 'Accessible parking',
-      'Internal parking lift access' => 'Internal parking lift access',
-      'Automatic lift door' => 'Automatic lift door',
-      'Accessible toilet public/interior' => 'Accessible toilet public/interior',
-      'Hearing loop' => 'Hearing loop',
-      'Audible level recognition' => 'Audible level recognition',
-      'SCOPE Communication Access accredited police station' => 'SCOPE Communication Access accredited police station',
-      'Lift braille buttons' => 'Lift braille buttons',
-      'External/entrance braille signage' => 'External/entrance braille signage',
-      'Internal braille signage' => 'Internal braille signage',
-    ];
+    foreach ($speciality_terms as $speciality_term) {
+      if (is_object($speciality_term)) {
+        $key = $speciality_term->get('field_key')->getValue()[0]['value'] ?? 'null';
+        $speciality_keys[$key] = $key;
+      }
+    }
 
     $i = 0;
     // Process the data so that we can save it in a format we need.
     foreach ($stations as $key => $station) {
       // Loop through attributes.
       foreach ($station['attributes'] as $attribute) {
-        // Add attribute name as the key.
-        $station[$attribute['name']] = html_entity_decode($attribute['value']);
-
-        if ($attribute['name'] == 'State_Name') {
-          $states[$key] = $attribute['value'];
+        if (html_entity_decode($attribute['value']) == 'Y' && in_array($attribute['name'], $speciality_keys)) {
+          $station['specialty_services'][] = $attribute['name'];
         }
-        if ($attribute['name'] == 'Accessibility') {
-          $accessibility_terms_array = explode(",", $attribute['value']);
-          if (isset($accessibility_terms_array) && is_array($accessibility_terms_array)) {
-            foreach ($accessibility_terms_array as $key1 => $item) {
+        // Fetch the accessibility values.
+        elseif ($attribute['name'] == 'Accessibility') {
+          $accessibility_array = explode(",", $attribute['value']);
+          if (isset($accessibility_array) && is_array($accessibility_array)) {
+            foreach ($accessibility_array as $item) {
               $trimmed_item = trim($item);
               // Getting rif od non-breaking space.
               $trimmed_item = trim($trimmed_item, " \t\n\r\0\x0B\xc2\xa0");
               if ($trimmed_item === "") {
                 continue;
               }
-              // Check for same term but with different case.
-              $accessibility_keys = array_keys($accessibility_terms);
-              if (array_search(strtolower($trimmed_item), array_map('strtolower', $accessibility_keys))) {
-                continue;
-              }
-
-              $accessibility_terms[$trimmed_item] = html_entity_decode($trimmed_item);
+              $station['Accessibility'][] = ucfirst(html_entity_decode($trimmed_item));
             }
           }
         }
-        if (in_array($attribute['name'], $speciality_keys)) {
-          if (!empty($attribute['value'])) {
-            $speciality_terms[$i] = html_entity_decode($attribute['value']);
-            $i++;
+        else {
+          // Add attribute name as the key.
+          $station[$attribute['name']] = html_entity_decode($attribute['value']);
+        }
+
+        // If the date is empty set default value.
+        if ($attribute['name'] == 'ValidFromDt' && empty($attribute['value'])) {
+          $station['ValidFromDt'] = '1900-01-01';
+        }
+        // If the date is empty set default value.
+        if ($attribute['name'] == 'ValidToDt' && empty($attribute['value'])) {
+          $station['ValidToDt'] = '9999-12-31';
+        }
+
+        // Set the moderationState based on date.
+        $current_time = time();
+        if (!empty($station['ValidFromDt']) && !empty($station['ValidToDt'])) {
+          $from_time = strtotime($station['ValidFromDt']);
+          $to_time = strtotime($station['ValidToDt']);
+
+          if ($from_time < $current_time && $to_time > $current_time) {
+            $station['moderationState'] = 'published';
+          }
+          elseif ($from_time > $current_time) {
+            $station['moderationState'] = 'draft';
+          }
+          elseif ($to_time < $current_time) {
+            $station['moderationState'] = 'archived';
           }
         }
       }
@@ -306,39 +275,6 @@ class StationAPIConnector {
     // Save the stations JSON.
     $stationsFileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
     $stationsFile = \Drupal::service('file.repository')->writeData(json_encode($final_stations), $stationsFileLocation, FileSystemInterface::EXISTS_REPLACE);
-
-    // Save the state csv.
-    $stateFileLocation = $file_save_path_stream_directory . '/' . 'state.csv';
-    $stateFile = fopen($stateFileLocation, 'w');
-    array_unshift($states, 'term_name');
-    // Write data in the CSV format.
-    foreach (array_unique($states) as $state) {
-      fputcsv($stateFile, [$state]);
-    }
-    // Close the stream.
-    fclose($stateFile);
-
-    // Save the accessibility csv.
-    $accessibilityFileLocation = $file_save_path_stream_directory . '/' . 'accessibility.csv';
-    $accessibilityFile = fopen($accessibilityFileLocation, 'w');
-    array_unshift($accessibility_terms, 'term_name');
-    // Write data in the CSV format.
-    foreach (array_unique($accessibility_terms) as $accessibility) {
-      fputcsv($accessibilityFile, [$accessibility]);
-    }
-    // Close the stream.
-    fclose($accessibilityFile);
-
-    // Save the specialityservicesandfacility csv.
-    $specialityFileLocation = $file_save_path_stream_directory . '/' . 'specialityservicesandfacility.csv';
-    $specialityFile = fopen($specialityFileLocation, 'w');
-    array_unshift($speciality_terms, 'term_name');
-    // Write data in the CSV format.
-    foreach (array_unique($speciality_terms) as $speciality) {
-      fputcsv($specialityFile, [$speciality]);
-    }
-    // Close the stream.
-    fclose($specialityFile);
   }
 
 }

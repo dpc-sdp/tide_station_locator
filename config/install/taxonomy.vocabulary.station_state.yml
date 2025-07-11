@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: 'Station state'
-vid: station_state
-description: 'Station state'
-weight: 0
