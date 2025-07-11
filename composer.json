@@ -19,6 +19,7 @@
   },
   "require": {
     "dpc-sdp/tide_core": "dev-reference",
+    "drupal/datetime_more": "^1.0",
     "drupal/geofield": "^1.53",
     "drupal/migrate_plus": "^6.0",
     "drupal/migrate_source_csv": "^3.5",

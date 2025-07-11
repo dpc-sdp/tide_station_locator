@@ -24,8 +24,11 @@ dependencies:
     - field.field.node.station.field_station_code
     - field.field.node.station.field_street_address
     - field.field.node.station.field_suburb
+    - field.field.node.station.field_validity_from
+    - field.field.node.station.field_validity_to
     - node.type.station
   module:
+    - datetime
     - geofield
     - link
     - user
@@ -37,15 +40,15 @@ content:
   content_moderation_control:
     settings: {  }
     third_party_settings: {  }
-    weight: -20
+    weight: 0
     region: content
   field_accessibility:
-    type: entity_reference_label
+    type: string
     label: above
     settings:
-      link: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 124
+    weight: 16
     region: content
   field_case_conference_email:
     type: link
@@ -57,7 +60,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 122
+    weight: 14
     region: content
   field_case_conference_phone:
     type: link
@@ -69,7 +72,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 121
+    weight: 13
     region: content
   field_email:
     type: link
@@ -81,7 +84,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 114
+    weight: 8
     region: content
   field_fax:
     type: string
@@ -89,7 +92,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 129
+    weight: 21
     region: content
   field_geolocation:
     type: geofield_default
@@ -98,7 +101,7 @@ content:
       output_format: wkt
       output_escape: true
     third_party_settings: {  }
-    weight: 125
+    weight: 17
     region: content
   field_google_maps_url:
     type: link
@@ -110,7 +113,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 111
+    weight: 6
     region: content
   field_node_primary_site:
     type: entity_reference_label
@@ -118,7 +121,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 126
+    weight: 18
     region: content
   field_node_site:
     type: entity_reference_label
@@ -126,7 +129,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 127
+    weight: 19
     region: content
   field_opening_hours:
     type: string
@@ -134,14 +137,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 115
+    weight: 9
     region: content
   field_opening_hours_notice:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 116
+    weight: 10
     region: content
   field_phone:
     type: link
@@ -153,7 +156,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 112
+    weight: 7
     region: content
   field_postcode:
     type: string
@@ -161,7 +164,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 107
+    weight: 4
     region: content
   field_prosecution_unit_email:
     type: link
@@ -173,7 +176,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 119
+    weight: 11
     region: content
   field_prosecution_unit_fax:
     type: string
@@ -181,14 +184,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 131
+    weight: 23
     region: content
   field_prosecution_unit_notice:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 120
+    weight: 12
     region: content
   field_prosecution_unit_phone:
     type: link
@@ -200,7 +203,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 130
+    weight: 22
     region: content
   field_specialty_services_or_faci:
     type: entity_reference_label
@@ -208,15 +211,15 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 123
+    weight: 15
     region: content
   field_state:
-    type: entity_reference_label
+    type: string
     label: above
     settings:
-      link: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 106
+    weight: 3
     region: content
   field_station_code:
     type: string
@@ -224,7 +227,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 102
+    weight: 2
     region: content
   field_street_address:
     type: string
@@ -232,7 +235,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 128
+    weight: 20
     region: content
   field_suburb:
     type: string
@@ -240,12 +243,30 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 5
+    region: content
+  field_validity_from:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_validity_to:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 25
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 1
     region: content
 hidden:
   search_api_excerpt: true

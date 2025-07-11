@@ -6,63 +6,36 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\migrate\MigrateMessage;
-use Drupal\migrate_tools\MigrateExecutable;
 
 /**
  * This function is for accessing the API.
  */
-function tide_station_locator_get_api_data($delta = FALSE) {
+function tide_station_locator_get_api_data() {
   $station_api_connector = \Drupal::service('tide_station_locator.station_api_connector');
 
-  // Connect API.
-  $result = $station_api_connector->connectApi();
+  try {
+    // Connect API.
+    $result = $station_api_connector->connectApi();
 
-  // Get API response.
-  $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth'], $delta);
+    if (empty($result['clientId']) || empty($result['accessToken']) || empty($result['rdm_auth'])) {
+      \Drupal::logger('tide_station_locator')->error('Missing API credentials in the result.');
+      return;
+    }
 
-  if ($full_data && !empty($full_data['records'])) {
+    // Get API response.
+    $full_data = $station_api_connector->getApiResponse($result['clientId'], $result['accessToken'], $result['rdm_auth']);
+
+    if (!is_array($full_data) || empty($full_data['records'])) {
+      \Drupal::logger('tide_station_locator')->warning('API response is empty or malformed.');
+      return;
+    }
+
     // Get formatted data and save the file.
     $station_api_connector->getFormattedStationResponse($full_data['records']);
   }
-}
-
-/**
- * Function to migrate stations.
- */
-function tide_station_locator_migrate_stations($options) {
-
-  try {
-    // Connect to API and download the latest station JSON and migrate.
-    tide_station_locator_get_api_data($options['delta']);
-    if ($options['execute-dependencies'] == TRUE) {
-      $dependent_migrations =
-        [
-          'station_accessibility_terms',
-          'station_speciality_services_facility_terms',
-          'station_state_terms',
-        ];
-      foreach ($dependent_migrations as $migration_ids) {
-        _tide_station_locator_migrate($migration_ids);
-      }
-    }
-    _tide_station_locator_migrate('station_nodes');
+  catch (\Exception $e) {
+    \Drupal::logger('tide_station_locator')->error('Exception caught while retrieving station data: @message', ['@message' => $e->getMessage()]);
   }
-  catch (Exception $e) {
-    // Something went wrong somewhere.
-    watchdog_exception('tide_station_locator', $e);
-  }
-}
-
-/**
- * Helper function to run the migration.
- */
-function _tide_station_locator_migrate($migration_id) {
-  $migration = \Drupal::service('plugin.manager.migration')
-    ->createInstance($migration_id);
-  $migration->getIdMap()->prepareUpdate();
-  $executable = new MigrateExecutable($migration, new MigrateMessage());
-  $executable->import();
 }
 
 /**
@@ -77,6 +50,7 @@ function tide_station_locator_form_node_form_alter(&$form, FormStateInterface $f
       'field_case_conference_phone',
       'field_email',
       'field_fax',
+      'field_validity_from',
       'field_geolocation',
       'field_google_maps_url',
       'field_opening_hours',
@@ -94,6 +68,7 @@ function tide_station_locator_form_node_form_alter(&$form, FormStateInterface $f
       'field_station_code',
       'field_street_address',
       'field_suburb',
+      'field_validity_to',
     ];
     foreach ($fields as $field) {
       $form[$field]['#disabled'] = TRUE;
