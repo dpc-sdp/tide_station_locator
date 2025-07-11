@@ -25,6 +25,8 @@ dependencies:
     - field.field.node.station.field_station_code
     - field.field.node.station.field_street_address
     - field.field.node.station.field_suburb
+    - field.field.node.station.field_validity_from
+    - field.field.node.station.field_validity_to
     - node.type.station
   module:
     - user
@@ -66,4 +68,6 @@ hidden:
   field_station_code: true
   field_street_address: true
   field_suburb: true
+  field_validity_from: true
+  field_validity_to: true
   search_api_excerpt: true
