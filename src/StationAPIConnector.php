@@ -244,8 +244,8 @@ class StationAPIConnector {
           $station['ValidFromDt'] = '1900-01-01';
         }
         // If the date is empty set default value.
-        if ($attribute['name'] == 'ValidToDt' && empty($attribute['value'])) {
-          $station['ValidToDt'] = '9999-12-31';
+        if ($attribute['name'] == 'ValidToDt' && (empty($attribute['value']) || strtotime($attribute['value']) > strtotime('9999-01-01'))) {
+          $station['ValidToDt'] = '9999-01-01';
         }
 
         // Set the moderationState based on date.
