@@ -112,10 +112,70 @@ function tide_station_locator_update_10001() {
 }
 
 /**
- * Implements hook_update_N() - Add values to keys field.
+ * Implements create terms with the correct service key.
  */
 function tide_station_locator_update_10002() {
-  _tide_station_locator_update_speciality_keys();
+  $speciality_keys = [
+    [
+      'name' => 'Crime_Investigate_Unit_CIU',
+      'DisplayName' => 'Crime Investigation Unit (CIU)',
+    ],
+    [
+      'name' => 'Crime_Prevent_Officer_CPO',
+      'DisplayName' => 'Crime Prevention Officer (CPO)',
+    ],
+    [
+      'name' => 'FVIU',
+      'DisplayName' => 'Family Violence Investigation Unit (FVIU)',
+    ],
+    [
+      'name' => 'Justice_Of_The_Peace',
+      'DisplayName' => 'Justice of the Peace',
+    ],
+    [
+      'name' => 'Neighbourhood_Watch',
+      'DisplayName' => 'Neighbourhood Watch',
+    ],
+    [
+      'name' => 'Pro_active_Police_Unit_PPU',
+      'DisplayName' => 'Pro-active Police Unit (PPU)',
+    ],
+    [
+      'name' => 'Regional_Firearms_Officer',
+      'DisplayName' => 'Regional Firearms Officer',
+    ],
+    [
+      'name' => 'Safer_Exchange_Site',
+      'DisplayName' => 'Safer Exchange Site',
+    ],
+    [
+      'name' => 'SOCIT',
+      'DisplayName' => 'Sexual Offences and Child Abuse Investigation Team (SOCIT)',
+    ],
+    [
+      'name' => 'Victm_Assist_Supp_Offcr',
+      'DisplayName' => 'Victim Assistance Support Officer',
+    ],
+    [
+      'name' => 'Youth_Resource_Officer',
+      'DisplayName' => 'Youth Resource Officer',
+    ],
+  ];
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  // Some of the existing terms have different specialty services names which are
+  // different from what they should be. Instead of checking them one by one, removing them
+  // and recreating them is the cleanest way, especially since the field is ONLY used for
+  // stations which are not editable by operators, so it is safe to delete.
+  $terms = $storage->loadByProperties(['vid' => 'specialty_services_or_facilities']);
+  $storage->delete($terms);
+  // Recreate with the correct name and key.
+  foreach ($speciality_keys as $key) {
+    $storage->create([
+      'vid' => 'specialty_services_or_facilities',
+      'name' => $key['DisplayName'],
+      'field_key' => $key['name'],
+    ])->save();
+  }
 }
 
 /**
