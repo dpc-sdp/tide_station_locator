@@ -59,13 +59,22 @@ class StationAPIConnector {
    */
   public function connectApi() {
     try {
-      // Get the folder.
-      $folder = (getenv('LAGOON_ENVIRONMENT_TYPE') !== 'production') ? 'nonprod' : 'production';
-      // Path to your .crt and .key files.
-      $certPath = '/app/keys/' . $folder . '/api.crt';
-      $keyPath = '/app/keys/' . $folder . '/api.pem';
-      // Path to the CA bundle file.
-      $caBundlePath = '/app/keys/cacert.pem';
+      if (getenv('KEY_FOLDER_PATH') && !empty(getenv('KEY_FOLDER_PATH'))) {
+          $folder = getenv('KEY_FOLDER_PATH');
+          $certPath = $folder . '/api.crt';
+          $keyPath = $folder . '/api.pem';
+          // Path to the CA bundle file.
+          $caBundlePath = $folder . '/cacert.pem';
+      } else {
+          // Maintain compatibility with Lagoon environments.
+          // Get the folder.
+          $folder = (getenv('LAGOON_ENVIRONMENT_TYPE') !== 'production') ? 'nonprod' : 'production';
+          // Path to your .crt and .key files.
+          $certPath = '/app/keys/' . $folder . '/api.crt';
+          $keyPath = '/app/keys/' . $folder . '/api.pem';
+          // Path to the CA bundle file.
+          $caBundlePath = '/app/keys/cacert.pem';
+      }
 
       // Initiating variables to escape phpcs errors.
       $apiUrl = getenv('API_URL');
