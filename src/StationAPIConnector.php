@@ -3,6 +3,7 @@
 namespace Drupal\tide_station_locator;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use GuzzleHttp\Client;
@@ -283,7 +284,7 @@ class StationAPIConnector {
 
     // Save the stations JSON.
     $stationsFileLocation = $file_save_path_stream_directory . '/' . 'stations.json';
-    $stationsFile = \Drupal::service('file.repository')->writeData(json_encode($final_stations), $stationsFileLocation, FileSystemInterface::EXISTS_REPLACE);
+    $stationsFile = \Drupal::service('file.repository')->writeData(json_encode($final_stations), $stationsFileLocation, FileExists::Replace);
   }
 
 }

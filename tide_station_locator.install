@@ -97,7 +97,7 @@ function tide_station_locator_update_10001() {
     'field.storage.taxonomy_term.field_key' => 'field_storage_config',
     'field.field.taxonomy_term.specialty_services_or_facilities.field_key' => 'field_config',
   ];
-  module_load_include('inc', 'tide_core', 'includes/helpers');
+  \Drupal::moduleHandler()->loadInclude('tide_core', 'inc', 'includes/helpers');
   $config_location = [\Drupal::service('extension.list.module')->getPath('tide_station_locator') . '/config/install'];
   // Check if field already exported to config/sync.
   foreach ($configs as $config => $type) {
