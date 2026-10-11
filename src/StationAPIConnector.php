@@ -5,7 +5,7 @@ namespace Drupal\tide_station_locator;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\RequestOptions;
@@ -23,9 +23,9 @@ class StationAPIConnector {
   protected $configFactory;
 
   /**
-   * Drupal\Core\Logger\LoggerChannelFactory definition.
+   * Drupal\Core\Logger\LoggerChannelFactoryInterface definition.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $logger;
 
@@ -41,12 +41,12 @@ class StationAPIConnector {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   Config factory.
-   * @param \Drupal\Core\Logger\LoggerChannelFactory $logger
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
    *   Logger.
    * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   File system.
    */
-  public function __construct(ConfigFactoryInterface $configFactory, LoggerChannelFactory $logger, FileSystemInterface $file_system) {
+  public function __construct(ConfigFactoryInterface $configFactory, LoggerChannelFactoryInterface $logger, FileSystemInterface $file_system) {
     $this->configFactory = $configFactory;
     $this->logger = $logger;
     $this->fileSystem = $file_system;
